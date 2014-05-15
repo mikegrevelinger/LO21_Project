@@ -1,0 +1,10 @@
+Choses à faire :
+
+- Faire un fichier .h / .cpp pour chaque classe ?
+
+- Si gestion via base de donnée, retier toutes les méthodes inutiles de l'uml. Du style setNote etc.
+
+- se répartir les tâches niveau code ( Pour ne pas faire la même chose).
+
+
+
