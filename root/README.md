@@ -10,3 +10,4 @@ Organisation:
         - class
         - gui
     - doc : from doxygen + our UML
+    - test : for unit test (http://qt-project.org/doc/qt-4.8/qtestlib-tutorial1.html)
