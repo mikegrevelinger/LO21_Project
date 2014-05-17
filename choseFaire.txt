@@ -4,7 +4,10 @@ Choses à faire :
 
 - Si gestion via base de donnée, retier toutes les méthodes inutiles de l'uml. Du style setNote etc.
 
-- se répartir les tâches niveau code ( Pour ne pas faire la même chose).
+- se répartir les tâches niveau code ( Pour ne pas faire la même chose)
 
+Baptiste :
+
+- Je ferais bien le "moteur" de recherche
 
 
