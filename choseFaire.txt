@@ -1,13 +1,14 @@
-Choses à faire :
+Choses ï¿½ faire :
 
 - Faire un fichier .h / .cpp pour chaque classe ?
 
-- Si gestion via base de donnée, retier toutes les méthodes inutiles de l'uml. Du style setNote etc.
+- Si gestion via base de donnï¿½e, retier toutes les mï¿½thodes inutiles de l'uml. Du style setNote etc.
 
-- se répartir les tâches niveau code ( Pour ne pas faire la même chose)
+- se rï¿½partir les tï¿½ches niveau code ( Pour ne pas faire la mï¿½me chose)
 
 Baptiste :
 
 - Je ferais bien le "moteur" de recherche
+- creer une interface de gestion d'erreur (tout type d'erreur, hÃ©ritant de je ne sais quoi)
 
 
