@@ -1,19 +1,22 @@
-#include <QCoreApplication>
-#include <QtSql>
+#include "./class/dbmanager.h"
+#include <QApplication>
 #include <iostream>
-#include <QString>
-
-#define q2c(string) string.toStdString()
+#include <QPushButton>
 
 int main(int countArg, char **listArg)
 {
-    QCoreApplication app(countArg, listArg);
-    std::cout << std::flush;
+    QApplication app(countArg, listArg);
+    QPushButton button ("Hello world !");
+    button.show();
+    DBManager & dbm = DBManager::getInstance();
+    dbm.libererInstance();
+
+    /*std::cout << std::flush;
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setHostName("localhost");
     db.setUserName("root");
     db.setPassword("");
-    /** Pour connaitre le chemin du repertoir courant de façon automatique */
+    // Pour connaitre le chemin du repertoir courant de façon automatique
     QString CurrentDir = QDir::currentPath();
     CurrentDir.replace("build-Project_LO21-Desktop_Qt_5_3_0_MinGW_32bit-Debug","src/database/uvs.db");
     qDebug() << CurrentDir;
@@ -38,5 +41,6 @@ int main(int countArg, char **listArg)
         qDebug() << "Nom de l'UV: " << Nom << "Categorie:" << Categorie <<"Credits:"<< Credits<< "Descriptif: "<< Descriptif << "\n";
         //qDebug() << db.lastError();
     }
+    */
     return app.exec();
 }

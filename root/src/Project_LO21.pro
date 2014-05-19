@@ -1,9 +1,11 @@
-QT       += sql
-TEMPLATE = app
+QT += sql
+QT += widgets
+QT += gui
 SOURCES += main.cpp \
     enumeration/enumeration.cpp \
     class/uvmanager.cpp \
-    class/dbmanager.cpp
+    class/dbmanager.cpp \
+    class/ErrorDB.cpp
 
 HEADERS += \
     enumeration/enumeration.h \
