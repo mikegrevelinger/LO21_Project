@@ -1,6 +1,3 @@
-#ifndef ENUMERATION_CPP
-#define ENUMERATION_CPP
-
 #include <QTextStream>
 
 #include "enumeration.h"
@@ -57,5 +54,3 @@ QTextStream& operator<<(QTextStream& f, const CategorieUV& cat){
 }
 
 */
-
-#endif // ENUMERATION_CPP

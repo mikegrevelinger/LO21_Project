@@ -11,17 +11,12 @@ private:
     void addItem(UV* uv);
     bool modification;
     UV* trouverUV(const QString& c) const;
-    UVManager(const UVManager& um);
-    UVManager& operator=(const UVManager& um);
+    UVManager(const UVManager);
+    void operator=(const UVManager);
     UVManager();
     ~UVManager();
     QString file;
     friend struct Handler;
-    struct Handler{
-        UVManager* instance;
-        Handler():instance(0){}
-        ~Handler(){ if (instance) delete instance; instance=0; }
-    };
     static Handler handler;
 
 public:

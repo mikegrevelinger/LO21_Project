@@ -1,7 +1,3 @@
-#ifndef UVMANAGER_H
-#define UVMANAGER_H
-
-
 #include "uvmanager.h"
 
 /*
@@ -254,5 +250,3 @@ void UVManager::libererInstance(){
 }
 
 */
-
-#endif // UVMANAGER_H

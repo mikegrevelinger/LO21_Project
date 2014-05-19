@@ -13,7 +13,7 @@ int main(int countArg, char **listArg)
     db.setHostName("localhost");
     db.setUserName("root");
     db.setPassword("");
-    /** Pour connaitre le chemin du repertoir courant */
+    /** Pour connaitre le chemin du repertoir courant de façon automatique */
     QString CurrentDir = QDir::currentPath();
     CurrentDir.replace("build-Project_LO21-Desktop_Qt_5_3_0_MinGW_32bit-Debug","src/database/uvs.db");
     qDebug() << CurrentDir;
