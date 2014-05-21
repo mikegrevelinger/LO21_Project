@@ -1,10 +1,9 @@
-Choses � faire :
+﻿Choses a faire :
 
-- Faire un fichier .h / .cpp pour chaque classe ?
-
-- Si gestion via base de donn�e, retier toutes les m�thodes inutiles de l'uml. Du style setNote etc.
-
-- se r�partir les t�ches niveau code ( Pour ne pas faire la m�me chose)
+- Faire un fichier .h / .cpp pour chaque classe ? OUI
+- Si gestion via base de donnee, retirer toutes les methodes inutiles de l'uml. Du style setNote etc.
+- refaire UVManager
+- se repartir les taches niveau code ( Pour ne pas faire la meme chose)
 
 Baptiste :
 
