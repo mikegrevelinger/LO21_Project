@@ -1,4 +1,4 @@
-#include "./class/dbmanager.h"
+#include "./class/DBManager.h"
 #include <QApplication>
 #include <iostream>
 #include <QPushButton>
@@ -8,8 +8,10 @@ int main(int countArg, char **listArg)
     QApplication app(countArg, listArg);
     QPushButton button ("Hello world !");
     button.show();
+    //ErrorManager & e = ErrorManager::getInstance();
     DBManager & dbm = DBManager::getInstance();
     dbm.libererInstance();
+    //e.libererInstance();
 
     /*std::cout << std::flush;
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");

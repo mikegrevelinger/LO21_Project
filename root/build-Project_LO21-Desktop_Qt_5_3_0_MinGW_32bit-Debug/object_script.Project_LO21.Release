@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\enumeration.o
+./release\DBManager.o
+./release\UVManager.o
+./release\popMessage.o
+./release\ErrorManager.o
+./release\Manager.o
+./release\moc_DBManager.o
+./release\moc_ErrorManager.o
+./release\moc_Manager.o
+);

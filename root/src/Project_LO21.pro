@@ -3,14 +3,16 @@ QT += widgets
 QT += gui
 SOURCES += main.cpp \
     enumeration/enumeration.cpp \
-    class/uvmanager.cpp \
-    class/dbmanager.cpp \
-    class/ErrorDB.cpp
+    class/DBManager.cpp \
+    class/UVManager.cpp \
+    gui/popMessage.cpp \
+    class/ErrorManager.cpp
 
 HEADERS += \
     enumeration/enumeration.h \
-    class/uvmanager.h \
     enumeration/enumiterator.h \
-    class/ErrorDB.h \
-    class/dbmanager.h \
-    class/HandlerSingleton.h
+    class/HandlerSingleton.h \
+    class/DBManager.h \
+    class/UVManager.h \
+    gui/popMessage.h \
+    class/ErrorManager.h
