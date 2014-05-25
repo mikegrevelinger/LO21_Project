@@ -1,4 +1,78 @@
-#include "uvmanager.h"
+#include "UVManager.h"
+
+
+/* Debut partie SINGLETON */
+HandlerSingleton<UVManager> UVManager::handler = HandlerSingleton<UVManager> ();
+
+UVManager & UVManager::getInstance(){
+    if (!handler.instance)
+        handler.instance = new UVManager;
+    return *handler.instance;
+}
+
+void UVManager::libererInstance(){
+    if (handler.instance){
+        delete handler.instance;
+        handler.instance = 0;
+    }
+}
+/* Fin partie SINGLETON */
+
+
+
+UVManager::~UVManager(){
+}
+
+void UVManager::ajouterUV(const QString& nom, Categorie cat, unsigned int nbc,const QString& description){
+    if (UVManager::rechercheUV(nom)) {
+        emit sendError(QString("Deja existante"));
+    }else{
+       DBManager & dbm = DBManager::getInstance();
+       dbm.ajouterUV(nom,cat,nbc,description);
+    }
+}
+
+void UVManager::modifierUV(const QString& nom, Categorie cat=0, unsigned int nbc=0,const QString& description=0){
+    if (!rechercheUV(nom)) {
+        emit sendError(QString("existe pas"));
+    }else{
+       DBManager & dbm = DBManager::getInstance();
+       dbm.modifierUV(nom,cat,nbc,description);
+    }
+}
+
+
+QVector<QVector<QString> > UVManager::rechercherUV(const QString& name)const{
+    DBManager & dbm = DBManager::getInstance();
+    dbm.rechercheUV(name);
+}
+
+QVector<QVector<QString> > UVManager::rechercherUV(Categorie cat)const{
+    DBManager & dbm = DBManager::getInstance();
+    dbm.rechercheUV(Categorie cat);
+}
+
+void UVManager::supprimerUV(const QString& nom){
+    if (!UVManager::rechercheUV(nom)) {
+        emit sendError(QString("existe pas"));
+    }else{
+       DBManager & dbm = DBManager::getInstance();
+       dbm.supprimerUV(nom);
+    }
+}
+
+
+UVManager::UVManager() {
+    //Connect pour envoyer des signaux d'erreurs
+    QObject::connect(this, SIGNAL(sendError(QString)), &ErrorManager::getInstance(), SLOT(mailBoxError(QString)));
+    /* FAUX
+    if (!db.isValid())
+    {
+        qDebug() << "Impossible de se connecter a la base de donnees";
+        emit sendError(QString("Impossible de se connecter a la base de donnees"));
+    }
+    */
+}
 
 /*
 #include <sstream>
