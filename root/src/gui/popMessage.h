@@ -8,7 +8,7 @@ class popMessage: public QWidget
 {
     QMessageBox * M;
 public:
-    popMessage(const QString & m);
+    popMessage(const QString & title, const QString & text);
 };
 
 #endif // POPMESSAGE_H

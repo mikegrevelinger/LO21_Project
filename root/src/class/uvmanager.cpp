@@ -30,7 +30,7 @@ void UVManager::load(const QString& f){
     if (file!=f) this->~UVManager();
     file=f;
 
-    /*QFile fin(file);
+    //QFile fin(file);
     if (!fin.open(QIODevice::ReadOnly | QIODevice::Text)) throw UTProfilerException(QString("erreur ouverture fichier ")+file);
     QTextStream flux(&fin);
     //QTextCodec *codec = QTextCodec::codecForName("Windows-1252");
@@ -138,7 +138,7 @@ void UVManager::save(const QString& f){
      msgBox.exec();
 
     file=f;
-    /*QFile fichier(file); // toutes les UVs existantes sont écrasées
+    // QFile fichier(file); // toutes les UVs existantes sont écrasées
     if (!fichier.open(QIODevice::WriteOnly | QIODevice::Text)) throw UTProfilerException(QString("erreur ouverture fichier ")+file);
 
     QTextStream fout(&fichier);

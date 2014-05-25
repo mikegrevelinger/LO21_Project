@@ -1,36 +1,39 @@
 #ifndef ENUMERATION_h
 #define ENUMERATION_h
 
-using namespace std;
+#include <QString>
 
-enum class CategorieUV {
-    CS,     /* Connaissances Scientifiques */
-    TM,     /* Techniques et Methodes */
-    TSH,    /* Technologies et Sciences de l'Homme */
-    SP,     /* Stage et Projet */
-    first=CS, last=SP
-};
+namespace enumeration {
+    enum CategorieUV {
+        CS,     /* Connaissances Scientifiques */
+        TM,     /* Techniques et Methodes */
+        TSH,    /* Technologies et Sciences de l'Homme */
+        SP,     /* Stage et Projet */
+        //first=CS, last=SP
+    };
 
-enum class Note {
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    FX,
-    RES,    /* C'est pour ? */
-    ABS,    /* Absence */
-    EC,     /* en cours */
-    first=A, last=EC
-};
+    enum Note {
+        A,
+        B,
+        C,
+        D,
+        E,
+        F,
+        FX,
+        RES,    /* C'est pour ? */
+        ABS,    /* Absence */
+        EC,     /* en cours */
+        //first=A, last=EC
+    };
 
-enum class Saison {
-    Automne,
-    Printemps,
-    first=Automne, last=Printemps
-};
-
+    enum Saison {
+        Automne,
+        Printemps,
+        //first=Automne, last=Printemps
+    };
+    CategorieUV StringToCategorieUV(const QString& str);
+    QString CategorieUVToString(CategorieUV c);
+}
 
 /**
  * QTextStream& operator<<(QTextStream& f, const Categorie& s);
