@@ -29,9 +29,9 @@ public:
     static ErrorManager & getInstance();
     static void libererInstance();
     /* Fin SINGLETON */
-//signals:
+signals:
     //Sera utiliser pour afficher un popMessage d'erreur
-    //void sendAfficheError(const QString & title, const QString & text);
+    void sendAfficheError(const QString & title, const QString & text);
 public slots:
     //Pour traiter une erreur
     void mailBoxError(QString e);

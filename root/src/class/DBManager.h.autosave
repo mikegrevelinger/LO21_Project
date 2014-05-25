@@ -32,7 +32,7 @@ public:
     /* Debut UV */
     QVector<QVector<QString> > & rechercheUV(QString nom);
     QVector<QVector<QString> > & rechercheUV(enumeration::CategorieUV cat);
-    bool ajouterUV(QString nom, enumeration::CategorieUV cat, int credits, QString d);
+    bool ajouteUV(QString nom, enumeration::CategorieUV cat, int credits, QString d);
 signals:
     //pour l'envoi d'erreur
     void sendError(QString e);

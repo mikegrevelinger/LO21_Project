@@ -1,3 +1,0 @@
-
-Error: query is not active -- Time: sam. mai 24 21:02:43 2014 GMT
-Error: DB is not valid -- Time: dim. mai 25 12:40:58 2014 GMT

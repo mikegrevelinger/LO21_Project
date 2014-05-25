@@ -8,8 +8,7 @@ namespace enumeration {
         CS,     /* Connaissances Scientifiques */
         TM,     /* Techniques et Methodes */
         TSH,    /* Technologies et Sciences de l'Homme */
-        SP,     /* Stage et Projet */
-        //first=CS, last=SP
+        SP     /* Stage et Projet */
     };
 
     enum Note {
@@ -22,14 +21,12 @@ namespace enumeration {
         FX,
         RES,    /* C'est pour ? */
         ABS,    /* Absence */
-        EC,     /* en cours */
-        //first=A, last=EC
+        EC     /* en cours */
     };
 
     enum Saison {
         Automne,
-        Printemps,
-        //first=Automne, last=Printemps
+        Printemps
     };
     CategorieUV StringToCategorieUV(const QString& str);
     QString CategorieUVToString(CategorieUV c);

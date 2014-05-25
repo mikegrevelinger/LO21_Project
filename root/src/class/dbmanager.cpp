@@ -10,6 +10,7 @@ DBManager::DBManager() {
     db_uvs.setPassword("");
     /** Pour connaitre le chemin du repertoir courant de façon automatique */
     QString CurrentDir = QDir::currentPath();
+    //reconstruction du chemin où se trouve la db
     CurrentDir.replace("build-Project_LO21-Desktop_Qt_5_3_0_MinGW_32bit-Debug","src/database/uvs.db");
     qDebug() << CurrentDir;
     db_uvs.setDatabaseName(CurrentDir);
@@ -78,7 +79,7 @@ QVector<QVector<QString> > & DBManager::rechercheUV(QString nom){
     query.addBindValue(nom); //permet de remplacer le ? de query.prepare par nom
     if(!query.exec()) //pb lors de l'execution
     {
-        emit sendError(QString("DBManager : Erreur execution de la requete"));
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheUV"));
         return *res;
     }
     int nb_col = queryNbColonne(query); // pour savoir le nombre de colonne
@@ -106,7 +107,7 @@ QVector<QVector<QString> > & DBManager::rechercheUV(enumeration::CategorieUV cat
     query.addBindValue(enumeration::CategorieUVToString(cat)); //permet de remplacer le ? de query.prepare par le QString de cat
     if(!query.exec()) //pb lors de l'execution
     {
-        emit sendError(QString("DBManager : Erreur execution de la requete"));
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheUV"));
         return *res;
     }
     int nb_col = queryNbColonne(query); // pour savoir le nombre de colonne
@@ -121,4 +122,24 @@ QVector<QVector<QString> > & DBManager::rechercheUV(enumeration::CategorieUV cat
     }
     query.finish();
     return *res;
+}
+
+bool DBManager::ajouteUV(QString nom, enumeration::CategorieUV cat, int credits, QString d){
+    if (!openDB(db_uvs)) {
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("INSERT INTO uvs (Nom,Categorie,Credits,Description) VALUES (?,?,?,?)");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(nom);
+    query.addBindValue(enumeration::CategorieUVToString(cat));
+    query.addBindValue(QString::number(credits));
+    query.addBindValue(d);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        return false;
+    }
+    query.finish();
+    return true;
 }
