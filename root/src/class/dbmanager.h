@@ -9,6 +9,12 @@
 
 #define q2c(string) string.toStdString()
 
+/**
+ * @brief The DBManager class
+ *
+ * modifieUV ne peut pas modifier le nom d'une UV.
+ */
+
 class DBManager : public QObject
 {
     Q_OBJECT
@@ -33,6 +39,8 @@ public:
     QVector<QVector<QString> > & rechercheUV(QString nom);
     QVector<QVector<QString> > & rechercheUV(enumeration::CategorieUV cat);
     bool ajouteUV(QString nom, enumeration::CategorieUV cat, int credits, QString d);
+    bool supprimeUV(QString nom);
+    bool modifieUV(const QString & nom, enumeration::CategorieUV cat, unsigned int credits, const QString& d);
 signals:
     //pour l'envoi d'erreur
     void sendError(QString e);

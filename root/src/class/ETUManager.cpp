@@ -51,7 +51,7 @@ bool ETUManager::rechercherETU(const QString& name)const{
         }
     }
 }
-
+*/
 /*
 void ETUManager::supprimerETU(const QString& nom){
     if (!UVManager::rechercherETU(nom)) {
@@ -72,7 +72,6 @@ ETUManager::ETUManager() {
         qDebug() << "Impossible de se connecter a la base de donnees";
         emit sendError(QString("Impossible de se connecter a la base de donnees"));
     }
-    */ /*
 }
 */
 

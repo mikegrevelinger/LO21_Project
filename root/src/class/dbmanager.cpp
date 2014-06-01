@@ -143,3 +143,42 @@ bool DBManager::ajouteUV(QString nom, enumeration::CategorieUV cat, int credits,
     query.finish();
     return true;
 }
+
+bool DBManager::supprimeUV(QString nom) {
+    if (!openDB(db_uvs)) {
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("DELETE FROM uvs WHERE NOM = ?");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(nom);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        return false;
+    }
+    query.finish();
+    return true;
+}
+
+
+bool DBManager::modifieUV(const QString & nom, enumeration::CategorieUV cat, unsigned int credits,const QString& d) {
+    if (!openDB(db_uvs)) {
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("UPDATE uvs SET categorie = ?, credits =?, description =? WHERE NOM = ?");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(enumeration::CategorieUVToString(cat));
+    query.addBindValue(QString::number(credits));
+    query.addBindValue(d);
+    query.addBindValue(nom);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        return false;
+    }
+    query.finish();
+    return true;
+}
+
