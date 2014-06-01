@@ -28,6 +28,12 @@ namespace enumeration {
         Automne,
         Printemps
     };
+    enum Civilite{
+        Monsieur,
+        Madame,
+        Mademoiselle
+    };
+
     CategorieUV StringToCategorieUV(const QString& str);
     QString CategorieUVToString(CategorieUV c);
 }

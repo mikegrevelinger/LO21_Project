@@ -6,7 +6,8 @@ SOURCES += main.cpp \
     class/DBManager.cpp \
     class/UVManager.cpp \
     gui/popMessage.cpp \
-    class/ErrorManager.cpp
+    class/ErrorManager.cpp \
+    class/ETUManager.cpp
 
 HEADERS += \
     enumeration/enumeration.h \
@@ -15,4 +16,5 @@ HEADERS += \
     class/DBManager.h \
     class/UVManager.h \
     gui/popMessage.h \
-    class/ErrorManager.h
+    class/ErrorManager.h \
+    class/ETUManager.h
