@@ -20,7 +20,26 @@ namespace enumeration{
         default: return "";
         }
     }
+
+    QString CiviliteToString(Civilite c){
+        switch (c){
+        case enumeration::Monsieur: return "Monsieur";
+        case enumeration::Madame: return "Madame";
+        case enumeration::Mademoiselle: return "Mademoiselle";
+        default: return "";
+        }
+    }
+
+    Civilite StringToCivilite(const QString & str){
+        if (str=="Monsieur") return enumeration::Monsieur;
+        if (str=="Madame") return enumeration::Madame;
+        if (str=="Mademoiselle") return enumeration::Mademoiselle;
+    }
 }
+
+
+
+
 /*
 QTextStream& operator<<(QTextStream& f, const CategorieUV& cat){
     switch(cat){

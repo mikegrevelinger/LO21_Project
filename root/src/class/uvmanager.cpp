@@ -19,8 +19,20 @@ void UVManager::libererInstance(){
 /* Fin partie SINGLETON */
 
 
+UVManager::UVManager() {
+    //Connect pour envoyer des signaux d'erreurs
+    QObject::connect(this, SIGNAL(sendError(QString)), &ErrorManager::getInstance(), SLOT(mailBoxError(QString)));
+}
 
 UVManager::~UVManager(){
+}
+
+bool UVManager::isExistUV(const QString& name)const{
+    DBManager & dbm = DBManager::getInstance();
+    if(dbm.rechercheUV(name).isEmpty()){
+        return false;
+    }
+    return true;
 }
 
 void UVManager::ajouterUV(const QString& nom, enumeration::CategorieUV cat, unsigned int nbc,const QString& description){
@@ -34,7 +46,7 @@ void UVManager::ajouterUV(const QString& nom, enumeration::CategorieUV cat, unsi
 }
 
 void UVManager::modifierUV(const QString& nom, enumeration::CategorieUV cat, unsigned int nbc,const QString& description){
-    if (!rechercherUV(nom)) {
+    if (!isExistUV(nom)) {
         emit sendError(QString("existe pas"));
     }else{
        DBManager & dbm = DBManager::getInstance();
@@ -42,15 +54,7 @@ void UVManager::modifierUV(const QString& nom, enumeration::CategorieUV cat, uns
     }
 }
 
-bool UVManager::rechercherUV(const QString& name)const{
-        DBManager & dbm = DBManager::getInstance();
-        if(dbm.rechercheUV(name).isEmpty()){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
+/*
 bool UVManager::rechercherUV(enumeration::CategorieUV cat)const{
     DBManager & dbm = DBManager::getInstance();
     if(dbm.rechercheUV(cat).isEmpty()){
@@ -59,18 +63,13 @@ bool UVManager::rechercherUV(enumeration::CategorieUV cat)const{
         return false;
     }
 }
+*/
 
 void UVManager::supprimerUV(const QString& nom){
-    if (!UVManager::rechercherUV(nom)) {
+    if (!isExistUV(nom)) {
         emit sendError(QString("existe pas"));
     }else{
        DBManager & dbm = DBManager::getInstance();
        dbm.supprimeUV(nom);
     }
 }
-
-UVManager::UVManager() {
-    //Connect pour envoyer des signaux d'erreurs
-    QObject::connect(this, SIGNAL(sendError(QString)), &ErrorManager::getInstance(), SLOT(mailBoxError(QString)));
-}
-

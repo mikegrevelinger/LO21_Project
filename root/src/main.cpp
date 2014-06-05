@@ -1,22 +1,26 @@
 #include "./class/DBManager.h"
 #include "./gui/popMessage.h"
 #include "./class/CursusManager.h"
+#include "./class/UVManager.h"
+#include "./class/ETUManager.h"
+#include "./gui/rechercheInstantaneUV.h"
+
 #include <QApplication>
 #include <iostream>
+
 #include <QPushButton>
+
 
 int main(int countArg, char **listArg)
 {
     QApplication app(countArg, listArg);
-    QPushButton button ("Hello world !");
-    button.show();
     ErrorManager & e = ErrorManager::getInstance();
     DBManager & dbm = DBManager::getInstance();
-    enumeration::CategorieUV c = enumeration::TM;
-    dbm.rechercheUV(c);
-    dbm.rechercheUV(QString("2"));
-    popMessage(QString("Error"),QString("VTF"));
-    e.libererInstance();
-    dbm.libererInstance();
+    UVManager & uvm = UVManager::getInstance();
+    QDate d(1993,6,30);
+    dbm.ajouteETU("Nogaret","Baptiste",enumeration::Monsieur,"Francais",d);
+    dbm.rechercheETU("Noga");
+    rechercheInstantaneUV ri;
+    ri.show();
     return app.exec();
 }

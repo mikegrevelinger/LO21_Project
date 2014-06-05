@@ -9,6 +9,7 @@
 #include <QString>
 #include <QVector>
 #include <QObject>
+#include <QDate>
 
 #define q2c(string) string.toStdString()
 
@@ -17,28 +18,25 @@ class ETUManager : public QObject
     Q_OBJECT // utilisera des signaux
 private:
     /* Debut SINGLETON */
-    ETUManager(const ETUManager &){}
+    ETUManager(const ETUManager &) {}
     ETUManager () ;
     void operator= (const ETUManager &){}
     ~ETUManager () ;
     friend class HandlerSingleton<ETUManager>;
     static HandlerSingleton<ETUManager> handler;
     /* Fin SINGLETON */
-
-    /* Ajouter un isEmpty pour un <QVector .... */
+    bool isExistETU(const QString& name)const;
 public:
     /* Debut SINGLETON */
     static ETUManager& getInstance();
     static void libererInstance();
     /* Fin SINGLETON */
-    void ajouterETU(const QString& nom, enumeration::CategorieUV cat, unsigned int nbc,const QString& description);
+    void ajouterETU(const QString& nom,const QString& prenom, enumeration::Civilite civ, QString& nationalite, QDate date);
     void supprimerETU(const QString& nom); // on supprime selon le nom
-    void modifierETU(const QString& nom,const QString& prenom, enumation::civilite civ, QString& nationalite,Date date);
-    bool rechercherETU(const QString& name)const;
+    void modifierETU(const QString& nom,const QString& prenom, enumeration::Civilite civ, QString& nationalite, QDate date);
 signals:
     void sendError(QString e);
 };
-
 
 
 #endif // ETUMANAGER_H

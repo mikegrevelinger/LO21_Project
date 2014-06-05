@@ -47,8 +47,6 @@ void DBManager::libererInstance(){
 /* Fin partie SINGLETON */
 
 
-/*Debut UV */
-
 //Fonction d'ouverture d'un base de donnee o
 bool DBManager::openDB(QSqlDatabase & o){
     if (!o.open()) //impossible d'ouvrir
@@ -67,6 +65,7 @@ int DBManager::queryNbColonne(QSqlQuery & q){
     return nb_col;
 }
 
+/*Debut UV */
 
 QVector<QVector<QString> > & DBManager::rechercheUV(QString nom){
     QVector<QVector<QString> > *res = new QVector<QVector<QString> >;
@@ -249,3 +248,65 @@ QString DBManager::getDescriptionUV(const QString & nom){
     query.finish();
     return res;
 }
+
+/* Fin UV */
+bool DBManager::ajouteETU(QString const nom, QString const prenom, enumeration::Civilite civ, QString const nationalite, QDate const dateDeNaissance){
+    if (!openDB(db)) {
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("INSERT INTO Etu (Nom,Prenom,Civilite,Nationalite,DateDeNaissance) VALUES (?,?,?,?)");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(nom);
+    query.addBindValue(prenom);
+    query.addBindValue(enumeration::CiviliteToString(civ));
+    query.addBindValue(nationalite);
+    //query.addBindValue(dateDeNaissance);
+    query.addBindValue(dateDeNaissance.toString("yyyyMMdd"));
+    if(!query.exec()) //pb lors de l'execution
+    {
+        return false;
+    }
+    query.finish();
+    return true;
+}
+
+QVector<QVector<QString> > & DBManager::rechercheETU(const QString nom){
+    QVector<QVector<QString> > *res = new QVector<QVector<QString> >;
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        return *res;
+    }
+    QSqlQuery query;
+
+    query.prepare("SELECT * FROM Etu WHERE Etu.nom LIKE ?");
+    query.addBindValue(QString("\%%1\%").arg(nom));
+
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheUV"));
+        return *res;
+    }
+    int nb_col = queryNbColonne(query); // pour savoir le nombre de colonne
+    while (query.next())//parcourir toutes les lignes
+    {
+        QVector<QString> vect;
+        for (int i = 0; i< nb_col;i++){
+            qDebug() <<query.value(i).toString();
+            vect.append(query.value(i).toString());
+        }
+        res->append(vect);
+    }
+    query.finish();
+    return *res;
+}
+
+/*
+CREATE TABLE "Etu" ("Nom" VARCHAR NOT NULL ,
+                    "Prenom" VARCHAR NOT NULL ,
+                    "Civilite" VARCHAR,
+                    "Nationalite" VARCHAR,
+                    "DateDeNaissance" DATETIME NOT NULL ,
+                    PRIMARY KEY ("Nom", "Prenom", "DateDeNaissance"))
+*/

@@ -36,6 +36,9 @@ namespace enumeration {
 
     CategorieUV StringToCategorieUV(const QString& str);
     QString CategorieUVToString(CategorieUV c);
+
+    QString CiviliteToString(Civilite c);
+    Civilite StringToCivilite(const QString & str);
 }
 
 /**

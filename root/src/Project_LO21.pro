@@ -7,7 +7,9 @@ SOURCES += main.cpp \
     class/UVManager.cpp \
     gui/popMessage.cpp \
     class/ErrorManager.cpp \
-    class/ETUManager.cpp
+    class/ETUManager.cpp \
+    class/CursusManager.cpp \
+    gui/rechercheInstantaneUV.cpp
 
 HEADERS += \
     enumeration/enumeration.h \
@@ -17,4 +19,6 @@ HEADERS += \
     class/UVManager.h \
     gui/popMessage.h \
     class/ErrorManager.h \
-    class/ETUManager.h
+    class/ETUManager.h \
+    class/CursusManager.h \
+    gui/rechercheInstantaneUV.h

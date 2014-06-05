@@ -8,6 +8,7 @@
 #include <QString>
 #include <QVector>
 #include <QObject>
+#include "./gui/rechercheInstantaneUV.h"
 
 #define q2c(string) string.toStdString()
 
@@ -15,19 +16,15 @@ class UVManager : public QObject
 {
     Q_OBJECT // utilisera des signaux
 private:
-
-    QVector<QVector<QString> > rechercheUV(const QString& c) const;
-    void operator=(const UVManager);
     /* Debut SINGLETON */
-    UVManager(const UVManager &){}
+    UVManager(const UVManager &);
     UVManager () ;
     void operator= (const UVManager &){}
     ~UVManager () ;
     friend class HandlerSingleton<UVManager>;
     static HandlerSingleton<UVManager> handler;
     /* Fin SINGLETON */
-
-    /** Ajouter un isEmpty pour un <QVector .... */
+    bool isExistUV(const QString& name) const;
 public:
     /* Debut SINGLETON */
     static UVManager& getInstance();
@@ -36,8 +33,6 @@ public:
     void ajouterUV(const QString& nom, enumeration::CategorieUV cat, unsigned int nbc,const QString& description);
     void supprimerUV(const QString& nom);
     void modifierUV(const QString& nom, enumeration::CategorieUV cat, unsigned int nbc,const QString& description);
-    bool rechercherUV(const QString& name)const;
-    bool rechercherUV(enumeration::CategorieUV cat)const;
 signals:
     void sendError(QString e);
 };

@@ -6,6 +6,7 @@
 #include <QtSql>
 #include <QString>
 #include <QVector>
+#include <QDate>
 
 #define q2c(string) string.toStdString()
 
@@ -45,7 +46,11 @@ public:
     int getCreditsUV(const QString & nom);///< Renvoie -1 en cas d'erreur, sinon bonne valeur
     enumeration::CategorieUV getCategorieUV(const QString & nom);
     QString getDescriptionUV(const QString & nom);///< Renvoie un QString vide en cas d'erreur, sinon bonne valeur
-    /*Fin UV */
+    /* Fin UV */
+    /* Debut ETUDIANT */
+    QVector<QVector<QString> > & rechercheETU(const QString nom);
+    bool ajouteETU(QString const nom, QString const prenom, enumeration::Civilite civ, QString const nationalite, QDate const dateDeNaissance);
+    /* Fin ETUDIANT */
 signals:
     //pour l'envoi d'erreur
     void sendError(QString e);

@@ -17,7 +17,6 @@ void ETUManager::libererInstance(){
 }
 /* Fin partie SINGLETON */
 
-
 ETUManager::ETUManager() {
     //Connect pour envoyer des signaux d'erreurs
     QObject::connect(this, SIGNAL(sendError(QString)), &ErrorManager::getInstance(), SLOT(mailBoxError(QString)));
@@ -27,8 +26,17 @@ ETUManager::ETUManager() {
 ETUManager::~ETUManager(){
 }
 
-void ETUManager::ajouterETU(const QString& nom,const QString& prenom, enumation::civilite civ, QString& nationalite,Date date){
-    if (ETUManager::rechercherETU(nom)) {
+/*
+bool ETUManager::isExistETU(const QString& name) const{
+    DBManager & dbm = DBManager::getInstance();
+    if(dbm.rechercheETU(name).isEmpty()){
+        return false;
+    }
+    return true;
+}
+
+void ETUManager::ajouterETU(const QString& nom, const QString& prenom, enumeration::Civilite civ, QString& nationalite,QDate date){
+    if (!isExistETU(nom)) {
         emit sendError(QString("Il existe deja cet etudiant"));
     }else{
        DBManager & dbm = DBManager::getInstance();
@@ -36,8 +44,8 @@ void ETUManager::ajouterETU(const QString& nom,const QString& prenom, enumation:
     }
 }
 
-void ETUManager::modifierETU(const QString& nom,const QString& prenom, enumation::civilite civ, QString& nationalite,Date date){
-    if (!rechercherETU(nom)) {
+void ETUManager::modifierETU(const QString& nom,const QString& prenom, enumeration::Civilite civ, QString& nationalite,QDate date){
+    if (!isExistETU(nom)) {
         emit sendError(QString("cet etudiant n'existe pas"));
     }else{
        DBManager & dbm = DBManager::getInstance();
@@ -46,20 +54,12 @@ void ETUManager::modifierETU(const QString& nom,const QString& prenom, enumation
 }
 
 
-bool ETUManager::rechercherETU(const QString& name) const{
-    DBManager & dbm = DBManager::getInstance();
-    if(dbm.rechercheETU(name).isEmpty()){
-        return true;
-    } else {
-        return false;
-    }
-}
-
 void ETUManager::supprimerETU(const QString& nom){
-    if (!UVManager::rechercherETU(nom)) {
+    if (!isExistETU(nom)) {
         emit sendError(QString("cet etudiant n'existe pas"));
     }else{
        DBManager & dbm = DBManager::getInstance();
        dbm.supprimeETU(nom);
     }
 }
+*/
