@@ -44,7 +44,6 @@ namespace enumeration {
  * QString CategorieToString(Categorie c);
  * QTextStream& operator>>(QTextStream& f, Categorie& cat);
  * inline QTextStream& operator<<(QTextStream& f, const Saison& s) { if (s==Saison::Automne) f<<"A"; else f<<"P"; return f;}
-
 */
 
 #endif

@@ -1,5 +1,6 @@
 #include "./class/DBManager.h"
 #include "./gui/popMessage.h"
+#include "./class/CursusManager.h"
 #include <QApplication>
 #include <iostream>
 #include <QPushButton>
@@ -13,6 +14,7 @@ int main(int countArg, char **listArg)
     DBManager & dbm = DBManager::getInstance();
     enumeration::CategorieUV c = enumeration::TM;
     dbm.rechercheUV(c);
+    dbm.rechercheUV(QString("2"));
     popMessage(QString("Error"),QString("VTF"));
     e.libererInstance();
     dbm.libererInstance();

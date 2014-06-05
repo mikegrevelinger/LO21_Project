@@ -72,12 +72,5 @@ void UVManager::supprimerUV(const QString& nom){
 UVManager::UVManager() {
     //Connect pour envoyer des signaux d'erreurs
     QObject::connect(this, SIGNAL(sendError(QString)), &ErrorManager::getInstance(), SLOT(mailBoxError(QString)));
-    /* FAUX
-    if (!db.isValid())
-    {
-        qDebug() << "Impossible de se connecter a la base de donnees";
-        emit sendError(QString("Impossible de se connecter a la base de donnees"));
-    }
-    */
 }
 

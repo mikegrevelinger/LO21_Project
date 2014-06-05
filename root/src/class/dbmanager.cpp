@@ -4,17 +4,17 @@
 DBManager::DBManager() {
     //Connect pour envoyer des signaux d'erreurs
     QObject::connect(this, SIGNAL(sendError(QString)), &ErrorManager::getInstance(), SLOT(mailBoxError(QString)));
-    db_uvs = QSqlDatabase::addDatabase("QSQLITE");
-    db_uvs.setHostName("localhost");
-    db_uvs.setUserName("root");
-    db_uvs.setPassword("");
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setHostName("localhost");
+    db.setUserName("root");
+    db.setPassword("");
     /** Pour connaitre le chemin du repertoir courant de façon automatique */
     QString CurrentDir = QDir::currentPath();
     //reconstruction du chemin où se trouve la db
     CurrentDir.replace("build-Project_LO21-Desktop_Qt_5_3_0_MinGW_32bit-Debug","src/database/uvs.db");
     qDebug() << CurrentDir;
-    db_uvs.setDatabaseName(CurrentDir);
-    if (!db_uvs.isValid())
+    db.setDatabaseName(CurrentDir);
+    if (!db.isValid())
     {
         qDebug() << "Impossible de se connecter a la base de donnees";
         emit sendError(QString("Impossible de se connecter a la base de donnees"));
@@ -22,7 +22,7 @@ DBManager::DBManager() {
 }
 
 DBManager::~DBManager(){
-    db_uvs.close();
+    db.close();
 }
 
 
@@ -70,13 +70,20 @@ int DBManager::queryNbColonne(QSqlQuery & q){
 
 QVector<QVector<QString> > & DBManager::rechercheUV(QString nom){
     QVector<QVector<QString> > *res = new QVector<QVector<QString> >;
-    if (!openDB(db_uvs)) //impossible d'ouvrir
+    if (!openDB(db)) //impossible d'ouvrir
     {
         return *res;
     }
     QSqlQuery query;
-    query.prepare("SELECT * FROM uvs WHERE uvs.nom = ?"); // la requete
-    query.addBindValue(nom); //permet de remplacer le ? de query.prepare par nom
+    if (nom.size()<4){
+        qDebug() <<"lol";
+        query.prepare("SELECT * FROM uvs WHERE uvs.nom LIKE ?");
+        query.addBindValue(QString("\%%1\%").arg(nom));
+    } else {
+        query.prepare("SELECT * FROM uvs WHERE uvs.nom = ?"); // la requete
+        query.addBindValue(nom); //permet de remplacer le ? de query.prepare par nom
+    }
+
     if(!query.exec()) //pb lors de l'execution
     {
         emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheUV"));
@@ -98,7 +105,7 @@ QVector<QVector<QString> > & DBManager::rechercheUV(QString nom){
 
 QVector<QVector<QString> > & DBManager::rechercheUV(enumeration::CategorieUV cat){
     QVector<QVector<QString> > *res = new QVector<QVector<QString> >;
-    if (!openDB(db_uvs)) //impossible d'ouvrir
+    if (!openDB(db)) //impossible d'ouvrir
     {
         return *res;
     }
@@ -125,7 +132,7 @@ QVector<QVector<QString> > & DBManager::rechercheUV(enumeration::CategorieUV cat
 }
 
 bool DBManager::ajouteUV(QString nom, enumeration::CategorieUV cat, int credits, QString d){
-    if (!openDB(db_uvs)) {
+    if (!openDB(db)) {
         return false;
     }
     QSqlQuery query;
@@ -145,7 +152,7 @@ bool DBManager::ajouteUV(QString nom, enumeration::CategorieUV cat, int credits,
 }
 
 bool DBManager::supprimeUV(QString nom) {
-    if (!openDB(db_uvs)) {
+    if (!openDB(db)) {
         return false;
     }
     QSqlQuery query;
@@ -163,7 +170,7 @@ bool DBManager::supprimeUV(QString nom) {
 
 
 bool DBManager::modifieUV(const QString & nom, enumeration::CategorieUV cat, unsigned int credits,const QString& d) {
-    if (!openDB(db_uvs)) {
+    if (!openDB(db)) {
         return false;
     }
     QSqlQuery query;
@@ -182,3 +189,63 @@ bool DBManager::modifieUV(const QString & nom, enumeration::CategorieUV cat, uns
     return true;
 }
 
+
+int DBManager::getCreditsUV(const QString & nom){
+    if (!openDB(db)) //impossible d'ouvrir la BDD
+    {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour getCreditsUV"));
+        return -1; // -1 pour dire qu'il y a une erreur.
+    }
+    QSqlQuery query;
+    query.prepare("SELECT credits FROM uvs WHERE uvs.nom =?");
+    query.addBindValue(nom);
+    if(!query.exec())
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getCreditsUV"));
+        return -1;
+    }
+    query.first();
+    int res = query.value(0).toInt();
+    query.finish();
+    return res;
+}
+
+enumeration::CategorieUV DBManager::getCategorieUV(const QString & nom){
+    if (!openDB(db)) //impossible d'ouvrir la BDD
+    {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour getCategorieUV"));
+    }
+    QSqlQuery query;
+    query.prepare("SELECT categorie FROM uvs WHERE uvs.nom =?");
+    query.addBindValue(nom);
+    if(!query.exec())
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getCategorieUV"));
+    }
+    query.first();
+    QString res = query.value(0).toString();
+    qDebug() <<res;
+    query.finish();
+    return enumeration::StringToCategorieUV(res);
+}
+
+QString DBManager::getDescriptionUV(const QString & nom){
+    QString res = QString("");
+    if (!openDB(db)) //impossible d'ouvrir la BDD
+    {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour getDescriptionUV"));
+        return res;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT description FROM uvs WHERE uvs.nom =?");
+    query.addBindValue(nom);
+    if(!query.exec())
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getDescriptionUV"));
+        return res;
+    }
+    query.first();
+    res = query.value(0).toString();
+    query.finish();
+    return res;
+}
