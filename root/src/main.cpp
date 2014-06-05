@@ -18,8 +18,10 @@ int main(int countArg, char **listArg)
     DBManager & dbm = DBManager::getInstance();
     UVManager & uvm = UVManager::getInstance();
     QDate d(1993,6,30);
-    dbm.ajouteETU("Nogaret","Baptiste",enumeration::Monsieur,"Francais",d);
-    dbm.rechercheETU("Noga");
+    qDebug() <<dbm.ajouteUV("NF92",enumeration::CS,6,"Blabla");
+    dbm.rechercheUV("NF92");
+    //dbm.ajouteETU("Nogaret","Baptiste",enumeration::Monsieur,"Francais",d);
+    //dbm.rechercheETU("Noga");
     rechercheInstantaneUV ri;
     ri.show();
     return app.exec();

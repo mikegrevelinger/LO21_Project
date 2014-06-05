@@ -11,7 +11,7 @@ DBManager::DBManager() {
     /** Pour connaitre le chemin du repertoir courant de façon automatique */
     QString CurrentDir = QDir::currentPath();
     //reconstruction du chemin où se trouve la db
-    CurrentDir.replace("build-Project_LO21-Desktop_Qt_5_3_0_MinGW_32bit-Debug","src/database/uvs.db");
+    CurrentDir.replace("build-Project_LO21-Desktop_Qt_5_3_0_MinGW_32bit-Debug","src/database/uvs.sqlite");
     qDebug() << CurrentDir;
     db.setDatabaseName(CurrentDir);
     if (!db.isValid())
@@ -19,6 +19,28 @@ DBManager::DBManager() {
         qDebug() << "Impossible de se connecter a la base de donnees";
         emit sendError(QString("Impossible de se connecter a la base de donnees"));
     }
+    qDebug() <<"lol";
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        qDebug() << "17";
+    }
+    QSqlQuery query;
+    if(!query.exec("PRAGMA foreign_keys=ON;")) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur PRAGMA"));
+    }
+    if(!query.exec("PRAGMA foreign_keys;")) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur PRAGMA"));
+    }
+    query.first();
+    qDebug() << query.value(0).toString();
+    if(!query.exec("SELECT sqlite_version()")) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur PRAGMA"));
+    }
+    query.first();
+    qDebug() << query.value(0).toString();
 }
 
 DBManager::~DBManager(){
@@ -132,6 +154,7 @@ QVector<QVector<QString> > & DBManager::rechercheUV(enumeration::CategorieUV cat
 
 bool DBManager::ajouteUV(QString nom, enumeration::CategorieUV cat, int credits, QString d){
     if (!openDB(db)) {
+        qDebug() <<"1";
         return false;
     }
     QSqlQuery query;
@@ -140,10 +163,11 @@ bool DBManager::ajouteUV(QString nom, enumeration::CategorieUV cat, int credits,
     //permet de remplacer le ? de query.prepare
     query.addBindValue(nom);
     query.addBindValue(enumeration::CategorieUVToString(cat));
-    query.addBindValue(QString::number(credits));
+    query.addBindValue(credits);
     query.addBindValue(d);
     if(!query.exec()) //pb lors de l'execution
     {
+        qDebug() <<"2";
         return false;
     }
     query.finish();
@@ -177,7 +201,7 @@ bool DBManager::modifieUV(const QString & nom, enumeration::CategorieUV cat, uns
     query.prepare("UPDATE uvs SET categorie = ?, credits =?, description =? WHERE NOM = ?");
     //permet de remplacer le ? de query.prepare
     query.addBindValue(enumeration::CategorieUVToString(cat));
-    query.addBindValue(QString::number(credits));
+    query.addBindValue(credits);
     query.addBindValue(d);
     query.addBindValue(nom);
     if(!query.exec()) //pb lors de l'execution
