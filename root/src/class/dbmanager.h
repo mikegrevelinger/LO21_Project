@@ -50,7 +50,11 @@ public:
     /* Debut ETUDIANT */
     QVector<QVector<QString> > & rechercheETU(const QString nom);
     bool ajouteETU(QString const nom, QString const prenom, enumeration::Civilite civ, QString const nationalite, QDate const dateDeNaissance);
+
     /* Fin ETUDIANT */
+    /*Debut CURSUS */
+
+    /* Fin CURSUS */
 signals:
     //pour l'envoi d'erreur
     void sendError(QString e);

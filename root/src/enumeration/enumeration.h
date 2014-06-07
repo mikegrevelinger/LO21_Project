@@ -7,9 +7,10 @@ namespace enumeration {
     enum CategorieUV {
         CS,     /* Connaissances Scientifiques */
         TM,     /* Techniques et Methodes */
-        TSH,    /* Technologies et Sciences de l'Homme */
-        SP     /* Stage et Projet */
+        TSH     /* Technologies et Sciences de l'Homme */
     };
+    CategorieUV StringToCategorieUV(const QString& str);
+    QString CategorieUVToString(CategorieUV c);
 
     enum Note {
         A,
@@ -21,22 +22,24 @@ namespace enumeration {
         FX,
         RES,    /* C'est pour ? */
         ABS,    /* Absence */
-        EC     /* en cours */
+        EC,     /* en cours */
+        INSCRIT /* UV inscrite : validée par l'utilisateur lors des propositions */
     };
+    Note StringToNote(const QString & str);
+    QString NoteToString(Note n);
 
     enum Saison {
         Automne,
         Printemps
     };
+    QString SaisonToString(Saison c);
+    Saison StringToSaison(const QString & str);
+
     enum Civilite{
         Monsieur,
         Madame,
         Mademoiselle
     };
-
-    CategorieUV StringToCategorieUV(const QString& str);
-    QString CategorieUVToString(CategorieUV c);
-
     QString CiviliteToString(Civilite c);
     Civilite StringToCivilite(const QString & str);
 }

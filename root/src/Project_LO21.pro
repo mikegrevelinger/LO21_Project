@@ -1,6 +1,7 @@
 QT += sql
 QT += widgets
 QT += gui
+
 SOURCES += main.cpp \
     enumeration/enumeration.cpp \
     class/DBManager.cpp \

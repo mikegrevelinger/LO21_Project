@@ -1,31 +1,72 @@
 #include <QTextStream>
 
 #include "enumeration.h"
-#include "./class/ErrorManager.h"
 
 namespace enumeration{
+    Note StringToNote(const QString & str){
+        if (str=="A") return enumeration::A;
+        if (str=="B") return enumeration::B;
+        if (str=="C") return enumeration::C;
+        if (str=="D") return enumeration::D;
+        if (str=="E") return enumeration::E;
+        if (str=="F") return enumeration::F;
+        if (str=="FX") return enumeration::FX;
+        if (str=="ABS") return enumeration::ABS;
+        if (str=="EC") return enumeration::EC;
+        if (str=="INSCRIT") return enumeration::INSCRIT;
+        if (str=="RES") return enumeration::RES;
+    }
+
+    QString NoteToString(Note n){
+        switch(n){
+            case enumeration::A: return "A";
+            case enumeration::B: return "B";
+            case enumeration::C: return "C";
+            case enumeration::D: return "D";
+            case enumeration::E: return "E";
+            case enumeration::F: return "F";
+            case enumeration::FX: return "FX";
+            case enumeration::ABS: return "ABS";
+            case enumeration::EC: return "EC";
+            case enumeration::INSCRIT: return "INSCRIT";
+            case enumeration::RES: return "RES";
+        default: return "";
+        }
+    }
+
+    QString SaisonToString(Saison s){
+        switch(s){
+            case enumeration::Automne: return "Automne";
+            case enumeration::Printemps: return "Printemps";
+        default: return "";
+        }
+    }
+
+    Saison StringToSaison(const QString & str) {
+        if (str=="Automne") return enumeration::Automne;
+        if (str=="Printemps") return enumeration::Printemps;
+    }
+
     CategorieUV StringToCategorieUV(const QString& str){
         if (str=="CS") return enumeration::CS;
         if (str=="TM") return enumeration::TM;
-        if (str=="SP") return enumeration::SP;
         if (str=="TSH") return enumeration::TSH;
     }
 
     QString CategorieUVToString(CategorieUV c){
         switch(c){
-        case enumeration::CS: return "CS";
-        case enumeration::TM: return "TM";
-        case enumeration::SP: return "SP";
-        case enumeration::TSH: return "TSH";
+            case enumeration::CS: return "CS";
+            case enumeration::TM: return "TM";
+            case enumeration::TSH: return "TSH";
         default: return "";
         }
     }
 
     QString CiviliteToString(Civilite c){
         switch (c){
-        case enumeration::Monsieur: return "Monsieur";
-        case enumeration::Madame: return "Madame";
-        case enumeration::Mademoiselle: return "Mademoiselle";
+            case enumeration::Monsieur: return "Monsieur";
+            case enumeration::Madame: return "Madame";
+            case enumeration::Mademoiselle: return "Mademoiselle";
         default: return "";
         }
     }
