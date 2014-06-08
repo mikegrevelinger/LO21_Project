@@ -30,7 +30,8 @@ namespace enumeration {
 
     enum Saison {
         Automne,
-        Printemps
+        Printemps,
+        Tout
     };
     QString SaisonToString(Saison c);
     Saison StringToSaison(const QString & str);

@@ -38,6 +38,7 @@ namespace enumeration{
         switch(s){
             case enumeration::Automne: return "Automne";
             case enumeration::Printemps: return "Printemps";
+            case enumeration::Tout: return "Tout";
         default: return "";
         }
     }
@@ -45,6 +46,7 @@ namespace enumeration{
     Saison StringToSaison(const QString & str) {
         if (str=="Automne") return enumeration::Automne;
         if (str=="Printemps") return enumeration::Printemps;
+        if (str=="Tout") return enumeration::Tout;
     }
 
     CategorieUV StringToCategorieUV(const QString& str){

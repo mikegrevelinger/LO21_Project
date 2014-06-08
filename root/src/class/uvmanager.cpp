@@ -35,6 +35,7 @@ bool UVManager::isExistUV(const QString& name)const{
     return true;
 }
 
+/*
 void UVManager::ajouterUV(const QString& nom, enumeration::CategorieUV cat, unsigned int nbc,const QString& description){
     //DBManager & dbm = DBManager::getInstance();
     //if (dbm.rechercheUV(nom).isEmpty()) {
@@ -44,7 +45,7 @@ void UVManager::ajouterUV(const QString& nom, enumeration::CategorieUV cat, unsi
        dbm.ajouteUV(nom,cat,nbc,description);
     //}
 }
-
+*/
 /*
 void UVManager::modifierUV(const QString& nom, enumeration::CategorieUV cat, unsigned int nbc,const QString& description){
     if (!isExistUV(nom)) {

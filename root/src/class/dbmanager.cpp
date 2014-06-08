@@ -48,8 +48,7 @@ DBManager::~DBManager(){
 }
 
 
-/* Debut partie SINGLETON */
-
+/*Debut partie SINGLETON */
 //Construction et acces au singleton DBManager
 HandlerSingleton<DBManager> DBManager::handler = HandlerSingleton<DBManager> ();
 
@@ -67,7 +66,6 @@ void DBManager::libererInstance(){
     }
 }
 /* Fin partie SINGLETON */
-
 
 //Fonction d'ouverture d'un base de donnee o
 bool DBManager::openDB(QSqlDatabase & o){
@@ -87,12 +85,93 @@ int DBManager::queryNbColonne(QSqlQuery & q){
     return nb_col;
 }
 
+//Pour connaitre le nombre de ligne de la requete q
 int DBManager::queryNbLigne(QSqlQuery &q){
     int nombre = 0;
     while(q.next()){
            nombre++;
     }
     return nombre;
+}
+
+bool DBManager::modifieCreditsTotalEtu(const int id, const int n){
+    if (!openDB(db)) {
+        emit sendError(QString("DBManager : Impossible d\'ouvrir BDD dans modifieDescriptionUV"));
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("UPDATE dossier SET nbCreditsTotal = ? WHERE dossier.id = ?");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(n);
+    query.addBindValue(id);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans modifieDescriptionUV"));
+        return false;
+    }
+    query.finish();
+    return true;
+}
+
+bool DBManager::modifieCreditsCSEtu(const int id, const int n){
+    if (!openDB(db)) {
+        emit sendError(QString("DBManager : Impossible d\'ouvrir BDD dans modifieCreditsCSEtu"));
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("UPDATE dossier SET nbCreditCS = ? WHERE dossier.id = ?");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(n);
+    query.addBindValue(id);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans modifieCreditsCSEtu"));
+        return false;
+    }
+    query.finish();
+    return true;
+}
+
+bool DBManager::modifieCreditsTMEtu(const int id, const int n){
+    if (!openDB(db)) {
+        emit sendError(QString("DBManager : Impossible d\'ouvrir BDD dans modifieCreditsTMEtu"));
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("UPDATE dossier SET nbCreditTM = ? WHERE dossier.id = ?");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(n);
+    query.addBindValue(id);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans modifieCreditsTMEtu"));
+        return false;
+    }
+    query.finish();
+    return true;
+}
+
+bool DBManager::modifieCreditsTSHEtu(const int id, const int n){
+    if (!openDB(db)) {
+        emit sendError(QString("DBManager : Impossible d\'ouvrir BDD dans modifieCreditsTSHEtu"));
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.addBindValue(n);
+    query.prepare("UPDATE dossier SET nbCreditTSH = ? WHERE dossier.id = ?");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(id);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans modifieCreditsTSHEtu"));
+        return false;
+    }
+    query.finish();
+    return true;
 }
 
 /*Debut UV */
@@ -160,16 +239,17 @@ QVector<QVector<QString> > & DBManager::rechercheUV(enumeration::CategorieUV cat
     return *res;
 }
 
-bool DBManager::ajouteUV(const QString & nom, enumeration::CategorieUV cat, const int credits, const QString & d){
+bool DBManager::ajouteUV(const QString & nom, enumeration::CategorieUV cat, enumeration::Saison s, const int credits, const QString & d){
     if (!openDB(db)) {
         qDebug() <<"1";
         return false;
     }
     QSqlQuery query;
     // la requete
-    query.prepare("INSERT INTO uvs (Nom,Description) VALUES (?,?)");
+    query.prepare("INSERT INTO uvs (Nom,SemestreEnseigne,Description) VALUES (?,?,?)");
     //permet de remplacer le ? de query.prepare
     query.addBindValue(nom);
+    query.addBindValue(s);
     query.addBindValue(d);
     if(!query.exec()) //pb lors de l'execution
     {
@@ -316,8 +396,26 @@ QString DBManager::getDescriptionUV(const QString & nom){
     return res;
 }
 
+enumeration::Saison DBManager::getSaisonUV(const QString & uv){
+    if (!openDB(db)) //impossible d'ouvrir la BDD
+    {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour getSaisonUV"));
+    }
+    QSqlQuery query;
+    query.prepare("SELECT SemestreEnseigne FROM uvs WHERE uvs.nom =?");
+    query.addBindValue(uv);
+    if(!query.exec())
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getSaisonUV"));
+    }
+    query.first();
+    QString res = query.value(0).toString();
+    query.finish();
+    return enumeration::StringToSaison(res);
+}
+
 /* Fin UV */
-/* Debut ETU */
+/*Debut ETU */
 bool DBManager::ajouteETU(const QString &nom, const QString &prenom, enumeration::Civilite civ,
                           const QString &nationalite, QDate const dateDeNaissance, enumeration::Saison s,
                           const int annee, const int creditsEqui, const QString cursus, const int numeroSemestre, const int creditsTOTAL,
@@ -392,6 +490,7 @@ QVector<QVector<QString> > & DBManager::rechercheETU(const QString & s){
 int DBManager::getIdETU (QString const & nom, QString const & prenom, QDate const & date){
     if (!openDB(db)) //impossible d'ouvrir
     {
+        emit sendError(QString("DBManager : Impossible d'ouvrir BDD dans getIdETU"));
         return 0;
     }
     QSqlQuery query;
@@ -433,6 +532,154 @@ int DBManager::getIdETU (QString const & nom, QString const & prenom, QDate cons
     int res = query.value(0).toInt();
     query.finish();
     return res;
+}
+
+int DBManager::getCreditsTotalEtu(const int id){
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        emit sendError(QString("DBManager : Impossible d'ouvrir BDD dans getCreditsTotalEtu"));
+        return 0;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT nbCreditsTotal FROM dossier WHERE dossier.id = ?;");
+    query.addBindValue(id);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getCreditsTotalEtu"));
+        return 0;
+    }
+    query.first();
+    int res = query.value(0).toInt();
+    query.finish();
+    return res;
+}
+
+int DBManager::getCreditsCSEtu(const int id){
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        emit sendError(QString("DBManager : Impossible d'ouvrir BDD dans getCreditsCSEtu"));
+        return 0;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT nbCreditCS FROM dossier WHERE dossier.id = ?;");
+    query.addBindValue(id);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getCreditsCSEtu"));
+        return 0;
+    }
+    query.first();
+    int res = query.value(0).toInt();
+    query.finish();
+    return res;
+}
+
+int DBManager::getCreditsTMEtu(const int id){
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        emit sendError(QString("DBManager : Impossible d'ouvrir BDD dans getCreditsTMEtu"));
+        return 0;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT nbCreditTM FROM dossier WHERE dossier.id = ?;");
+    query.addBindValue(id);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getCreditsTMEtu"));
+        return 0;
+    }
+    query.first();
+    int res = query.value(0).toInt();
+    query.finish();
+    return res;
+}
+
+int DBManager::getCreditsTSHEtu(const int id){
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        emit sendError(QString("DBManager : Impossible d'ouvrir BDD dans getCreditsTSHEtu"));
+        return 0;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT nbCreditTSH FROM dossier WHERE dossier.id = ?;");
+    query.addBindValue(id);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getCreditsTSHEtu"));
+        return 0;
+    }
+    query.first();
+    int res = query.value(0).toInt();
+    query.finish();
+    return res;
+}
+
+
+
+bool DBManager::ajouteInscription(int const & id, QString const & uv, enumeration::Note n, const int annee, enumeration::Saison s){
+    if (!openDB(db)) //impossible d'ouvrir la BDD
+    {
+        return false;
+    }
+
+    int creditTot =0;
+    int creditAutre = 0;
+    enumeration::CategorieUV c = getCategorieUV(uv);
+    switch(c){
+        case enumeration::CS:
+            creditTot = getCreditsUV(uv) + getCreditsTotalEtu(id);
+            creditAutre = getCreditsUV(uv) + getCreditsCSEtu(id);
+            if (!modifieCreditsTotalEtu(id,creditTot)){
+                emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteInscription (Total)"));
+                return false;
+            }
+            if (!modifieCreditsCSEtu(id,creditAutre)){
+                emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteInscription (CS)"));
+                return false;
+            }
+            break;
+        case enumeration::TM: return "TM";
+            creditTot = getCreditsUV(uv) + getCreditsTotalEtu(id);
+            creditAutre = getCreditsUV(uv) + getCreditsTMEtu(id);
+            if (!modifieCreditsTotalEtu(id,creditTot)){
+                emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteInscription (Total)"));
+                return false;
+            }
+            if (!modifieCreditsTMEtu(id,creditAutre)){
+                emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteInscription (TM)"));
+                return false;
+            }
+            break;
+        case enumeration::TSH: return "TSH";
+            creditTot = getCreditsUV(uv) + getCreditsTotalEtu(id);
+            creditAutre = getCreditsUV(uv) + getCreditsTSHEtu(id);
+            if (!modifieCreditsTotalEtu(id,creditTot)){
+                emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteInscription (Total)"));
+                return false;
+            }
+            if (!modifieCreditsTSHEtu(id,creditAutre)){
+                emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteInscription (TSH)"));
+                return false;
+            }
+            break;
+    default: return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("INSERT INTO inscription VALUES (?,?,?,?,?);");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(id);
+    query.addBindValue(uv);
+    query.addBindValue(enumeration::NoteToString(n));
+    query.addBindValue(annee);
+    query.addBindValue(enumeration::SaisonToString(s));
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteInscription (Inscription)"));
+        return false;
+    }
+    query.finish();
+    return true;
 }
 
 /* Fin ETU */

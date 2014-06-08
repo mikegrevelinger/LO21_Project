@@ -1,0 +1,16 @@
+INPUT(
+./debug\main.o
+./debug\enumeration.o
+./debug\DBManager.o
+./debug\UVManager.o
+./debug\popMessage.o
+./debug\ErrorManager.o
+./debug\ETUManager.o
+./debug\CursusManager.o
+./debug\rechercheInstantaneUV.o
+./debug\moc_DBManager.o
+./debug\moc_UVManager.o
+./debug\moc_ErrorManager.o
+./debug\moc_ETUManager.o
+./debug\moc_rechercheInstantaneUV.o
+);

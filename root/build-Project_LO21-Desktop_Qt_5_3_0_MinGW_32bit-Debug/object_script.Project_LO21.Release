@@ -1,0 +1,16 @@
+INPUT(
+./release\main.o
+./release\enumeration.o
+./release\DBManager.o
+./release\UVManager.o
+./release\popMessage.o
+./release\ErrorManager.o
+./release\ETUManager.o
+./release\CursusManager.o
+./release\rechercheInstantaneUV.o
+./release\moc_DBManager.o
+./release\moc_UVManager.o
+./release\moc_ErrorManager.o
+./release\moc_ETUManager.o
+./release\moc_rechercheInstantaneUV.o
+);
