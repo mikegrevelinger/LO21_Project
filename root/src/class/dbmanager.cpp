@@ -11,7 +11,7 @@ DBManager::DBManager() {
     /** Pour connaitre le chemin du repertoir courant de façon automatique */
     QString CurrentDir = QDir::currentPath();
     //reconstruction du chemin où se trouve la db
-    CurrentDir.replace("build-Project_LO21-Desktop_Qt_5_3_0_MinGW_32bit-Debug","src/database/uvs.sqlite");
+    CurrentDir.replace("build-Project_LO21-Desktop_Qt_5_3_0_MinGW_32bit-Debug","src/database/bdd.sqlite");
     qDebug() << CurrentDir;
     db.setDatabaseName(CurrentDir);
     if (!db.isValid())
@@ -87,6 +87,14 @@ int DBManager::queryNbColonne(QSqlQuery & q){
     return nb_col;
 }
 
+int DBManager::queryNbLigne(QSqlQuery &q){
+    int nombre = 0;
+    while(q.next()){
+           nombre++;
+    }
+    return nombre;
+}
+
 /*Debut UV */
 
 QVector<QVector<QString> > & DBManager::rechercheUV(QString nom){
@@ -98,10 +106,10 @@ QVector<QVector<QString> > & DBManager::rechercheUV(QString nom){
     QSqlQuery query;
     if (nom.size()<4){
         qDebug() <<"lol";
-        query.prepare("SELECT * FROM uvs WHERE uvs.nom LIKE ?");
+        query.prepare("SELECT nom,categorie,credit,description FROM uvs, categorieUV WHERE uvs.nom LIKE ? AND uvs.nom = categorieUV.uv;");
         query.addBindValue(QString("\%%1\%").arg(nom));
     } else {
-        query.prepare("SELECT * FROM uvs WHERE uvs.nom = ?"); // la requete
+        query.prepare("SELECT nom,categorie,credit,description FROM uvs, categorieUV WHERE uvs.nom = ? AND uvs.nom = categorieUV.uv;");
         query.addBindValue(nom); //permet de remplacer le ? de query.prepare par nom
     }
 
@@ -131,7 +139,7 @@ QVector<QVector<QString> > & DBManager::rechercheUV(enumeration::CategorieUV cat
         return *res;
     }
     QSqlQuery query;
-    query.prepare("SELECT * FROM uvs WHERE uvs.Categorie = ?"); // la requete
+    query.prepare("SELECT nom,categorie,credit,description FROM uvs, categorieUV WHERE uvs.nom = categorieUV.uv AND uvs.Categorie = ?"); // la requete
     query.addBindValue(enumeration::CategorieUVToString(cat)); //permet de remplacer le ? de query.prepare par le QString de cat
     if(!query.exec()) //pb lors de l'execution
     {
@@ -152,22 +160,49 @@ QVector<QVector<QString> > & DBManager::rechercheUV(enumeration::CategorieUV cat
     return *res;
 }
 
-bool DBManager::ajouteUV(QString nom, enumeration::CategorieUV cat, int credits, QString d){
+bool DBManager::ajouteUV(const QString & nom, enumeration::CategorieUV cat, const int credits, const QString & d){
     if (!openDB(db)) {
         qDebug() <<"1";
         return false;
     }
     QSqlQuery query;
     // la requete
-    query.prepare("INSERT INTO uvs (Nom,Categorie,Credits,Description) VALUES (?,?,?,?)");
+    query.prepare("INSERT INTO uvs (Nom,Description) VALUES (?,?)");
     //permet de remplacer le ? de query.prepare
     query.addBindValue(nom);
-    query.addBindValue(enumeration::CategorieUVToString(cat));
-    query.addBindValue(credits);
     query.addBindValue(d);
     if(!query.exec()) //pb lors de l'execution
     {
-        qDebug() <<"2";
+        emit sendError(QString("DBManager : Erreur execution de la requete 1 dans ajouteUV"));
+        return false;
+    }
+    query.finish();
+    query.prepare("INSERT INTO CategorieUV (Categorie,Uv,Credit) VALUES (?,?,?)");
+    query.addBindValue(enumeration::CategorieUVToString(cat));
+    query.addBindValue(nom);
+    query.addBindValue(credits);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete 2 dans ajouteUV"));
+        return false;
+    }
+    query.finish();
+    return true;
+}
+
+bool DBManager::ajouteCategorieUV(const QString & nom, enumeration::CategorieUV cat, const int credits){
+    if (!openDB(db)) {
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("INSERT INTO CategorieUV (Categorie,Uv,Credit) VALUES (?,?,?)");
+    query.addBindValue(enumeration::CategorieUVToString(cat));
+    query.addBindValue(nom);
+    query.addBindValue(credits);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteCategorieUV"));
         return false;
     }
     query.finish();
@@ -176,15 +211,24 @@ bool DBManager::ajouteUV(QString nom, enumeration::CategorieUV cat, int credits,
 
 bool DBManager::supprimeUV(QString nom) {
     if (!openDB(db)) {
+        qDebug() <<"1";
         return false;
     }
     QSqlQuery query;
-    // la requete
-    query.prepare("DELETE FROM uvs WHERE NOM = ?");
+    query.prepare("DELETE FROM categorieUV WHERE uv = ?");
     //permet de remplacer le ? de query.prepare
     query.addBindValue(nom);
     if(!query.exec()) //pb lors de l'execution
     {
+        emit sendError(QString("DBManager : Erreur execution de la requete 1 dans supprimeUV"));
+        return false;
+    }
+    query.finish();
+    query.prepare("DELETE FROM uvs WHERE nom = ?");
+    query.addBindValue(nom);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete 2 dans supprimeUV"));
         return false;
     }
     query.finish();
@@ -192,20 +236,19 @@ bool DBManager::supprimeUV(QString nom) {
 }
 
 
-bool DBManager::modifieUV(const QString & nom, enumeration::CategorieUV cat, unsigned int credits,const QString& d) {
+bool DBManager::modifieDescriptionUV(const QString & nom, const QString& d) {
     if (!openDB(db)) {
         return false;
     }
     QSqlQuery query;
     // la requete
-    query.prepare("UPDATE uvs SET categorie = ?, credits =?, description =? WHERE NOM = ?");
+    query.prepare("UPDATE uvs SET description = ? WHERE NOM = ?");
     //permet de remplacer le ? de query.prepare
-    query.addBindValue(enumeration::CategorieUVToString(cat));
-    query.addBindValue(credits);
     query.addBindValue(d);
     query.addBindValue(nom);
     if(!query.exec()) //pb lors de l'execution
     {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans modifieDescriptionUV"));
         return false;
     }
     query.finish();
@@ -220,7 +263,7 @@ int DBManager::getCreditsUV(const QString & nom){
         return -1; // -1 pour dire qu'il y a une erreur.
     }
     QSqlQuery query;
-    query.prepare("SELECT credits FROM uvs WHERE uvs.nom =?");
+    query.prepare("SELECT credits FROM uvs, categorieUV WHERE uvs.nom =? AND uvs.nom = categorieUV.uv");
     query.addBindValue(nom);
     if(!query.exec())
     {
@@ -239,7 +282,7 @@ enumeration::CategorieUV DBManager::getCategorieUV(const QString & nom){
         emit sendError(QString("DBManager : la BDD n est pas ouverte pour getCategorieUV"));
     }
     QSqlQuery query;
-    query.prepare("SELECT categorie FROM uvs WHERE uvs.nom =?");
+    query.prepare("SELECT categorie FROM uvs,categorieUV WHERE uvs.nom =? AND uvs.nom = categorieUV.uv");
     query.addBindValue(nom);
     if(!query.exec())
     {
@@ -274,29 +317,45 @@ QString DBManager::getDescriptionUV(const QString & nom){
 }
 
 /* Fin UV */
-bool DBManager::ajouteETU(QString const nom, QString const prenom, enumeration::Civilite civ, QString const nationalite, QDate const dateDeNaissance){
+/* Debut ETU */
+bool DBManager::ajouteETU(const QString &nom, const QString &prenom, enumeration::Civilite civ,
+                          const QString &nationalite, QDate const dateDeNaissance, enumeration::Saison s,
+                          const int annee, const int creditsEqui, const QString cursus, const int numeroSemestre, const int creditsTOTAL,
+                          const int creditsCS, const int creditsTM, const int creditsTSH, const int nbCreditEtranger){
     if (!openDB(db)) {
         return false;
     }
     QSqlQuery query;
     // la requete
-    query.prepare("INSERT INTO Etu (Nom,Prenom,Civilite,Nationalite,DateDeNaissance) VALUES (?,?,?,?)");
+    query.prepare("INSERT INTO dossier (NomEtu,PrenomEtu,Civilite,Nationalite,DateDeNaissance,SemestreCourant, \
+                  anneeCourante,nbCreditEquivalence,CursusCourant,numeroSemestre,nbCreditsTotal,nbCreditCs,nbCreditTm,nbCreditTSH,\
+                  nbCreditEtranger) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     //permet de remplacer le ? de query.prepare
     query.addBindValue(nom);
     query.addBindValue(prenom);
     query.addBindValue(enumeration::CiviliteToString(civ));
     query.addBindValue(nationalite);
-    //query.addBindValue(dateDeNaissance);
-    query.addBindValue(dateDeNaissance.toString("yyyyMMdd"));
+    query.addBindValue(dateDeNaissance);
+    query.addBindValue(enumeration::SaisonToString(s));
+    query.addBindValue(annee);
+    query.addBindValue(creditsEqui);
+    query.addBindValue(cursus);
+    query.addBindValue(numeroSemestre);
+    query.addBindValue(creditsTOTAL);
+    query.addBindValue(creditsCS);
+    query.addBindValue(creditsTM);
+    query.addBindValue(creditsTSH);
+    query.addBindValue(nbCreditEtranger);
     if(!query.exec()) //pb lors de l'execution
     {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteETU"));
         return false;
     }
     query.finish();
     return true;
 }
 
-QVector<QVector<QString> > & DBManager::rechercheETU(const QString nom){
+QVector<QVector<QString> > & DBManager::rechercheETU(const QString nom, const QString prenom){
     QVector<QVector<QString> > *res = new QVector<QVector<QString> >;
     if (!openDB(db)) //impossible d'ouvrir
     {
@@ -304,9 +363,9 @@ QVector<QVector<QString> > & DBManager::rechercheETU(const QString nom){
     }
     QSqlQuery query;
 
-    query.prepare("SELECT * FROM Etu WHERE Etu.nom LIKE ?");
+    query.prepare("SELECT * FROM dossier WHERE dossier.nomETU LIKE ? OR dossier.prenomEtu LIKE ?;");
     query.addBindValue(QString("\%%1\%").arg(nom));
-
+    query.addBindValue(QString("\%%1\%").arg(prenom));
     if(!query.exec()) //pb lors de l'execution
     {
         emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheUV"));
@@ -326,11 +385,54 @@ QVector<QVector<QString> > & DBManager::rechercheETU(const QString nom){
     return *res;
 }
 
-/*
-CREATE TABLE "Etu" ("Nom" VARCHAR NOT NULL ,
-                    "Prenom" VARCHAR NOT NULL ,
-                    "Civilite" VARCHAR,
-                    "Nationalite" VARCHAR,
-                    "DateDeNaissance" DATETIME NOT NULL ,
-                    PRIMARY KEY ("Nom", "Prenom", "DateDeNaissance"))
-*/
+QVector<QVector<QString> > & DBManager::rechercheETU(const QString & s){
+    return rechercheETU(s,s);
+}
+
+int DBManager::getIdETU (QString const & nom, QString const & prenom, QDate const & date){
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        return 0;
+    }
+    QSqlQuery query;
+    if (prenom.isEmpty() && date.isNull()){
+        qDebug() <<1;
+        query.prepare("SELECT id FROM dossier WHERE dossier.nomETU = ?;");
+        query.addBindValue(nom);
+    }
+    if (prenom.isEmpty() && !date.isNull()){
+        qDebug() <<2;
+        query.prepare("SELECT id FROM dossier WHERE dossier.nomETU = ? AND dossier.dateDeNaissance = ?;");
+        query.addBindValue(nom);
+        query.addBindValue(date);
+    }
+    if (!prenom.isEmpty() && date.isNull()){
+        qDebug() <<3;
+        query.prepare("SELECT id FROM dossier WHERE dossier.nomETU = ? AND dossier.prenomETU = ?;");
+        query.addBindValue(nom);
+        query.addBindValue(prenom);
+    }
+    if (!prenom.isEmpty() && !date.isNull()){
+        qDebug() <<4;
+        query.prepare("SELECT id FROM dossier WHERE dossier.nomETU = ? AND dossier.prenomETU = ? AND dossier.dateDeNaissance = ?;");
+        query.addBindValue(nom);
+        query.addBindValue(prenom);
+        query.addBindValue(date);
+    }
+    if(!query.exec()) //pb lors de l'execution
+    {
+        qDebug() <<5;
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheUV"));
+        return 0;
+    }
+    if (queryNbLigne(query)!=1){
+        qDebug() <<"Aucun ou plus d'un id pour ces informations.";
+        return 0;
+    }
+    query.first();
+    int res = query.value(0).toInt();
+    query.finish();
+    return res;
+}
+
+/* Fin ETU */

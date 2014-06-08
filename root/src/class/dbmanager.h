@@ -31,6 +31,7 @@ private:
     QSqlDatabase db;
     bool openDB(QSqlDatabase & o);
     int queryNbColonne(QSqlQuery & q);
+    int queryNbLigne (QSqlQuery & q);///<Revient au même que size() qui n'est pas implementer par SQLITE
 public:
     /* Debut SINGLETON */
     static DBManager& getInstance();
@@ -40,20 +41,26 @@ public:
     QVector<QVector<QString> > & rechercheUV(QString nom);
     ///<Permet de rechercher des uv en fonctions du nom de l'UV. Cette fonction est capable de retourner toutes les UV qui ont un nom formé de certaine lettre.
     QVector<QVector<QString> > & rechercheUV(enumeration::CategorieUV cat);
-    bool ajouteUV(QString nom, enumeration::CategorieUV cat, int credits, QString d); ///< Renvoie true si ajout effectué, false sinon
+    bool ajouteUV(const QString & nom, enumeration::CategorieUV cat, const int credits, const QString & d); ///< Renvoie true si ajout effectué, false sinon
+    bool ajouteCategorieUV(const QString & nom, enumeration::CategorieUV cat, const int credits);///< Renvoie true si ajout effectué, false sinon. Est implementee meme si on ne l'utilise jamais.
     bool supprimeUV(QString nom); ///< Renvoie true si suprression effectuée, false sinon
-    bool modifieUV(const QString & nom, enumeration::CategorieUV cat, unsigned int credits, const QString& d); ///< Renvoie true si modification effectuée, false sinon
+    bool modifieDescriptionUV(const QString & nom, const QString& d); ///< Renvoie true si modification effectuée, false sinon
     int getCreditsUV(const QString & nom);///< Renvoie -1 en cas d'erreur, sinon bonne valeur
     enumeration::CategorieUV getCategorieUV(const QString & nom);
     QString getDescriptionUV(const QString & nom);///< Renvoie un QString vide en cas d'erreur, sinon bonne valeur
     /* Fin UV */
     /* Debut ETUDIANT */
-    QVector<QVector<QString> > & rechercheETU(const QString nom);
-    bool ajouteETU(QString const nom, QString const prenom, enumeration::Civilite civ, QString const nationalite, QDate const dateDeNaissance);
-
+    QVector<QVector<QString> > & rechercheETU(const QString & s);
+    QVector<QVector<QString> > & rechercheETU(const QString nom, const QString prenom = "");
+    bool ajouteETU(QString const & nom, QString const & prenom, enumeration::Civilite civ,
+                   QString const & nationalite, QDate const dateDeNaissance, enumeration::Saison s, const int annee,
+                   const int creditsEqui = 0, QString const cursus = NULL, const int numeroSemestre = 0,  const int creditsTOTAL = 0, const int creditsCS = 0,
+                   const int creditsTM = 0, const int creditsTSH = 0, const int nbCreditEtranger = 0);
+    int getIdETU (QString const & nom, QString const & prenom = "", QDate const & date = QDate());
     /* Fin ETUDIANT */
     /*Debut CURSUS */
-
+    bool ajouteBranche(const QString & nom, const QString & descri, const int creditCS,
+                       const int creditTM, const int creditTSH, const int creditLibre, const int creditPCB, const int creditPSF);
     /* Fin CURSUS */
 signals:
     //pour l'envoi d'erreur

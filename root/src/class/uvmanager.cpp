@@ -45,6 +45,7 @@ void UVManager::ajouterUV(const QString& nom, enumeration::CategorieUV cat, unsi
     //}
 }
 
+/*
 void UVManager::modifierUV(const QString& nom, enumeration::CategorieUV cat, unsigned int nbc,const QString& description){
     if (!isExistUV(nom)) {
         emit sendError(QString("existe pas"));
@@ -53,6 +54,7 @@ void UVManager::modifierUV(const QString& nom, enumeration::CategorieUV cat, uns
        dbm.modifieUV(nom,cat,nbc,description);
     }
 }
+*/
 
 /*
 bool UVManager::rechercherUV(enumeration::CategorieUV cat)const{
