@@ -8,9 +8,13 @@ INPUT(
 ./debug\ETUManager.o
 ./debug\CursusManager.o
 ./debug\rechercheInstantaneUV.o
+./debug\DossierManager.o
+./debug\Cursus.o
+./debug\CursusFactory.o
 ./debug\moc_DBManager.o
 ./debug\moc_UVManager.o
 ./debug\moc_ErrorManager.o
 ./debug\moc_ETUManager.o
 ./debug\moc_rechercheInstantaneUV.o
+./debug\moc_DossierManager.o
 );

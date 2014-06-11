@@ -10,7 +10,10 @@ SOURCES += main.cpp \
     class/ErrorManager.cpp \
     class/ETUManager.cpp \
     class/CursusManager.cpp \
-    gui/rechercheInstantaneUV.cpp
+    gui/rechercheInstantaneUV.cpp \
+    class/DossierManager.cpp \
+    class/Cursus.cpp \
+    class/CursusFactory.cpp
 
 HEADERS += \
     enumeration/enumeration.h \
@@ -22,4 +25,7 @@ HEADERS += \
     class/ErrorManager.h \
     class/ETUManager.h \
     class/CursusManager.h \
-    gui/rechercheInstantaneUV.h
+    gui/rechercheInstantaneUV.h \
+    class/DossierManager.h \
+    class/Cursus.h \
+    class/CursusFactory.h

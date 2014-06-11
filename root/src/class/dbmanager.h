@@ -7,6 +7,8 @@
 #include <QString>
 #include <QVector>
 #include <QDate>
+#include <QStringList>
+#include <QList>
 
 #define q2c(string) string.toStdString()
 
@@ -21,7 +23,7 @@ class DBManager : public QObject
     Q_OBJECT
 private:
     /* Debut SINGLETON */
-    //DBManager(const DBManager &){}
+    DBManager(const DBManager &){}
     DBManager () ;
     void operator= (const DBManager &){}
     ~DBManager () ;
@@ -32,10 +34,6 @@ private:
     bool openDB(QSqlDatabase & o);
     int queryNbColonne(QSqlQuery & q);
     int queryNbLigne (QSqlQuery & q);///<Revient au même que size() qui n'est pas implementer par SQLITE
-    bool modifieCreditsTotalEtu(const int id, const int n);
-    bool modifieCreditsCSEtu(const int id, const int n);
-    bool modifieCreditsTMEtu(const int id, const int n);
-    bool modifieCreditsTSHEtu(const int id, const int n);
 public:
     /* Debut SINGLETON */
     static DBManager& getInstance();
@@ -43,9 +41,9 @@ public:
     /* Fin SINGLETON */
 
     /* Debut UV */
-    QVector<QVector<QString> > & rechercheUV(QString nom);
+    QList<QStringList > & rechercheUV(QString nom);
     ///<Permet de rechercher des uv en fonctions du nom de l'UV. Cette fonction est capable de retourner toutes les UV qui ont un nom formé de certaine lettre.
-    QVector<QVector<QString> > & rechercheUV(enumeration::CategorieUV cat);
+    QList<QStringList > & rechercheUV(enumeration::CategorieUV cat);
     bool ajouteUV(const QString & nom, enumeration::CategorieUV cat, enumeration::Saison s, const int credits, const QString & d); ///< Renvoie true si ajout effectué, false sinon
     bool ajouteCategorieUV(const QString & nom, enumeration::CategorieUV cat, const int credits);///< Renvoie true si ajout effectué, false sinon. Est implementee meme si on ne l'utilise jamais.
     bool supprimeUV(QString nom); ///< Renvoie true si suprression effectuée, false sinon
@@ -57,28 +55,33 @@ public:
     /* Fin UV */
 
     /* Debut ETUDIANT */
-    QVector<QVector<QString> > & rechercheETU(const QString & s);
-    QVector<QVector<QString> > & rechercheETU(const QString nom, const QString prenom = "");
+    QList<QStringList > & rechercheETU(const QString & s);
+    QList<QStringList > & rechercheETU(const QString nom, const QString prenom = "");
     bool ajouteETU(QString const & nom, QString const & prenom, enumeration::Civilite civ,
                    QString const & nationalite, QDate const dateDeNaissance, enumeration::Saison s, const int annee,
-                   const int creditsEqui = 0, QString const cursus = NULL, const int numeroSemestre = 0,  const int creditsTOTAL = 0, const int creditsCS = 0,
-                   const int creditsTM = 0, const int creditsTSH = 0, const int nbCreditEtranger = 0);
+                   const int creditsEqui = 0, QString const cursus = NULL, const int numeroSemestre = 0,
+                   const int nbCreditEtranger = 0);
     int getIdETU (QString const & nom, QString const & prenom = "", QDate const & date = QDate());
     bool ajouteInscription(int const & id, QString const & uv, enumeration::Note n, const int annee, enumeration::Saison s);
     ///< ajouteInscription : modifie les valeurs du dossier etudiant (les nbCredits) + ajoute une ligne à la table Inscription
-    int getCreditsTotalEtu(const int id);
-    int getCreditsCSEtu(const int id);
-    int getCreditsTMEtu(const int id);
-    int getCreditsTSHEtu(const int id);
+    unsigned int getCreditsEqui(const int id);
+    unsigned int getCreditsTotalEtu(const int id);
+    unsigned int getCreditsCategorie(const int id,enumeration::CategorieUV c);
+    QStringList & getInscription(const int id);
+    QStringList & getUvsEnCours(const int id);
+    QString & getCursusEtu(const int id);
     /* Fin ETUDIANT */
 
     /*Debut CURSUS */
     bool ajouteBranche(const QString & nom, const QString & descri, const int creditCS,
                        const int creditTM, const int creditTSH, const int creditLibre, const int creditPCB,
-                       const int creditPSF);
+                       const int creditPSF, const int nbSemestre);
+    bool ajouteTC (const QString & nom, const QString & descri, const int creditCS,
+                   const int creditTM, const int creditTSH, const int creditLibre, const int nbSemestre);
+    bool ajouteMineur (const QString & nom, const QString & descri, const int nbListe);
     /* Fin CURSUS */
 signals:
-    //pour l'envoi d'erreur
+    //!pour l'envoi d'erreur
     void sendError(QString e);
 };
 

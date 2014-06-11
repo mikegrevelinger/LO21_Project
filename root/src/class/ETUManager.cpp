@@ -17,7 +17,7 @@ void ETUManager::libererInstance(){
 }
 /* Fin partie SINGLETON */
 
-ETUManager::ETUManager() {
+ETUManager::ETUManager():dbm(DBManager::getInstance()) {
     //Connect pour envoyer des signaux d'erreurs
     QObject::connect(this, SIGNAL(sendError(QString)), &ErrorManager::getInstance(), SLOT(mailBoxError(QString)));
 }
@@ -28,7 +28,6 @@ ETUManager::~ETUManager(){
 
 /*
 bool ETUManager::isExistETU(const QString& name) const{
-    DBManager & dbm = DBManager::getInstance();
     if(dbm.rechercheETU(name).isEmpty()){
         return false;
     }
@@ -39,7 +38,6 @@ void ETUManager::ajouterETU(const QString& nom, const QString& prenom, enumerati
     if (!isExistETU(nom)) {
         emit sendError(QString("Il existe deja cet etudiant"));
     }else{
-       DBManager & dbm = DBManager::getInstance();
        dbm.ajouteETU(nom,prenom,civ,nationalite,date);
     }
 }
@@ -48,7 +46,6 @@ void ETUManager::modifierETU(const QString& nom,const QString& prenom, enumerati
     if (!isExistETU(nom)) {
         emit sendError(QString("cet etudiant n'existe pas"));
     }else{
-       DBManager & dbm = DBManager::getInstance();
        dbm.modifieETU(nom,prenom,civ,nationalite,date);
     }
 }
@@ -58,7 +55,6 @@ void ETUManager::supprimerETU(const QString& nom){
     if (!isExistETU(nom)) {
         emit sendError(QString("cet etudiant n'existe pas"));
     }else{
-       DBManager & dbm = DBManager::getInstance();
        dbm.supprimeETU(nom);
     }
 }

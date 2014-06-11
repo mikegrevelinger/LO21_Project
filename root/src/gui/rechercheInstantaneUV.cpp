@@ -43,7 +43,7 @@ rechercheInstantaneUV::rechercheInstantaneUV(QWidget *parent) :
 void rechercheInstantaneUV::slotRechercherUV(QString p){
     if ((!p.isNull()) && regexRechercheUV.exactMatch(p)){
         DBManager & dbm = DBManager::getInstance();
-        QVector<QVector<QString> > q = dbm.rechercheUV(p);
+        QList<QStringList > q = dbm.rechercheUV(p);
         table->setRowCount(q.size());
         for(int i = 0 ;i<q.size();i++){
             for(int j = 0;j<q[i].size();j++){

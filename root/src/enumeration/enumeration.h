@@ -43,6 +43,14 @@ namespace enumeration {
     };
     QString CiviliteToString(Civilite c);
     Civilite StringToCivilite(const QString & str);
+
+    enum Choix{
+        REJ,
+        VEUT,
+        NEUTRE
+    };
+    QString ChoixToString(Choix c);
+    Choix StringToChoix(const QString & str);
 }
 
 /**

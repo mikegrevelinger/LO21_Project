@@ -18,13 +18,14 @@ class ETUManager : public QObject
     Q_OBJECT // utilisera des signaux
 private:
     /* Debut SINGLETON */
-    ETUManager(const ETUManager &) {}
+    ETUManager(const ETUManager & e):dbm(e.dbm){}
     ETUManager () ;
-    void operator= (const ETUManager &){}
+    void operator= (const ETUManager & e){}
     ~ETUManager () ;
     friend class HandlerSingleton<ETUManager>;
     static HandlerSingleton<ETUManager> handler;
     /* Fin SINGLETON */
+    DBManager & dbm;
     bool isExistETU(const QString& name)const;
 public:
     /* Debut SINGLETON */

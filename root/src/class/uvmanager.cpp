@@ -19,7 +19,7 @@ void UVManager::libererInstance(){
 /* Fin partie SINGLETON */
 
 
-UVManager::UVManager() {
+UVManager::UVManager():dbm(DBManager::getInstance()) {
     //Connect pour envoyer des signaux d'erreurs
     QObject::connect(this, SIGNAL(sendError(QString)), &ErrorManager::getInstance(), SLOT(mailBoxError(QString)));
 }
@@ -28,7 +28,6 @@ UVManager::~UVManager(){
 }
 
 bool UVManager::isExistUV(const QString& name)const{
-    DBManager & dbm = DBManager::getInstance();
     if(dbm.rechercheUV(name).isEmpty()){
         return false;
     }
@@ -37,11 +36,9 @@ bool UVManager::isExistUV(const QString& name)const{
 
 /*
 void UVManager::ajouterUV(const QString& nom, enumeration::CategorieUV cat, unsigned int nbc,const QString& description){
-    //DBManager & dbm = DBManager::getInstance();
     //if (dbm.rechercheUV(nom).isEmpty()) {
       //  emit sendError(QString("Deja existante"));
     //}else{
-       DBManager & dbm = DBManager::getInstance();
        dbm.ajouteUV(nom,cat,nbc,description);
     //}
 }
@@ -51,7 +48,6 @@ void UVManager::modifierUV(const QString& nom, enumeration::CategorieUV cat, uns
     if (!isExistUV(nom)) {
         emit sendError(QString("existe pas"));
     }else{
-       DBManager & dbm = DBManager::getInstance();
        dbm.modifieUV(nom,cat,nbc,description);
     }
 }
@@ -59,7 +55,6 @@ void UVManager::modifierUV(const QString& nom, enumeration::CategorieUV cat, uns
 
 /*
 bool UVManager::rechercherUV(enumeration::CategorieUV cat)const{
-    DBManager & dbm = DBManager::getInstance();
     if(dbm.rechercheUV(cat).isEmpty()){
         return true;
     }else{
@@ -72,7 +67,6 @@ void UVManager::supprimerUV(const QString& nom){
     if (!isExistUV(nom)) {
         emit sendError(QString("existe pas"));
     }else{
-       DBManager & dbm = DBManager::getInstance();
        dbm.supprimeUV(nom);
     }
 }

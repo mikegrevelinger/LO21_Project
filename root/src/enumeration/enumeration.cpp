@@ -78,6 +78,21 @@ namespace enumeration{
         if (str=="Madame") return enumeration::Madame;
         if (str=="Mademoiselle") return enumeration::Mademoiselle;
     }
+
+    Choix StringToChoix(const QString & str)
+    {
+        if(str=="VEUT") return enumeration::VEUT;
+        if(str=="REJ") return enumeration::REJ;
+        if(str=="NEUTRE") return enumeration::NEUTRE;
+    }
+
+    QString ChoixToString(Choix c){
+        switch(c){
+        case enumeration::VEUT: return "VEUT";
+        case enumeration::REJ: return "REJ";
+        case enumeration::NEUTRE: return"NEUTRE";
+        }
+    }
 }
 
 

@@ -24,6 +24,7 @@ private:
     friend class HandlerSingleton<UVManager>;
     static HandlerSingleton<UVManager> handler;
     /* Fin SINGLETON */
+    DBManager & dbm;
     bool isExistUV(const QString& name) const;
 public:
     /* Debut SINGLETON */

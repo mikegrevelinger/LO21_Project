@@ -12,25 +12,25 @@
 
 class CursusManager
 {
-    private:
-        /* Debut SINGLETON */
-        CursusManager(const CursusManager &){}
-        CursusManager () {}
-        void operator= (const CursusManager &){}
-        ~CursusManager () {}
-        friend class HandlerSingleton<CursusManager>;
-        static HandlerSingleton<CursusManager> handler;
-        /* Fin SINGLETON */
-    public:
-        /* Debut SINGLETON */
-        static CursusManager& getInstance();
-        static void libererInstance();
-        /* Fin SINGLETON */
+private:
+    /* Debut SINGLETON */
+    CursusManager(const CursusManager &){}
+    CursusManager () {}
+    void operator= (const CursusManager &){}
+    ~CursusManager () {}
+    friend class HandlerSingleton<CursusManager>;
+    static HandlerSingleton<CursusManager> handler;
+    /* Fin SINGLETON */
+public:
+    /* Debut SINGLETON */
+    static CursusManager & getInstance();
+    static void libererInstance();
+    /* Fin SINGLETON */
 
-        void AssoObligatoire(QString& nom, QString& uv);
-        void AssoNonObligatoire(QString& nom, QString& uv);
-        void ajouterCursus(const QString& nom,const QString& description);
-        void AjouterAsso(QString& nom,QString& uv);
+    void AssoObligatoire(QString& nom, QString& uv);
+    void AssoNonObligatoire(QString& nom, QString& uv);
+    void ajouterCursus(const QString& nom,const QString& description);
+    void AjouterAsso(QString& nom,QString& uv);
 };
 
 
