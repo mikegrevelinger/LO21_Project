@@ -12,10 +12,16 @@ INPUT(
 ./release\Cursus.o
 ./release\CursusFactory.o
 ./release\VisitorCursus.o
+./release\MainWindow.o
+./release\menuIcon.o
+./release\ClickableQLabel.o
 ./release\moc_DBManager.o
 ./release\moc_UVManager.o
 ./release\moc_ErrorManager.o
 ./release\moc_ETUManager.o
 ./release\moc_rechercheInstantaneUV.o
 ./release\moc_DossierManager.o
+./release\moc_MainWindow.o
+./release\moc_menuIcon.o
+./release\moc_ClickableQLabel.o
 );

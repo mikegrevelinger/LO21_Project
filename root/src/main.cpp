@@ -4,6 +4,7 @@
 #include "./class/UVManager.h"
 #include "./class/ETUManager.h"
 #include "./gui/rechercheInstantaneUV.h"
+#include "./gui/MainWindow.h"
 
 #include <QApplication>
 #include <iostream>
@@ -27,8 +28,10 @@ int main(int countArg, char **listArg)
                    const int creditsEqui = 0, QString const cursus = NULL, const int numeroSemestre = 0,  const int creditsTOTAL = 0, const int creditsCS = 0,
                    const int creditsTM = 0, const int creditsTSH = 0, const int nbCreditEtranger = 0);
     */
-    qDebug() << dbm.getCursusEtu(25);
-    rechercheInstantaneUV ri;
-    ri.show();
+    qDebug() << dbm.getCursusEtu(1);
+    //rechercheInstantaneUV ri;
+    //ri.show();
+    MainWindow m;
+    m.show();
     return app.exec();
 }

@@ -19,6 +19,7 @@ DBManager::DBManager() {
         qDebug() << "Impossible de se connecter a la base de donnees";
         emit sendError(QString("Impossible de se connecter a la base de donnees"));
     }
+    /*
     qDebug() <<"lol";
     if (!openDB(db)) //impossible d'ouvrir
     {
@@ -41,6 +42,7 @@ DBManager::DBManager() {
     }
     query.first();
     qDebug() << query.value(0).toString();
+    */
 }
 
 DBManager::~DBManager(){

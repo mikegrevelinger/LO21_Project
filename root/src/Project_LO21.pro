@@ -14,7 +14,10 @@ SOURCES += main.cpp \
     class/DossierManager.cpp \
     class/Cursus.cpp \
     class/CursusFactory.cpp \
-    class/VisitorCursus.cpp
+    class/VisitorCursus.cpp \
+    gui/MainWindow.cpp \
+    gui/menuIcon.cpp \
+    gui/ClickableQLabel.cpp
 
 HEADERS += \
     enumeration/enumeration.h \
@@ -30,4 +33,10 @@ HEADERS += \
     class/DossierManager.h \
     class/Cursus.h \
     class/CursusFactory.h \
-    class/VisitorCursus.h
+    class/VisitorCursus.h \
+    gui/MainWindow.h \
+    gui/menuIcon.h \
+    gui/ClickableQLabel.h
+
+FORMS += \
+    gui/mainwindow.ui
