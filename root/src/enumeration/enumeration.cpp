@@ -15,6 +15,7 @@ namespace enumeration{
         if (str=="EC") return enumeration::EC;
         if (str=="INSCRIT") return enumeration::INSCRIT;
         if (str=="RES") return enumeration::RES;
+        return enumeration::ErrorNote;
     }
 
     QString NoteToString(Note n){
@@ -47,12 +48,14 @@ namespace enumeration{
         if (str=="Automne") return enumeration::Automne;
         if (str=="Printemps") return enumeration::Printemps;
         if (str=="Tout") return enumeration::Tout;
+        return enumeration::ErrorSaison;
     }
 
     CategorieUV StringToCategorieUV(const QString& str){
         if (str=="CS") return enumeration::CS;
         if (str=="TM") return enumeration::TM;
         if (str=="TSH") return enumeration::TSH;
+        return enumeration::ErrorCategorieUV;
     }
 
     QString CategorieUVToString(CategorieUV c){
@@ -77,6 +80,7 @@ namespace enumeration{
         if (str=="Monsieur") return enumeration::Monsieur;
         if (str=="Madame") return enumeration::Madame;
         if (str=="Mademoiselle") return enumeration::Mademoiselle;
+        return enumeration::ErrorCivilite;
     }
 
     Choix StringToChoix(const QString & str)
@@ -84,6 +88,7 @@ namespace enumeration{
         if(str=="VEUT") return enumeration::VEUT;
         if(str=="REJ") return enumeration::REJ;
         if(str=="NEUTRE") return enumeration::NEUTRE;
+        return enumeration::ErrorChoix;
     }
 
     QString ChoixToString(Choix c){
@@ -91,8 +96,28 @@ namespace enumeration{
         case enumeration::VEUT: return "VEUT";
         case enumeration::REJ: return "REJ";
         case enumeration::NEUTRE: return"NEUTRE";
+        default: return "";
         }
     }
+
+    QString TypeCursusToString(TypeCursus c){
+        switch(c){
+        case enumeration::TypeTc: return "TypeTc";
+        case enumeration::TypeTcAvecUvObligatoire: return "TypeTcAvecUvObligatoire";
+        case enumeration::TypeBranche: return "TypeBranche";
+        case enumeration::TypeBrancheAvecUvObligatoire: return "TypeBrancheAvecUvObligatoire";
+        default: return "";
+        }
+    }
+
+    TypeCursus StringToTypeCursus(const QString & str){
+        if(str=="TypeTc") return enumeration::TypeTc;
+        if(str=="TypeTcAvecUvObligatoire") return enumeration::TypeTcAvecUvObligatoire;
+        if(str=="TypeBranche") return enumeration::TypeBranche;
+        if(str=="TypeBrancheAvecUvObligatoire") return enumeration::TypeBrancheAvecUvObligatoire;
+        return enumeration::ErrorTypeCursus;
+    }
+
 }
 
 

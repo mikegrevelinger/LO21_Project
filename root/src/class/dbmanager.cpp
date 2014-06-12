@@ -282,6 +282,7 @@ enumeration::CategorieUV DBManager::getCategorieUV(const QString & nom){
     if (!openDB(db)) //impossible d'ouvrir la BDD
     {
         emit sendError(QString("DBManager : la BDD n est pas ouverte pour getCategorieUV"));
+        return enumeration::ErrorCategorieUV;
     }
     QSqlQuery query;
     query.prepare("SELECT categorie FROM uvs,categorieUV WHERE uvs.nom =? AND uvs.nom = categorieUV.uv");
@@ -289,6 +290,7 @@ enumeration::CategorieUV DBManager::getCategorieUV(const QString & nom){
     if(!query.exec())
     {
         emit sendError(QString("DBManager : Erreur execution de la requete dans getCategorieUV"));
+        return enumeration::ErrorCategorieUV;
     }
     query.first();
     QString res = query.value(0).toString();
@@ -322,6 +324,7 @@ enumeration::Saison DBManager::getSaisonUV(const QString & uv){
     if (!openDB(db)) //impossible d'ouvrir la BDD
     {
         emit sendError(QString("DBManager : la BDD n est pas ouverte pour getSaisonUV"));
+        return enumeration::ErrorSaison;
     }
     QSqlQuery query;
     query.prepare("SELECT SemestreEnseigne FROM uvs WHERE uvs.nom =?");
@@ -329,6 +332,7 @@ enumeration::Saison DBManager::getSaisonUV(const QString & uv){
     if(!query.exec())
     {
         emit sendError(QString("DBManager : Erreur execution de la requete dans getSaisonUV"));
+        return enumeration::ErrorSaison;
     }
     query.first();
     QString res = query.value(0).toString();
@@ -641,7 +645,7 @@ QString & DBManager::getCursusEtu(const int id){
         return *cur;
     }
     QSqlQuery query;
-    query.prepare("Select CursusCourant FROM Dossier WHERE Inscription.id=?"); // la requete pour avoir toutes les uvs en cours.
+    query.prepare("Select CursusCourant FROM Dossier WHERE dossier.id=?"); // la requete pour avoir toutes les uvs en cours.
     query.addBindValue(id); //permet de remplacer le ? de query.prepare par l'id de l'étudiant
     if(!query.exec()) //pb lors de l'execution
     {
@@ -731,6 +735,69 @@ bool DBManager::ajouteMineur (const QString & nom, const QString & descri, const
     }
     query.finish();
     return true;
+}
+
+
+enumeration::TypeCursus DBManager::getTypeCursus(const QString & nom){
+    if (!openDB(db)) {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour getTypeCursus"));
+        return enumeration::ErrorTypeCursus;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("SELECT uv FROM tcPourUV WHERE tcPourUV.nomCursus = ? AND tcPourUV.obligatoire = 0");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(nom);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getTypeCursus"));
+        return enumeration::ErrorTypeCursus;
+    }
+    QString res = query.value(0).toString();
+    query.finish();
+    if (!res.isEmpty()){
+        return enumeration::TypeTc;
+    }
+    query.prepare("SELECT uv FROM tcPourUV WHERE tcPourUV.nomCursus = ? AND tcPourUV.obligatoire = 1");
+    query.addBindValue(nom);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getTypeCursus"));
+        return enumeration::ErrorTypeCursus;
+    }
+    res = query.value(0).toString();
+    query.finish();
+    if (!res.isEmpty()){
+        return enumeration::TypeTcAvecUvObligatoire;
+    }
+    if (!res.isEmpty()){
+        return enumeration::TypeTc;
+    }
+    query.prepare("SELECT uv FROM BranchePourUv WHERE BranchePourUv.nom = ? AND tcPourUV.obligatoire = 0");
+    query.addBindValue(nom);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getTypeCursus"));
+        return enumeration::ErrorTypeCursus;
+    }
+    res = query.value(0).toString();
+    query.finish();
+    if (!res.isEmpty()){
+        return enumeration::TypeBranche;
+    }
+    query.prepare("SELECT uv FROM BranchePourUv WHERE BranchePourUv.nom = ? AND tcPourUV.obligatoire = 1");
+    query.addBindValue(nom);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getTypeCursus"));
+        return enumeration::ErrorTypeCursus;
+    }
+    res = query.value(0).toString();
+    query.finish();
+    if (!res.isEmpty()){
+        return enumeration::TypeBrancheAvecUvObligatoire;
+    }
+    return enumeration::ErrorTypeCursus;
 }
 
 /* Fin Cursus */

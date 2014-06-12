@@ -2,13 +2,13 @@
 #define CURSUSFACTORY_H
 
 #include "Cursus.h"
+#include "./enumeration/enumeration.h"
 
-/*
 class CursusFactory {
 public:
     CursusFactory(){}
     Cursus * makeCursus(const int id);
-    C * makeCursus(const QString & nomCursus);
+    Cursus * makeCursus(const QString & nomCursus);
 };
-*/
+
 #endif // CURSUSFACTORY_H

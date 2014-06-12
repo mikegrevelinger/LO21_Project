@@ -11,6 +11,7 @@ INPUT(
 ./release\DossierManager.o
 ./release\Cursus.o
 ./release\CursusFactory.o
+./release\VisitorCursus.o
 ./release\moc_DBManager.o
 ./release\moc_UVManager.o
 ./release\moc_ErrorManager.o

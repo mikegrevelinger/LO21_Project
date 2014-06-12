@@ -11,6 +11,7 @@ INPUT(
 ./debug\DossierManager.o
 ./debug\Cursus.o
 ./debug\CursusFactory.o
+./debug\VisitorCursus.o
 ./debug\moc_DBManager.o
 ./debug\moc_UVManager.o
 ./debug\moc_ErrorManager.o

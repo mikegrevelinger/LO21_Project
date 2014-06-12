@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     gui/rechercheInstantaneUV.cpp \
     class/DossierManager.cpp \
     class/Cursus.cpp \
-    class/CursusFactory.cpp
+    class/CursusFactory.cpp \
+    class/VisitorCursus.cpp
 
 HEADERS += \
     enumeration/enumeration.h \
@@ -28,4 +29,5 @@ HEADERS += \
     gui/rechercheInstantaneUV.h \
     class/DossierManager.h \
     class/Cursus.h \
-    class/CursusFactory.h
+    class/CursusFactory.h \
+    class/VisitorCursus.h

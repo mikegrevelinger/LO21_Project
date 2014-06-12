@@ -26,6 +26,8 @@ public:
     static CursusManager & getInstance();
     static void libererInstance();
     /* Fin SINGLETON */
+    bool isTypeTC(const QString & n);
+    bool isTypeBranche(const QString & n);
 
     void AssoObligatoire(QString& nom, QString& uv);
     void AssoNonObligatoire(QString& nom, QString& uv);

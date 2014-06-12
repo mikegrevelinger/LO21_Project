@@ -79,6 +79,7 @@ public:
     bool ajouteTC (const QString & nom, const QString & descri, const int creditCS,
                    const int creditTM, const int creditTSH, const int creditLibre, const int nbSemestre);
     bool ajouteMineur (const QString & nom, const QString & descri, const int nbListe);
+    enumeration::TypeCursus getTypeCursus(const QString & nom); ///<Le cursus doit avoir au moins une UV enregistré pour que cette fonction retourne un type correct
     /* Fin CURSUS */
 signals:
     //!pour l'envoi d'erreur
