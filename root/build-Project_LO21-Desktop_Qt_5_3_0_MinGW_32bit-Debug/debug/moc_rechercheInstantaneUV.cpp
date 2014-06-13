@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_rechercheInstantaneUV_t {
-    QByteArrayData data[7];
-    char stringdata[65];
+    QByteArrayData data[8];
+    char stringdata[87];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,10 +35,12 @@ QT_MOC_LITERAL(2, 39, 0),
 QT_MOC_LITERAL(3, 40, 1),
 QT_MOC_LITERAL(4, 42, 12),
 QT_MOC_LITERAL(5, 55, 4),
-QT_MOC_LITERAL(6, 60, 4)
+QT_MOC_LITERAL(6, 60, 4),
+QT_MOC_LITERAL(7, 65, 21)
     },
     "rechercheInstantaneUV\0slotRechercherUV\0"
-    "\0p\0cellSelected\0nRow\0nCol"
+    "\0p\0cellSelected\0nRow\0nCol\0"
+    "ouvrirDialogAjouterUV"
 };
 #undef QT_MOC_LITERAL
 
@@ -48,7 +50,7 @@ static const uint qt_meta_data_rechercheInstantaneUV[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -56,12 +58,14 @@ static const uint qt_meta_data_rechercheInstantaneUV[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   24,    2, 0x0a /* Public */,
-       4,    2,   27,    2, 0x0a /* Public */,
+       1,    1,   29,    2, 0x0a /* Public */,
+       4,    2,   32,    2, 0x0a /* Public */,
+       7,    0,   37,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::QString,    3,
     QMetaType::Void, QMetaType::Int, QMetaType::Int,    5,    6,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -73,6 +77,7 @@ void rechercheInstantaneUV::qt_static_metacall(QObject *_o, QMetaObject::Call _c
         switch (_id) {
         case 0: _t->slotRechercherUV((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 1: _t->cellSelected((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 2: _t->ouvrirDialogAjouterUV(); break;
         default: ;
         }
     }
@@ -103,13 +108,13 @@ int rechercheInstantaneUV::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 3)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }

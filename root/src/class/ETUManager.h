@@ -20,7 +20,7 @@ private:
     /* Debut SINGLETON */
     ETUManager(const ETUManager & e):dbm(e.dbm){}
     ETUManager () ;
-    void operator= (const ETUManager & e){}
+    void operator= (const ETUManager &){}
     ~ETUManager () ;
     friend class HandlerSingleton<ETUManager>;
     static HandlerSingleton<ETUManager> handler;

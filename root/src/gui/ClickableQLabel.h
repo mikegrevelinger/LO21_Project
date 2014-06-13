@@ -9,7 +9,7 @@ class ClickableQLabel : public QLabel
 protected:
     void mousePressEvent (QMouseEvent * event) ;
 public:
-    ClickableQLabel(QWidget * parent = 0);
+    ClickableQLabel( QWidget * parent = 0);
     ClickableQLabel(const QString & q, QWidget * parent = 0);
     ~ClickableQLabel();
 signals:

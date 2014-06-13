@@ -3,6 +3,9 @@
 
 #include <QDialog>
 
+#include "./class/UVManager.h"
+#include "./enumeration/enumeration.h"
+
 namespace Ui {
 class dialogAjouterUV;
 }
@@ -10,13 +13,13 @@ class dialogAjouterUV;
 class dialogAjouterUV : public QDialog
 {
     Q_OBJECT
-
+private:
+    Ui::dialogAjouterUV *ui;
 public:
     explicit dialogAjouterUV(QWidget *parent = 0);
     ~dialogAjouterUV();
-
-private:
-    Ui::dialogAjouterUV *ui;
+public slots:
+    void ajoutEtudiant();
 };
 
 #endif // DIALOGAJOUTERUV_H

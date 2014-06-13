@@ -3,6 +3,10 @@
 
 #include "rechercheInstantaneUV.h"
 #include "menuIcon.h"
+#include "./class/HandlerSingleton.h"
+#include "dialogAjouterCursus.h"
+#include "dialogAjouterDossier.h"
+#include "dialogAjouterUV.h"
 
 #include <QMainWindow>
 
@@ -13,13 +17,11 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
 private:
     Ui::MainWindow *ui;
+public:
+    MainWindow (QWidget *parent = 0);
+    ~MainWindow ();
 };
 
 #endif // MAINWINDOW_H

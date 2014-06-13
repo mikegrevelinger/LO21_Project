@@ -8,6 +8,15 @@ rechercheInstantaneUV::rechercheInstantaneUV(QWidget *parent) :
     label = new QLabel(this);
     label->setText("Double cliquer sur la ligne pour modifier l'UV");
     message = new QLabel(this);
+    searchPixmap = new QPixmap(QString("iconSearch.png"));
+    search = new QLabel(this);
+    search->setPixmap(*searchPixmap);
+    search->setFixedSize(QSize(32,32));
+
+    ajoutUVPixmap = new QPixmap(QString("iconAjout.png"));
+    ajoutUV = new ClickableQLabel(this);
+    ajoutUV->setPixmap(*ajoutUVPixmap);
+    ajoutUV->setFixedSize(QSize(32,32));
 
     table = new QTableWidget(this);
     table->setColumnCount(4);
@@ -29,14 +38,17 @@ rechercheInstantaneUV::rechercheInstantaneUV(QWidget *parent) :
 
     table->setItem(0,0,new QTableWidgetItem("Nom"));
 
-    layout->addWidget(l, 0, 0);
-    layout->addWidget(label,1,0);
-    layout->addWidget(message,2,0);
-    layout->addWidget(table,3,0);
+    layout->addWidget(search,0,0,3,1);
+    layout->addWidget(l,0,1);
+    layout->addWidget(ajoutUV,0,2,3,1);
+    layout->addWidget(label,1,1);
+    layout->addWidget(message,2,1);
+    layout->addWidget(table,3,0,1,3);
     setLayout(layout);
 
     QObject::connect(l, SIGNAL(textChanged(QString)), this, SLOT(slotRechercherUV(QString)));
     QObject::connect(table, SIGNAL(cellDoubleClicked(int , int)), this, SLOT(cellSelected(int , int)));
+    QObject::connect(ajoutUV, SIGNAL(clicked()), this, SLOT(ouvrirDialogAjouterUV()));
 }
 
 
@@ -75,4 +87,9 @@ void rechercheInstantaneUV::slotRechercherUV(QString p){
 void rechercheInstantaneUV::cellSelected(int nRow, int nCol)
 {
     QMessageBox::information(this, "","Cell at row "+QString::number(nRow)+" column "+QString::number(nCol)+" was double clicked.");
+}
+
+void rechercheInstantaneUV::ouvrirDialogAjouterUV() {
+    dialogAjouterUV * dUV = new dialogAjouterUV;
+    dUV->exec();
 }

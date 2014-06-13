@@ -13,8 +13,8 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QStatusBar>
@@ -31,39 +31,46 @@ public:
     QWidget *verticalLayoutWidget;
     QVBoxLayout *groupBoxLayout;
     QGroupBox *groupBox;
-    QWidget *gridLayoutWidget;
-    QGridLayout *LayoutBody;
+    QWidget *verticalLayoutWidget_2;
+    QVBoxLayout *LayoutBody;
+    QHBoxLayout *menuBody;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(800, 500);
+        MainWindow->resize(1000, 590);
         MainWindow->setMinimumSize(QSize(0, 0));
         MainWindow->setMaximumSize(QSize(1000, 600));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         centralwidget->setMinimumSize(QSize(0, 0));
-        centralwidget->setMaximumSize(QSize(800, 500));
+        centralwidget->setMaximumSize(QSize(1000, 580));
         groupBoxMenu = new QGroupBox(centralwidget);
         groupBoxMenu->setObjectName(QStringLiteral("groupBoxMenu"));
-        groupBoxMenu->setGeometry(QRect(250, 10, 300, 100));
+        groupBoxMenu->setGeometry(QRect(300, 20, 400, 100));
+        groupBoxMenu->setMaximumSize(QSize(500, 125));
         verticalLayoutWidget = new QWidget(groupBoxMenu);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(30, 20, 241, 71));
+        verticalLayoutWidget->setGeometry(QRect(30, 20, 351, 71));
         groupBoxLayout = new QVBoxLayout(verticalLayoutWidget);
         groupBoxLayout->setObjectName(QStringLiteral("groupBoxLayout"));
         groupBoxLayout->setContentsMargins(0, 0, 0, 0);
         groupBox = new QGroupBox(centralwidget);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(30, 130, 730, 330));
-        gridLayoutWidget = new QWidget(groupBox);
-        gridLayoutWidget->setObjectName(QStringLiteral("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(20, 30, 691, 281));
-        LayoutBody = new QGridLayout(gridLayoutWidget);
+        groupBox->setGeometry(QRect(50, 140, 900, 400));
+        verticalLayoutWidget_2 = new QWidget(groupBox);
+        verticalLayoutWidget_2->setObjectName(QStringLiteral("verticalLayoutWidget_2"));
+        verticalLayoutWidget_2->setGeometry(QRect(20, 30, 851, 351));
+        LayoutBody = new QVBoxLayout(verticalLayoutWidget_2);
         LayoutBody->setObjectName(QStringLiteral("LayoutBody"));
         LayoutBody->setContentsMargins(0, 0, 0, 0);
+        menuBody = new QHBoxLayout();
+        menuBody->setObjectName(QStringLiteral("menuBody"));
+
+        LayoutBody->addLayout(menuBody);
+
         MainWindow->setCentralWidget(centralwidget);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
@@ -78,7 +85,7 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         groupBoxMenu->setTitle(QApplication::translate("MainWindow", "Menu", 0));
-        groupBox->setTitle(QApplication::translate("MainWindow", "Body", 0));
+        groupBox->setTitle(QApplication::translate("MainWindow", "Move your body ! Shake your body !", 0));
     } // retranslateUi
 
 };

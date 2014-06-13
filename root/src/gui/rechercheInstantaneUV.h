@@ -17,9 +17,12 @@
 #include <QHeaderView>
 #include <QMessageBox>
 #include <QAbstractItemView>
+#include <QPixmap>
 
 #include "./class/UVManager.h"
 #include "./class/DBManager.h"
+#include "ClickableQLabel.h"
+#include "MainWindow.h"
 
 class rechercheInstantaneUV : public QWidget
 {
@@ -33,11 +36,16 @@ private:
     QHeaderView * header;
     QLabel * message;
     QStringList headerText;
+    QPixmap * searchPixmap;
+    QLabel * search;
+    QPixmap * ajoutUVPixmap;
+    ClickableQLabel * ajoutUV;
 public:
     rechercheInstantaneUV(QWidget *parent = 0);
 public slots:
     void slotRechercherUV(QString p);
     void cellSelected(int nRow, int nCol);
+    void ouvrirDialogAjouterUV();
 };
 
 

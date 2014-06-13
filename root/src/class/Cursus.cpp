@@ -7,7 +7,6 @@ bool Cursus::remplireCursus(){
 }
 
 void Cursus::accept(class Visitor &v){
-
 }
 
 Cursus::~Cursus(){
