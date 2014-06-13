@@ -15,6 +15,7 @@ INPUT(
 ./release\MainWindow.o
 ./release\menuIcon.o
 ./release\ClickableQLabel.o
+./release\dialogAjouterUV.o
 ./release\moc_DBManager.o
 ./release\moc_UVManager.o
 ./release\moc_ErrorManager.o
@@ -24,4 +25,5 @@ INPUT(
 ./release\moc_MainWindow.o
 ./release\moc_menuIcon.o
 ./release\moc_ClickableQLabel.o
+./release\moc_dialogAjouterUV.o
 );

@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     class/VisitorCursus.cpp \
     gui/MainWindow.cpp \
     gui/menuIcon.cpp \
-    gui/ClickableQLabel.cpp
+    gui/ClickableQLabel.cpp \
+    gui/dialogAjouterUV.cpp
 
 HEADERS += \
     enumeration/enumeration.h \
@@ -36,7 +37,9 @@ HEADERS += \
     class/VisitorCursus.h \
     gui/MainWindow.h \
     gui/menuIcon.h \
-    gui/ClickableQLabel.h
+    gui/ClickableQLabel.h \
+    gui/dialogAjouterUV.h
 
 FORMS += \
-    gui/mainwindow.ui
+    gui/mainwindow.ui \
+    gui/dialogAjouterUV.ui

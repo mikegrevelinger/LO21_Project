@@ -15,6 +15,7 @@ INPUT(
 ./debug\MainWindow.o
 ./debug\menuIcon.o
 ./debug\ClickableQLabel.o
+./debug\dialogAjouterUV.o
 ./debug\moc_DBManager.o
 ./debug\moc_UVManager.o
 ./debug\moc_ErrorManager.o
@@ -24,4 +25,5 @@ INPUT(
 ./debug\moc_MainWindow.o
 ./debug\moc_menuIcon.o
 ./debug\moc_ClickableQLabel.o
+./debug\moc_dialogAjouterUV.o
 );
