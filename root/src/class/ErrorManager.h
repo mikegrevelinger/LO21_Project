@@ -17,7 +17,7 @@ class ErrorManager : public QObject
 {
     Q_OBJECT
     /* Debut SINGLETON */
-    //ErrorManager(const ErrorManager &){}
+    ///<ErrorManager(const ErrorManager &){}
     ErrorManager () {}
     void operator= (const ErrorManager &){}
     ~ErrorManager () {}

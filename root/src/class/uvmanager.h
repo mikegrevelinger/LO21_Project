@@ -17,7 +17,7 @@ class UVManager : public QObject
     Q_OBJECT // utilisera des signaux
 private:
     /* Debut SINGLETON */
-    UVManager(const UVManager &);
+    ///<UVManager(const UVManager &) {}
     UVManager () ;
     void operator= (const UVManager &){}
     ~UVManager () ;

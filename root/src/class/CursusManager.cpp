@@ -20,26 +20,20 @@ void CursusManager::libererInstance(){
 }
 /* Fin partie SINGLETON */
 
-
-/*
-void CursusManager::AssoObligatoire(QString& nom, QString& uv){
+bool CursusManager::isTypeTC(const QString &cursus)
+{
     DBManager & dbm = DBManager::getInstance();
-    dbm.ajouteAsso(nom,uv,1);
+    if(dbm.getTypeCursus(cursus)==enumeration::TypeTc || dbm.getTypeCursus(cursus)==enumeration::TypeTcAvecUvObligatoire)
+        return true;
+    else
+        return false;
 }
 
-
-void CursusManager::AssoNonObligatoire(QString& nom, QString& uv){
-    DBManager & dbm = DBManager::getInstance();
-    dbm.ajouteAsso(nom,uv,0);
+bool CursusManager::isTypeBranche(const QString &cursus)
+{
+    DBManager &dbm = DBManager::getInstance();
+    if(dbm.getTypeCursus(cursus)==enumeration::TypeBranche || dbm.getTypeCursus(cursus)==enumeration::TypeBrancheAvecUvObligatoire)
+        return true;
+    else
+        return false;
 }
-
-void CursusManager::AjouterCursus(QString& nom,QString& uv){
-    DBManager& dbm = DBManager::getInstance();
-    dbm.ajouteCursus(nom,uv);
-}
-
-void CursusManager::AjouterAsso(QString& nom,QString& uv){
-    DBManager& dbm = DBManager::getInstance();
-    dbm.ajouteAsso(nom,uv);
-}
-*/

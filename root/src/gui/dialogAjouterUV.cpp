@@ -6,8 +6,12 @@ dialogAjouterUV::dialogAjouterUV(QWidget *parent) :
     ui(new Ui::dialogAjouterUV)
 {
     ui->setupUi(this);
-    ui->comboBoxCat->addItem(QString("lol"));
-    ui->comboBoxSemestre->addItem(QString("lol"));
+    for (int i = enumeration::CS; i != enumeration::ErrorCategorieUV;i++){
+        ui->comboBoxCat->addItem(enumeration::CategorieUVToString(static_cast<enumeration::CategorieUV>(i)));
+    }
+    for (int i = enumeration::Automne; i != enumeration::ErrorSaison;i++){
+        ui->comboBoxSemestre->addItem(enumeration::SaisonToString(static_cast<enumeration::Saison>(i)));
+    }
     QObject::connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(ajoutEtudiant()));
 }
 

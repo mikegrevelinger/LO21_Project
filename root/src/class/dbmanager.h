@@ -23,7 +23,7 @@ class DBManager : public QObject
     Q_OBJECT
 private:
     /* Debut SINGLETON */
-    DBManager(const DBManager &){}
+    ///<DBManager(const DBManager &){} : D'après quelques recherces : QObject does not support copying. It's copy constructor is not public.
     DBManager () ;
     void operator= (const DBManager &){}
     ~DBManager () ;
@@ -31,8 +31,8 @@ private:
     static HandlerSingleton<DBManager> handler;
     /* Fin SINGLETON */
     QSqlDatabase db;
-    bool openDB(QSqlDatabase & o);
-    int queryNbColonne(QSqlQuery & q);
+    bool openDB(QSqlDatabase & o);///<Pour connaitre le nombre de colonne de la requete q
+    int queryNbColonne(QSqlQuery & q);///<Pour connaitre le nombre de ligne de la requete q
     int queryNbLigne (QSqlQuery & q);///<Revient au même que size() qui n'est pas implementer par SQLITE
 public:
     /* Debut SINGLETON */
@@ -78,9 +78,35 @@ public:
                        const int creditPSF, const int nbSemestre);
     bool ajouteTC (const QString & nom, const QString & descri, const int creditCS,
                    const int creditTM, const int creditTSH, const int creditLibre, const int nbSemestre);
+    bool ajouteFilliere (const QString & nom, const QString & descri, const int nbCredit, const QString &cursus);
     bool ajouteMineur (const QString & nom, const QString & descri, const int nbListe);
     enumeration::TypeCursus getTypeCursus(const QString & nom); ///<Le cursus doit avoir au moins une UV enregistré pour que cette fonction retourne un type correct
+    bool obligatoireTC(const QString cursus, const QString UV); ///< Renvoie true si l'uv est obligatoire(Pour un cursus TC), false sinon
+    bool obligatoireBranche(const QString cursus, const QString UV); ///< Renvoie true si l'uv est obligatoire(Pour un cursus Branche), false sinon
+    bool obligatoireMineur(const QString cursus, const QString UV); ///< Renvoie true si l'uv est obligatoire pour un Mineur donné, false sinon
+    int getNbCreditCSBranche(const QString cursus);
+    int getNbCreditTMBranche(const QString cursus);
+    int getNbCreditTSHBranche(const QString cursus);
+    int getNbCreditCursusBranche(const QString cursus);
+    int getNbCreditPCB(const QString cursus);
+    int getNbCreditPSF(const QString cursus);
+    int getNbCreditCSTC(const QString cursus);
+    int getNbCreditTMTC(const QString cursus);
+    int getNbCreditTSHTC(const QString cursus);
+    int getNbCreditCursusTC(const QString cursus);
     /* Fin CURSUS */
+
+    /* Debut choix */
+    bool NewUvREJ(const QString UV,const int id); ///<Permet de modifier/Ajouter le choix d'une UV à REJ
+    bool NewUvVEUT(const QString UV, const int id); ///< Permet de modifier/Ajouter le choix d'une UV à VEUT
+    enumeration::Choix getChoix(const QString & nom, const int &id);///< Renvoit le choix pour une UV donnée d'un étudiant
+    /* Fin choix */
+
+    /* Debut pour Prevision */
+    bool inscriptionUValide(const int id,const QString UV,const int annee,const QString semestre); ///< Permet d'inscrire les UVS selectionnées et validées par l'étudiant lors de la prévision
+    bool AnnulationPrevision(const int id);
+    /* Fin pour Prevision */
+
 signals:
     //!pour l'envoi d'erreur
     void sendError(QString e);

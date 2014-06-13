@@ -70,6 +70,7 @@ void DBManager::libererInstance(){
 
 /* Fin partie SINGLETON */
 /* Debut METHODE PRIVEE */
+
 //Fonction d'ouverture d'un base de donnee o
 bool DBManager::openDB(QSqlDatabase & o){
     if (!o.open()) //impossible d'ouvrir
@@ -81,14 +82,14 @@ bool DBManager::openDB(QSqlDatabase & o){
     return true;
 }
 
-//Pour connaitre le nombre de colonne de la requete q
+
 int DBManager::queryNbColonne(QSqlQuery & q){
     QSqlRecord rec = q.record();
     int nb_col = rec.count(); // pour savoir le nombre de colonne
     return nb_col;
 }
 
-//Pour connaitre le nombre de ligne de la requete q
+
 int DBManager::queryNbLigne(QSqlQuery &q){
     int nombre = 0;
     while(q.next()){
@@ -718,6 +719,28 @@ bool DBManager::ajouteTC (const QString & nom, const QString & descri, const int
     return true;
 }
 
+bool DBManager::ajouteFilliere (const QString & nom, const QString & descri, const int nbCredit, const QString &cursus){
+    if (!openDB(db)) {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour ajouteFilliere"));
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("INSERT INTO Filliere VALUES (?,?,?,?)");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(nom);
+    query.addBindValue(descri);
+    query.addBindValue(nbCredit);
+    query.addBindValue(cursus);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteFilliere"));
+        return false;
+    }
+    query.finish();
+    return true;
+}
+
 bool DBManager::ajouteMineur (const QString & nom, const QString & descri, const int nbListe){
     if (!openDB(db)) {
         emit sendError(QString("DBManager : la BDD n est pas ouverte pour ajouteMineur"));
@@ -802,4 +825,382 @@ enumeration::TypeCursus DBManager::getTypeCursus(const QString & nom){
     return enumeration::ErrorTypeCursus;
 }
 
+int DBManager::getNbCreditCSBranche(const QString cursus)
+{
+   int res;
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return 0;
+   }
+   QSqlQuery query;
+   query.prepare("select nbCreditCS FROM Branche where Branche.Nom=?"); // la requete pour obtenir le nombre de credit CS qu'il doit valider dans son cursus actuel de type Branche
+   query.addBindValue(cursus); //permet de remplacer le ? de query.prepare par le cursus de l'étudiant
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans getNbCreditCSBranche"));
+       return 0;
+   }
+   query.first();
+   res=query.value(0).toInt();
+   query.finish();
+   return res;
+}
+
+int DBManager::getNbCreditTMBranche(const QString cursus)
+{
+   int res;
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return 0;
+   }
+   QSqlQuery query;
+   query.prepare("select nbCreditTM FROM Branche where Branche.Nom=?"); // la requete pour obtenir le nombre de credit TM qu'il doit valider dans son cursus actuel de type Branche
+   query.addBindValue(cursus); //permet de remplacer le ? de query.prepare par le cursus de l'étudiant
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans getNbCreditTMBranche"));
+       return 0;
+   }
+   query.first();
+   res=query.value(0).toInt();
+   query.finish();
+   return res;
+}
+
+int DBManager::getNbCreditTSHBranche(const QString cursus)
+{
+   int res;
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return 0;
+   }
+   QSqlQuery query;
+   query.prepare("select nbCreditTSM FROM Branche where Branche.Nom=?"); // la requete pour obtenir le nombre de credit TSH qu'il doit valider dans son cursus actuel de type Branche
+   query.addBindValue(cursus); //permet de remplacer le ? de query.prepare par le cursus de l'étudiant
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans getNbCreditTSHBranche"));
+       return 0;
+   }
+   query.first();
+   res=query.value(0).toInt();
+   query.finish();
+   return res;
+}
+
+int DBManager::getNbCreditCursusBranche(const QString cursus)
+{
+   int res;
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return 0;
+   }
+   QSqlQuery query;
+   query.prepare("select nbCreditCS+nbCreditTM+nbCreditTSH+nbCreditLibre FROM Branche where Branche.Nom=?"); // la requete pour obtenir le nombre de credit CS qu'il doit valider dans son cursus actuel de type Branche
+   query.addBindValue(cursus); //permet de remplacer le ? de query.prepare par le cursus de l'étudiant
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans getNbCreditCursusBranche"));
+       return 0;
+   }
+   query.first();
+   res=query.value(0).toInt();
+   query.finish();
+   return res;
+}
+
+int DBManager::getNbCreditPCB(const QString cursus)
+{
+   int res;
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return 0;
+   }
+   QSqlQuery query;
+   query.prepare("select nbCreditPCB FROM Branche where Branche.Nom=?"); // la requete pour obtenir le nombre de credit PCB qu'il doit valider dans son cursus actuel de type Branche
+   query.addBindValue(cursus); //permet de remplacer le ? de query.prepare par le cursus de l'étudiant
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans getNbCreditPCB"));
+       return 0;
+   }
+   query.first();
+   res=query.value(0).toInt();
+   query.finish();
+   return res;
+}
+
+int DBManager::getNbCreditPSF(const QString cursus)
+{
+   int res;
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return 0;
+   }
+   QSqlQuery query;
+   query.prepare("select NbCreditPSF FROM Branche where Branche.Nom=?"); // la requete pour obtenir le nombre de credit PSF qu'il doit valider dans son cursus actuel de type Branche
+   query.addBindValue(cursus); //permet de remplacer le ? de query.prepare par le cursus de l'étudiant
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans getNbCreditPSF"));
+       return 0;
+   }
+   query.first();
+   res=query.value(0).toInt();
+   query.finish();
+   return res;
+}
+
+int DBManager::getNbCreditCSTC(const QString cursus)
+{
+   int res;
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return 0;
+   }
+   QSqlQuery query;
+   query.prepare("select nbCreditCS FROM TC where TC.Nom=?"); // la requete pour obtenir le nombre de credit CS qu'il doit valider dans son cursus actuel de type TC
+   query.addBindValue(cursus); //permet de remplacer le ? de query.prepare par le cursus de l'étudiant
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans getNbCreditCSTC"));
+       return 0;
+   }
+   query.first();
+   res=query.value(0).toInt();
+   query.finish();
+   return res;
+}
+
+int DBManager::getNbCreditTMTC(const QString cursus)
+{
+   int res;
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return 0;
+   }
+   QSqlQuery query;
+   query.prepare("select nbCreditTM FROM TC where TC.Nom=?"); // la requete pour obtenir le nombre de credit TM qu'il doit valider dans son cursus actuel de type TC
+   query.addBindValue(cursus); //permet de remplacer le ? de query.prepare par le cursus de l'étudiant
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans getNbCreditTMTC"));
+       return 0;
+   }
+   query.first();
+   res=query.value(0).toInt();
+   query.finish();
+   return res;
+}
+
+int DBManager::getNbCreditTSHTC(const QString cursus)
+{
+   int res;
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return 0;
+   }
+   QSqlQuery query;
+   query.prepare("select nbCreditTSH FROM TC where TC.Nom=?"); // la requete pour obtenir le nombre de credit TSH qu'il doit valider dans son cursus actuel de type TC
+   query.addBindValue(cursus); //permet de remplacer le ? de query.prepare par le cursus de l'étudiant
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans getNbCreditTSHTC"));
+       return 0;
+   }
+   query.first();
+   res=query.value(0).toInt();
+   query.finish();
+   return res;
+}
+
+int DBManager::getNbCreditCursusTC(const QString cursus)
+{
+   int res;
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return 0;
+   }
+   QSqlQuery query;
+   query.prepare("select nbCreditCS+nbCreditTM+nbCreditTSH+nbCreditLibre FROM TC where TC.Nom=?"); // la requete pour obtenir le nombre de credit CS qu'il doit valider dans son cursus actuel de type TC
+   query.addBindValue(cursus); //permet de remplacer le ? de query.prepare par le cursus de l'étudiant
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans getNbCreditCursusTC"));
+       return 0;
+   }
+   res=query.value(0).toInt();
+   query.finish();
+   return res;
+}
+
 /* Fin Cursus */
+/* Debut Choix */
+
+bool DBManager::NewUvREJ(const QString UV,const int id) {
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return false;
+   }
+   QSqlQuery query;
+   query.prepare("SELECT Choix FROM Choix where Choix.Uv=? and Choix.IDossier=?");
+   query.addBindValue(UV); //permet de remplacer le ? de query.prepare par UV
+   query.addBindValue(id); //permet de remplacer le ? de query.prepare par ID du dossier etu
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans NewUvREJ"));
+       return false;
+   }
+   query.first();
+   QString res=query.value(0).toString();
+   qDebug()<<res;
+   query.finish();
+   if(!res.isEmpty() && res!="REJ")
+   {
+       query.prepare("UPDATE Choix SET Choix='REJ' where Choix.UV=? and Choix.IDossier=?"); // la requete pour modifier le choix d'un étudiant
+       query.addBindValue(UV); //permet de remplacer le ? de query.prepare par UV
+       query.addBindValue(id); //permet de remplacer le ? de query.prepare par ID du dossier etu
+       if(!query.exec()) //pb lors de l'execution
+       {
+           emit sendError(QString("DBManager : Erreur execution de la requete dans NewUvREJ(update)"));
+           return false;
+       }
+   return true;
+   query.finish();
+   } else {
+        query.prepare("INSERT INTO Choix(Cursus,Uv,Choix,IDossier) VALUES (?,?,'REJ',?)"); // la requete pour ajouter le choix d'un étudiant
+        //QString cursus=dbm.getCursusEtu(id);
+        QString cursus="TEST";
+        query.addBindValue(cursus);
+        query.addBindValue(UV); //permet de remplacer le ? de query.prepare par UV
+        query.addBindValue(id); //permet de remplacer le ? de query.prepare par ID du dossier etu
+        if(!query.exec()) //pb lors de l'execution
+        {
+           emit sendError(QString("DBManager : Erreur execution de la requete dans NewUvREJ(Insert)"));
+           return false;
+        }
+        query.finish();
+        return true;
+   }
+   return false;
+}
+
+bool DBManager::NewUvVEUT(const QString UV, const int id) {
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return false;
+   }
+   QSqlQuery query;
+   query.prepare("SELECT Choix FROM Choix where Choix.UV=? and Choix.IDossier=?");
+   query.addBindValue(UV); //permet de remplacer le ? de query.prepare par UV
+   query.addBindValue(id); //permet de remplacer le ? de query.prepare par ID du dossier etu
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans NewUvVEUT"));
+       return false;
+   }
+   query.first();
+   QString res=query.value(0).toString();
+   qDebug()<<res;
+
+   query.finish();
+   if(!res.isEmpty() && res!="VEUT") {
+       query.prepare("UPDATE Choix SET Choix='VEUT' where Choix.UV=? and Choix.IDossier=?"); // la requete pour modifier le choix d'un étudiant
+       query.addBindValue(UV); //permet de remplacer le ? de query.prepare par UV
+       query.addBindValue(id); //permet de remplacer le ? de query.prepare par ID du dossier etu
+           if(!query.exec()) //pb lors de l'execution
+           {
+               emit sendError(QString("DBManager : Erreur execution de la requete dans NewUvVEUT(update)"));
+               return false;
+           }
+       return true;
+       query.finish();
+   } else if(res!="VEUT") {
+        query.prepare("INSERT INTO Choix(Cursus,Uv,Choix,IDossier) VALUES (?,?,'VEUT',?)"); // la requete pour ajouter le choix d'un étudiant
+        //QString cursus=dbm.getCursusEtu(id);
+        //query.addBindValue(cursus);
+        query.addBindValue(UV); //permet de remplacer le ? de query.prepare par UV
+        query.addBindValue(id); //permet de remplacer le ? de query.prepare par ID du dossier etu
+        if(!query.exec()) //pb lors de l'execution
+        {
+            emit sendError(QString("DBManager : Erreur execution de la requete dans NewUvVEUT(insert)"));
+            return false;
+        }
+        return true;
+        query.finish();
+   }
+   return false;
+}
+
+enumeration::Choix DBManager::getChoix(const QString & nom, const int &id){
+    if (!openDB(db)) {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour getChoix"));
+        return enumeration::ErrorChoix;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("SELECT Choix FROM Choix WHERE Choix.Uv = ? AND Choix.IDossier =? ");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(nom);
+    query.addBindValue(id);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getChoix"));
+        return enumeration::ErrorChoix;
+    }
+    query.first();
+    if(query.value(0).toString()=="VEUT")
+        return enumeration::VEUT;
+    else if(query.value(0).toString()=="NEUTRE")
+        return enumeration::NEUTRE;
+    else if(query.value(0).toString()=="REJ")
+        return enumeration::REJ;
+    else
+        return enumeration::ErrorChoix;
+    query.finish();
+    return enumeration::ErrorChoix;
+}
+
+/* Fin Choix */
+/* Debut pour Prevision */
+
+bool DBManager::inscriptionUValide(const int id,const QString UV,const int annee,const QString semestre){
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       emit sendError(QString("DBManager : Erreur lors de la connexion à la Data Base"));
+       return false;
+   }
+   QSqlQuery query;
+   query.prepare("INSERT INTO Inscription(IDInscription,NomUv,Note,Annee,Semestre) values ('?','?','INSCRIT','?','?')"); // la requete pour mettre l'uv en INSCRIT
+   query.addBindValue(id); //permet de remplacer le ? de query.prepare par l'id de l'étudiant
+   query.addBindValue(UV); //permet de remplacer le ? de query.prepare par le nom de l'uv
+   query.addBindValue(annee); //permet de remplacer le ? de query.prepare par le nom de l'uv
+   query.addBindValue(semestre); //permet de remplacer le ? de query.prepare par le nom de l'uv
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans inscriptionUValide"));
+       return false;
+   }
+   query.finish();
+   return true;
+}
+
+bool DBManager::AnnulationPrevision(const int id)
+{
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return false;
+   }
+   QSqlQuery query;
+   query.prepare("DELETE FROM Inscription where Inscription.id=? and Inscription.Note='INSCRIT'"); // la requete pour enlever toutes les uvs inscrites.
+   query.addBindValue(id); //permet de remplacer le ? de query.prepare par l'id de l'étudiant
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans AnnulationPrevision"));
+       return false;
+   }
+   query.finish();
+   return true;
+}
+
+/* Fin pour Prevision */

@@ -10,8 +10,7 @@
 #include <QObject>
 
 
-class CursusManager
-{
+class CursusManager {
 private:
     /* Debut SINGLETON */
     CursusManager(const CursusManager &){}
@@ -28,11 +27,6 @@ public:
     /* Fin SINGLETON */
     bool isTypeTC(const QString & n);
     bool isTypeBranche(const QString & n);
-
-    void AssoObligatoire(QString& nom, QString& uv);
-    void AssoNonObligatoire(QString& nom, QString& uv);
-    void ajouterCursus(const QString& nom,const QString& description);
-    void AjouterAsso(QString& nom,QString& uv);
 };
 
 

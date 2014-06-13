@@ -5,7 +5,7 @@
 
 namespace enumeration {
     enum CategorieUV {
-        CS,     /* Connaissances Scientifiques */
+        CS = 0,     /* Connaissances Scientifiques */
         TM,     /* Techniques et Methodes */
         TSH,    /* Technologies et Sciences de l'Homme */
         ErrorCategorieUV
@@ -14,7 +14,7 @@ namespace enumeration {
     QString CategorieUVToString(CategorieUV c);
 
     enum Note {
-        A,
+        A = 0,
         B,
         C,
         D,
@@ -31,7 +31,7 @@ namespace enumeration {
     QString NoteToString(Note n);
 
     enum Saison {
-        Automne,
+        Automne = 0,
         Printemps,
         Tout,
         ErrorSaison
@@ -40,7 +40,7 @@ namespace enumeration {
     Saison StringToSaison(const QString & str);
 
     enum Civilite{
-        Monsieur,
+        Monsieur = 0,
         Madame,
         Mademoiselle,
         ErrorCivilite
@@ -49,7 +49,7 @@ namespace enumeration {
     Civilite StringToCivilite(const QString & str);
 
     enum Choix{
-        REJ,
+        REJ = 0,
         VEUT,
         NEUTRE,
         ErrorChoix
@@ -58,7 +58,7 @@ namespace enumeration {
     Choix StringToChoix(const QString & str);
 
     enum TypeCursus {
-        TypeTc,
+        TypeTc = 0,
         TypeTcAvecUvObligatoire,
         TypeBranche,
         TypeBrancheAvecUvObligatoire,

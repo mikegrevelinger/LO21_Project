@@ -14,12 +14,13 @@ protected:
     QList<QStringList> listUV;
     unsigned int nbSemestre;
     unsigned int nbCreditsTotal;
+    enumeration::TypeCursus t;
 public:
     const QString & getNom() const {return nom;}
     const QList<QStringList> & getListUV() const {return listUV;}
     unsigned int getNbSemestre() const {return nbSemestre;}
-    unsigned int getNbCreditsTotal() const {return nbCreditsTotal;}
-    virtual bool remplireCursus();
+    virtual unsigned int getNbCreditsTotal() const {return nbCreditsTotal;}
+    bool remplireCursus();
     virtual void accept(class Visitor &v);
     virtual ~Cursus();
 };
@@ -53,6 +54,7 @@ public:
     unsigned int getNbCreditsTM() const {return nbCreditTM;}
     unsigned int getNbCreditsTSH() const {return nbCreditTSH;}
     unsigned int getNbCreditsLibre() const {return nbCreditLibre;}
+
     virtual bool remplireCursus() =0;
 };
 
@@ -65,7 +67,7 @@ public:
     ~CursusBranche();
     unsigned int getNbCreditsPCB() const {return nbCreditPCB;}
     unsigned int getNbCreditsPSF() const {return nbCreditPSF;}
-    bool remplireCursus();
+    bool remplireCursus();///unsigned int getNbCreditsTotal() const {return nbCreditCS + nbCreditTM + nbCreditTSH + nbCreditLibre;}
 };
 
 class CursusTC : public CursusDecorator {

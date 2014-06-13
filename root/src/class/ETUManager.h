@@ -18,7 +18,7 @@ class ETUManager : public QObject
     Q_OBJECT // utilisera des signaux
 private:
     /* Debut SINGLETON */
-    ETUManager(const ETUManager & e):dbm(e.dbm){}
+    ///<ETUManager(const ETUManager &){}
     ETUManager () ;
     void operator= (const ETUManager &){}
     ~ETUManager () ;

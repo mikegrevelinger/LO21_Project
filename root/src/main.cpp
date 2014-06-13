@@ -5,6 +5,7 @@
 #include "./class/ETUManager.h"
 #include "./gui/rechercheInstantaneUV.h"
 #include "./gui/MainWindow.h"
+#include "./class/CursusManager.h"
 
 #include <QApplication>
 #include <iostream>
@@ -30,6 +31,5 @@ int main(int countArg, char **listArg)
                    const int creditsTM = 0, const int creditsTSH = 0, const int nbCreditEtranger = 0);
     */
     m->show();
-    //LOL
     return app.exec();
 }

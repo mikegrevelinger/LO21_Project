@@ -18,7 +18,7 @@ class DossierManager : public QObject
     Q_OBJECT
 private:
     /* Debut SINGLETON */
-    DossierManager(const DossierManager &):dbm(DBManager::getInstance()){}
+    ///<DossierManager(const DossierManager &):dbm(DBManager::getInstance()){}
     DossierManager () ;
     void operator= (const DossierManager &){}
     ~DossierManager () ;
