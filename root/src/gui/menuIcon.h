@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QSize>
 #include "ClickableQLabel.h"
+#include "MainWindow.h"
 
 
 class menuIcon : public QWidget
@@ -28,7 +29,7 @@ private:
     ClickableQLabel * dossier;
     ClickableQLabel * prevision;
 public:
-    menuIcon(QWidget *parent = 0);
+    menuIcon(class MainWindow * c ,QWidget * parent = 0);
 signals:
 
 public slots:

@@ -2,13 +2,13 @@
 
 ClickableQLabel::ClickableQLabel(QWidget * parent) : QLabel(parent)
 {
-    //QObject::connect(this, SIGNAL(clicked()), o, SLOT(hasBeenClicked()));
+    QObject::connect(this, SIGNAL(clicked()), this, SLOT(hasBeenClicked()));
 }
 
 ClickableQLabel::ClickableQLabel(const QString & q, QWidget * parent) : QLabel(parent)
 {
     this->setText(q);
-    //QObject::connect(this, SIGNAL(clicked()),o, SLOT(hasBeenClicked()));
+    QObject::connect(this, SIGNAL(clicked()),this, SLOT(hasBeenClicked()));
 }
 
 
@@ -22,5 +22,5 @@ void ClickableQLabel::mousePressEvent (QMouseEvent * event)
 }
 
 void ClickableQLabel::hasBeenClicked() {
-    qDebug("Clique");
+    qDebug("Clicked");
 }

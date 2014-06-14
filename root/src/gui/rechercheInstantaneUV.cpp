@@ -1,6 +1,6 @@
 #include "rechercheInstantaneUV.h"
 
-rechercheInstantaneUV::rechercheInstantaneUV(QWidget *parent) :
+rechercheInstantaneUV::rechercheInstantaneUV(QWidget * parent) :
     QWidget(parent),regexRechercheUV("^[a-zA-Z0-9]{1,4}")
 {
     l = new QLineEdit(this);
@@ -36,7 +36,7 @@ rechercheInstantaneUV::rechercheInstantaneUV(QWidget *parent) :
     table->setStyleSheet("QTableView {selection-background-color: red;}");
     table->setGeometry(QApplication::desktop()->screenGeometry());
 
-    table->setItem(0,0,new QTableWidgetItem("Nom"));
+    //table->setItem(0,0,new QTableWidgetItem("Nom"));
 
     layout->addWidget(search,0,0,3,1);
     layout->addWidget(l,0,1);
@@ -90,7 +90,7 @@ void rechercheInstantaneUV::slotRechercherUV(QString p){
 
 void rechercheInstantaneUV::cellSelected(int nRow, int nCol)
 {
-    QMessageBox::information(this, "","Cell at row "+QString::number(nRow)+" column "+QString::number(nCol)+" was double clicked.");
+    QMessageBox::information(this, "","Cell at row "+QString::number(nRow)+" column "+QString::number(nCol)+" was double clicked. Text :"+table->item(nRow,0)->text()+" !");
 }
 
 void rechercheInstantaneUV::ouvrirDialogAjouterUV() {

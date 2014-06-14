@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     gui/dialogAjouterUV.cpp \
     gui/dialogAjouterCursus.cpp \
     gui/dialogAjouterDossier.cpp \
-    class/Prevision.cpp
+    class/Prevision.cpp \
+    gui/rechercheInstantaneDossiercpp.cpp
 
 HEADERS += \
     enumeration/enumeration.h \
@@ -44,7 +45,8 @@ HEADERS += \
     gui/dialogAjouterUV.h \
     gui/dialogAjouterCursus.h \
     gui/dialogAjouterDossier.h \
-    class/Prevision.h
+    class/Prevision.h \
+    gui/rechercheInstantaneDossier.h
 
 FORMS += \
     gui/mainwindow.ui \

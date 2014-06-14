@@ -19,6 +19,7 @@ INPUT(
 ./release\dialogAjouterCursus.o
 ./release\dialogAjouterDossier.o
 ./release\Prevision.o
+./release\rechercheInstantaneDossiercpp.o
 ./release\moc_DBManager.o
 ./release\moc_UVManager.o
 ./release\moc_ErrorManager.o
@@ -34,4 +35,5 @@ INPUT(
 ./release\moc_dialogAjouterUV.o
 ./release\moc_dialogAjouterCursus.o
 ./release\moc_dialogAjouterDossier.o
+./release\moc_rechercheInstantaneDossier.o
 );

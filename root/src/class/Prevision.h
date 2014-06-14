@@ -26,6 +26,8 @@ public:
     PrevisionTC(const int idEtu, const QString & nom);
     bool isObligatoireUv(QStringList &ListUV);
     QList<QString>  NewList(Cursus& cur, const int &id);
+    void prevision(Cursus& cur,const int id);
+    bool benefique(const QString &UV,const int &nbCreditCSActuel,const int &nbCreditTMActuel,const int &nbCreditTSHActuel,const QString &cursus);
 };
 
 class PrevisionBranche:public IStrategie

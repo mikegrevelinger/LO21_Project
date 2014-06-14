@@ -39,7 +39,7 @@ public:
     virtual enumeration::TypeCursus getTypeCursus() const {return t;}
     void setNbSemestre(unsigned int nb) {nbSemestre = nb;}
     void setNbCreditsTotal (unsigned int nb) {nbCreditsTotal = nb;}
-    virtual void accept(class Visitor &v);///<Utiliser par le design pattern Visitor
+    virtual int accept(class VisitorCursus &v);///<Utiliser par le design pattern Visitor
     virtual bool remplireCursus(const QString & n);
 signals:
     void sendError(QString e);//!Signal utilisé pour envoyer une erreur à ErrorManager
@@ -49,15 +49,15 @@ class CursusAvecObli : public Cursus {
 public:
     ~CursusAvecObli();
     CursusAvecObli();
-    void accept(class VisitorCursus &v);
     bool remplireCursus(const QString & n);
+    int accept(class VisitorCursus & v);///<Utiliser par le design pattern Visitor
 };
 
 class CursusAvecListUV : public Cursus {
 public:
     ~CursusAvecListUV();
     CursusAvecListUV();
-    void accept(class VisitorCursus &v);
+    int accept(class VisitorCursus &v);
     bool remplireCursus(const QString & n) {nom = n; return false;}
 };
 
@@ -84,7 +84,7 @@ public:
     unsigned int getNbSemestre() const {return decorated->getNbSemestre();}
     unsigned int getNbCreditsTotal() const {return decorated->getNbCreditsTotal();}
     enumeration::TypeCursus getTypeCursus() const {return decorated->getTypeCursus();}
-
+    virtual int accept(class VisitorCursus &v) =0;
     virtual bool remplireCursus(const QString & n)= 0;
 };
 
@@ -100,6 +100,7 @@ public:
     unsigned int getNbCreditsPSF() const {return nbCreditPSF;}
     const QString & getNomFiliere() const {return nomFiliere;}
     bool remplireCursus(const QString & n);
+    int accept(class VisitorCursus &v);
 };
 
 class CursusTC : public CursusDecorator {
@@ -107,6 +108,7 @@ public:
     CursusTC(Cursus * c):CursusDecorator(c) {}
     bool remplireCursus(const QString & n);
     ~CursusTC();
+    int accept(class VisitorCursus &v);
 };
 
 #endif // CURSUS_H

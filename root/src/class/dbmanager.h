@@ -56,11 +56,12 @@ public:
     enumeration::CategorieUV getCategorieUV(const QString & nom);
     QString getDescriptionUV(const QString & nom);///< Renvoie un QString vide en cas d'erreur, sinon bonne valeur
     enumeration::Saison getSaisonUV(const QString & uv);
+    bool isEnseigne(const QString& UV,enumeration::Saison semestre);
     /* Fin UV */
 
     /* Debut ETUDIANT */
     QList<QStringList > & rechercheETU(const QString & s);
-    QList<QStringList > & rechercheETU(const QString nom, const QString prenom = "");
+    QList<QStringList > & rechercheETU(const QString nom, const QString prenom);
     bool ajouteETU(QString const & nom, QString const & prenom, enumeration::Civilite civ,
                    QString const & nationalite, QDate const dateDeNaissance, enumeration::Saison s, const int annee,
                    const int creditsEqui = 0, QString const cursus = NULL, const int numeroSemestre = 0,
@@ -74,6 +75,9 @@ public:
     QStringList & getInscription(const int id);
     QStringList & getUvsEnCours(const int id);
     QString & getCursusEtu(const int id);
+    enumeration::Saison getSemestreActuel(const int id);
+    int getAnneeActuelETU(const int id);
+    bool isUVInscrit(const QString& UV, const int& id);
     /* Fin ETUDIANT */
 
     /*Debut CURSUS */
@@ -111,7 +115,7 @@ public:
     /* Fin choix */
 
     /* Debut pour Prevision */
-    bool inscriptionUValide(const int id,const QString UV,const int annee,const QString semestre); ///< Permet d'inscrire les UVS selectionnées et validées par l'étudiant lors de la prévision
+    bool inscriptionUValide(const int id, const QString UV, const int annee, enumeration::Saison semestre); ///< Permet d'inscrire les UVS selectionnées et validées par l'étudiant lors de la prévision
     bool AnnulationPrevision(const int id);
     /* Fin pour Prevision */
 

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "rechercheInstantaneUV.h"
+#include "rechercheInstantaneDossier.h"
 #include "menuIcon.h"
 #include "./class/HandlerSingleton.h"
 #include "dialogAjouterCursus.h"
@@ -22,6 +23,8 @@ private:
 public:
     MainWindow (QWidget *parent = 0);
     ~MainWindow ();
+public slots:
+    void afficheRechercheInstantane();
 };
 
 #endif // MAINWINDOW_H

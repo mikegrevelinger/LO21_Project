@@ -2,60 +2,6 @@
 
 /* Debut Cursus */
 
-/*
-class CursusAvecObli : public Cursus {
-public:
-    ~CursusAvecObli();
-    bool remplireCursus();
-    void accept(class VisitorCursus &v);
-};
-
-class CursusAvecListUV : public Cursus {
-public:
-    ~CursusAvecListUV();
-    bool remplireCursus();
-    void accept(class VisitorCursus &v);
-};
-
-///Le decorateur pour ajouter des specificités aux classes
-class CursusDecorator : public Cursus {
-protected:
-    Cursus * decorated;
-    unsigned int nbCreditCS;
-    unsigned int nbCreditTM;
-    unsigned int nbCreditTSH;
-    unsigned int nbCreditLibre;
-public:
-    CursusDecorator(Cursus * c) {decorated = c;}
-    ~CursusDecorator() {delete decorated;}
-    unsigned int getNbCreditsCS() const {return nbCreditCS;}
-    unsigned int getNbCreditsTM() const {return nbCreditTM;}
-    unsigned int getNbCreditsTSH() const {return nbCreditTSH;}
-    unsigned int getNbCreditsLibre() const {return nbCreditLibre;}
-
-    virtual bool remplireCursus() =0;
-};
-
-class CursusBranche : public CursusDecorator {
-private:
-    unsigned int nbCreditPCB;
-    unsigned int nbCreditPSF;
-public:
-    CursusBranche(Cursus * c):CursusDecorator(c) {}
-    ~CursusBranche();
-    unsigned int getNbCreditsPCB() const {return nbCreditPCB;}
-    unsigned int getNbCreditsPSF() const {return nbCreditPSF;}
-    bool remplireCursus();///unsigned int getNbCreditsTotal() const {return nbCreditCS + nbCreditTM + nbCreditTSH + nbCreditLibre;}
-};
-
-class CursusTC : public CursusDecorator {
-public:
-    CursusTC(Cursus * c):CursusDecorator(c) {}
-    ~CursusTC();
-    bool remplireCursus();
-};
-*/
-
 Cursus::Cursus():listUV(*(new QList<QStringList>)) {
     QObject::connect(this, SIGNAL(sendError(QString)), &ErrorManager::getInstance(), SLOT(mailBoxError(QString)));
 }
@@ -84,8 +30,8 @@ bool Cursus::remplireCursus(const QString & n){
 }
 
 
-void Cursus::accept(class Visitor &v){
-
+int Cursus::accept(VisitorCursus &v){
+    return v.visit(this);
 }
 
 Cursus::~Cursus(){
@@ -101,8 +47,8 @@ Cursus::~Cursus(){
 CursusAvecObli::CursusAvecObli():Cursus() {
 }
 
-void CursusAvecObli::accept(class VisitorCursus &v){
-
+int CursusAvecObli::accept(class VisitorCursus &v){
+    return v.visit(this);
 }
 
 bool CursusAvecObli::remplireCursus(const QString &n){
@@ -153,8 +99,8 @@ CursusAvecListUV::~CursusAvecListUV(){
     listUV.clear();
 }
 
-void CursusAvecListUV::accept(class VisitorCursus &v){
-
+int CursusAvecListUV::accept(class VisitorCursus &v){
+    return v.visit(this);
 }
 
 /* Fin CursusAvecListUV */
@@ -186,7 +132,7 @@ bool CursusBranche::remplireCursus(const QString & n){
     if (!decorated->remplireCursus(n)){
         return false;
     }
-    if (decorated->getTypeCursus() != enumeration::TypeBranche || decorated->getTypeCursus() != enumeration::TypeBrancheAvecUvObligatoire){
+    if (decorated->getTypeCursus() != enumeration::TypeBranche && decorated->getTypeCursus() != enumeration::TypeBrancheAvecUvObligatoire){
         emit sendError(QString("CursusBranche : Erreur entre le type et le nom dans remplireCursus"));
         return false;
     }
@@ -199,15 +145,19 @@ bool CursusBranche::remplireCursus(const QString & n){
              decorated->listUV[i].append(QString("PCB"));
          }
     }
-    nbCreditCS = dbm.getNbCreditCSTC(nom);
-    nbCreditTM = dbm.getNbCreditTMTC(nom);
-    nbCreditTSH = dbm.getNbCreditTSHTC(nom);
-    nbCreditLibre = dbm.getNbCreditLibreTC(nom);
-    nbCreditPCB = dbm.getNbCreditPCB(nom);
-    nbCreditPSF = dbm.getNbCreditPSF(nom);
+    nbCreditCS = dbm.getNbCreditCSTC(decorated->getNom());
+    nbCreditTM = dbm.getNbCreditTMTC(decorated->getNom());
+    nbCreditTSH = dbm.getNbCreditTSHTC(decorated->getNom());
+    nbCreditLibre = dbm.getNbCreditLibreTC(decorated->getNom());
+    nbCreditPCB = dbm.getNbCreditPCB(decorated->getNom());
+    nbCreditPSF = dbm.getNbCreditPSF(decorated->getNom());
     decorated->setNbCreditsTotal(nbCreditCS + nbCreditTM + nbCreditTSH + nbCreditLibre);
-    decorated->setNbSemestre(dbm.getNbSemestreBranche(nom));
+    decorated->setNbSemestre(dbm.getNbSemestreBranche(decorated->getNom()));
     return true;
+}
+
+int CursusBranche::accept(VisitorCursus &v){
+    return v.visit(this);
 }
 
 /* Fin CursusBranche */
@@ -226,17 +176,21 @@ bool CursusTC::remplireCursus(const QString & n){
     if (!decorated->remplireCursus(n)){
         return false;
     }
-    if (decorated->getTypeCursus() != enumeration::TypeTc || decorated->getTypeCursus() != enumeration::TypeBrancheAvecUvObligatoire){
+    if (decorated->getTypeCursus() != enumeration::TypeTc && decorated->getTypeCursus() != enumeration::TypeBrancheAvecUvObligatoire){
         emit sendError(QString("CursusTC : Erreur entre le type et le nom dans remplireCursus"));
         return false;
     }
-    nbCreditCS = dbm.getNbCreditCSTC(nom);
-    nbCreditTM = dbm.getNbCreditTMTC(nom);
-    nbCreditTSH = dbm.getNbCreditTSHTC(nom);
-    nbCreditLibre = dbm.getNbCreditLibreTC(nom);
+    nbCreditCS = dbm.getNbCreditCSTC(decorated->getNom());
+    nbCreditTM = dbm.getNbCreditTMTC(decorated->getNom());
+    nbCreditTSH = dbm.getNbCreditTSHTC(decorated->getNom());
+    nbCreditLibre = dbm.getNbCreditLibreTC(decorated->getNom());
     decorated->setNbCreditsTotal(nbCreditCS + nbCreditTM + nbCreditTSH + nbCreditLibre);
-    decorated->setNbSemestre(dbm.getNbSemestreBranche(nom));
+    decorated->setNbSemestre(dbm.getNbSemestreBranche(decorated->getNom()));
     return true;
+}
+
+int CursusTC::accept(VisitorCursus &v){
+    return v.visit(this);
 }
 
 /* Fin CursusTC */

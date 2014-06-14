@@ -343,6 +343,35 @@ enumeration::Saison DBManager::getSaisonUV(const QString & uv){
     return enumeration::StringToSaison(res);
 }
 
+bool DBManager::isEnseigne(const QString& UV,enumeration::Saison semestre){
+   QString ress;
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return false;
+   }
+   QSqlQuery query;
+   query.prepare("select SemestreEnseigne FROM Uvs where Uvs.Nom=?"); // la requete pour obtenir le semestre ou elle est enseignée
+   query.addBindValue(UV); //permet de remplacer le ? de query.prepare par le nom de l'uv
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans enseigne"));
+       return 0;
+   }
+   query.first();
+   ress=query.value(0).toString();
+   enumeration::Saison res;
+   res=enumeration::StringToSaison(ress);
+   if(res==semestre || res==enumeration::Tout)
+   {
+   return true;
+   }
+   else
+   {
+       return false;
+   }
+   query.finish();
+}
+
 /* Fin UV */
 /* Debut ETU */
 
@@ -389,7 +418,7 @@ QList<QStringList > & DBManager::rechercheETU(const QString nom, const QString p
     }
     QSqlQuery query;
 
-    query.prepare("SELECT * FROM dossier WHERE dossier.nomETU LIKE ? OR dossier.prenomEtu LIKE ?;");
+    query.prepare("SELECT ID,NomEtu,PrenomEtu,Civilite,Nationalite,DateDeNaissance FROM dossier WHERE dossier.nomETU LIKE ? OR dossier.prenomEtu LIKE ?;");
     query.addBindValue(QString("\%%1\%").arg(nom));
     query.addBindValue(QString("\%%1\%").arg(prenom));
     if(!query.exec()) //pb lors de l'execution
@@ -662,6 +691,80 @@ QString & DBManager::getCursusEtu(const int id){
     return *cur;
 }
 
+enumeration::Saison DBManager::getSemestreActuel(const int id)
+{
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return enumeration::ErrorSaison;
+   }
+   QSqlQuery query;
+   query.prepare("select SemestreCourant FROM Dossier where Dossier.ID=?"); // la requete pour avoir le numero du semestre Actuel
+   query.addBindValue(id); //permet de remplacer le ? de query.prepare par l'id de l'étudiants
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans getSemestreActuel"));
+       return enumeration::ErrorSaison;;
+   }
+   query.first();
+   enumeration::Saison res;
+   res=enumeration::StringToSaison(query.value(0).toString());
+   query.finish();
+   return res;
+}
+
+int DBManager::getAnneeActuelETU(const int id)
+{
+
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return 0;
+   }
+   QSqlQuery query;
+   query.prepare("select anneeCourante FROM Dossier where Dossier.ID=?"); // la requete pour avoir le numero du semestre Actuel
+   query.addBindValue(id); //permet de remplacer le ? de query.prepare par l'id de l'étudiants
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans getAnneeActuelETU"));
+       return 0;
+   }
+   query.first();
+   int res;
+   res=query.value(0).toInt();
+   query.finish();
+   return res;
+}
+
+bool DBManager::isUVInscrit(const QString& UV, const int& id)
+{
+    QString ress;
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        return false;
+    }
+    QSqlQuery query;
+    query.prepare("select Note FROM Inscription where Inscription.NomUv=? and Inscription.IDetu=?"); // la requete pour obtenir le semestre ou elle est enseignée
+    query.addBindValue(UV); //permet de remplacer le ? de query.prepare par le nom de l'uv
+    query.addBindValue(id);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans isUVInscrit"));
+        return false;
+    }
+    query.first();
+    ress=query.value(0).toString();
+    enumeration::Note res;
+    res=enumeration::StringToNote(ress);
+    if(res==enumeration::INSCRIT)
+    {
+    return true;
+    }
+    else
+    {
+        return false;
+    }
+    query.finish();
+}
+
 /* Fin ETU */
 /* Debut Cursus */
 
@@ -782,11 +885,10 @@ enumeration::TypeCursus DBManager::getTypeCursus(const QString & nom){
         return enumeration::ErrorTypeCursus;
     }
     query.first();
-    res = query.value(0).toString();
-    query.finish();
-    if (!res.isEmpty()){
+    if (query.isValid()){
         return enumeration::TypeTc;
     }
+    query.finish();
     query.prepare("SELECT uv FROM tcPourUV WHERE tcPourUV.nomCursus = ? AND tcPourUV.obligatoire = 1");
     query.addBindValue(nom);
     if(!query.exec()) //pb lors de l'execution
@@ -829,6 +931,7 @@ enumeration::TypeCursus DBManager::getTypeCursus(const QString & nom){
     if (!res.isEmpty()){
         return enumeration::TypeBrancheAvecUvObligatoire;
     }
+    qDebug() <<"Arriver à la fin";
     return enumeration::ErrorTypeCursus;
 }
 
@@ -1083,7 +1186,7 @@ int DBManager::getNbCreditCSTC(const QString cursus)
        return 0;
    }
    QSqlQuery query;
-   query.prepare("select nbCreditCS FROM TC where TC.Nom=?"); // la requete pour obtenir le nombre de credit CS qu'il doit valider dans son cursus actuel de type TC
+   query.prepare("SELECT NbCreditCS FROM TC WHERE TC.Nom = ?"); // la requete pour obtenir le nombre de credit CS qu'il doit valider dans son cursus actuel de type TC
    query.addBindValue(cursus); //permet de remplacer le ? de query.prepare par le cursus de l'étudiant
    if(!query.exec()) //pb lors de l'execution
    {
@@ -1153,6 +1256,7 @@ int DBManager::getNbCreditLibreTC(const QString cursus)
        emit sendError(QString("DBManager : Erreur execution de la requete dans getNbCreditCursusTC"));
        return 0;
    }
+   query.first();
    res=query.value(0).toInt();
    query.finish();
    return res;
@@ -1354,7 +1458,7 @@ enumeration::Choix DBManager::getChoix(const QString & nom, const int &id){
 /* Fin Choix */
 /* Debut pour Prevision */
 
-bool DBManager::inscriptionUValide(const int id,const QString UV,const int annee,const QString semestre){
+bool DBManager::inscriptionUValide(const int id, const QString UV, const int annee, enumeration::Saison semestre){
    if (!openDB(db)) //impossible d'ouvrir
    {
        emit sendError(QString("DBManager : Erreur lors de la connexion à la Data Base"));
@@ -1365,7 +1469,7 @@ bool DBManager::inscriptionUValide(const int id,const QString UV,const int annee
    query.addBindValue(id); //permet de remplacer le ? de query.prepare par l'id de l'étudiant
    query.addBindValue(UV); //permet de remplacer le ? de query.prepare par le nom de l'uv
    query.addBindValue(annee); //permet de remplacer le ? de query.prepare par le nom de l'uv
-   query.addBindValue(semestre); //permet de remplacer le ? de query.prepare par le nom de l'uv
+   query.addBindValue(enumeration::SaisonToString(semestre)); //permet de remplacer le ? de query.prepare par le nom de l'uv
    if(!query.exec()) //pb lors de l'execution
    {
        emit sendError(QString("DBManager : Erreur execution de la requete dans inscriptionUValide"));

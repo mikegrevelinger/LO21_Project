@@ -8,6 +8,7 @@
 #include "./gui/rechercheInstantaneUV.h"
 #include "./gui/MainWindow.h"
 #include "./class/CursusManager.h"
+#include "./class/VisitorCursus.h"
 
 #include <QApplication>
 #include <iostream>
@@ -18,9 +19,23 @@
 int main(int countArg, char **listArg)
 {
     QApplication app(countArg, listArg);
+    //DBManager & dbm = DBManager::getInstance();
     CursusFactory c;
     Cursus * q = c.makeCursus(1);
-    //DBManager & dbm = DBManager::getInstance();
+    qDebug() <<QString::number(q->remplireCursus("TC"));
+    VisitorNbCreditCS nbCS;
+    qDebug() <<QString::number(q->accept(nbCS));
+    VisitorNbCreditTM nbTM;
+    qDebug() <<QString::number(q->accept(nbTM));
+    VisitorNbCreditTSH nbTSH;
+    qDebug() <<QString::number(q->accept(nbTSH));
+    VisitorNbCreditLibre nbLibre;
+    qDebug() <<QString::number(q->accept(nbLibre));
+    VisitorNbCreditPCB nbPCB;
+    qDebug() <<QString::number(q->accept(nbPCB));
+    VisitorNbCreditFiliere nbPSF;
+    qDebug() <<QString::number(q->accept(nbPSF));
+
     MainWindow * m = new MainWindow;
     //QDate d(1993,12,23);
     //qDebug() <<dbm.ajouteUV("NF92",enumeration::CS,6,"ENcore plus de paroles");
