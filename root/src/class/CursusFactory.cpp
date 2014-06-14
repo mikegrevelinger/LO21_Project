@@ -1,7 +1,6 @@
 #include "CursusFactory.h"
 
-/*
-Cursus * makeCursus(const QString & nomCursus){
+Cursus * CursusFactory::makeCursus(const QString & nomCursus) {
     DBManager & dbm = DBManager::getInstance();
     enumeration::TypeCursus t  = dbm.getTypeCursus(nomCursus);
     switch(t){
@@ -11,10 +10,18 @@ Cursus * makeCursus(const QString & nomCursus){
     case enumeration::TypeBrancheAvecUvObligatoire: return new CursusBranche(new CursusAvecObli) ;
     default: return NULL;
     }
+    return NULL;
 }
 
-Cursus * makeCursus(const int id){
+Cursus * CursusFactory::makeCursus(const int id){
     DBManager & dbm = DBManager::getInstance();
     return makeCursus(dbm.getCursusEtu(id));
 }
-*/
+
+CursusFactory::CursusFactory() {
+
+}
+
+CursusFactory::~CursusFactory() {
+
+}

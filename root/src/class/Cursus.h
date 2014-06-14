@@ -42,8 +42,7 @@ public:
     virtual void accept(class Visitor &v);///<Utiliser par le design pattern Visitor
     virtual bool remplireCursus(const QString & n);
 signals:
-    //!pour l'envoi d'erreur
-    void sendError(QString e);
+    void sendError(QString e);//!Signal utilisé pour envoyer une erreur à ErrorManager
 };
 
 class CursusAvecObli : public Cursus {

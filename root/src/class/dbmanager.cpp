@@ -766,6 +766,7 @@ bool DBManager::ajouteMineur (const QString & nom, const QString & descri, const
 
 
 enumeration::TypeCursus DBManager::getTypeCursus(const QString & nom){
+    QString res;
     if (!openDB(db)) {
         emit sendError(QString("DBManager : la BDD n est pas ouverte pour getTypeCursus"));
         return enumeration::ErrorTypeCursus;
@@ -780,7 +781,8 @@ enumeration::TypeCursus DBManager::getTypeCursus(const QString & nom){
         emit sendError(QString("DBManager : Erreur execution de la requete dans getTypeCursus"));
         return enumeration::ErrorTypeCursus;
     }
-    QString res = query.value(0).toString();
+    query.first();
+    res = query.value(0).toString();
     query.finish();
     if (!res.isEmpty()){
         return enumeration::TypeTc;
@@ -792,6 +794,7 @@ enumeration::TypeCursus DBManager::getTypeCursus(const QString & nom){
         emit sendError(QString("DBManager : Erreur execution de la requete dans getTypeCursus"));
         return enumeration::ErrorTypeCursus;
     }
+    query.first();
     res = query.value(0).toString();
     query.finish();
     if (!res.isEmpty()){
@@ -807,6 +810,7 @@ enumeration::TypeCursus DBManager::getTypeCursus(const QString & nom){
         emit sendError(QString("DBManager : Erreur execution de la requete dans getTypeCursus"));
         return enumeration::ErrorTypeCursus;
     }
+    query.first();
     res = query.value(0).toString();
     query.finish();
     if (!res.isEmpty()){
@@ -819,6 +823,7 @@ enumeration::TypeCursus DBManager::getTypeCursus(const QString & nom){
         emit sendError(QString("DBManager : Erreur execution de la requete dans getTypeCursus"));
         return enumeration::ErrorTypeCursus;
     }
+    query.first();
     res = query.value(0).toString();
     query.finish();
     if (!res.isEmpty()){

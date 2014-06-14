@@ -1,6 +1,8 @@
+
 #include "./class/DBManager.h"
 #include "./gui/popMessage.h"
-#include "./class/CursusManager.h"
+#include "./class/CursusFactory.h"
+#include "./class/Cursus.h"
 #include "./class/UVManager.h"
 #include "./class/ETUManager.h"
 #include "./gui/rechercheInstantaneUV.h"
@@ -16,8 +18,10 @@
 int main(int countArg, char **listArg)
 {
     QApplication app(countArg, listArg);
+    CursusFactory c;
+    Cursus * q = c.makeCursus(1);
     //DBManager & dbm = DBManager::getInstance();
-    //MainWindow * m = new MainWindow;
+    MainWindow * m = new MainWindow;
     //QDate d(1993,12,23);
     //qDebug() <<dbm.ajouteUV("NF92",enumeration::CS,6,"ENcore plus de paroles");
     //qDebug() <<dbm.ajouteUV("LO21",enumeration::TM,6,"La perfection.");
@@ -30,6 +34,6 @@ int main(int countArg, char **listArg)
                    const int creditsEqui = 0, QString const cursus = NULL, const int numeroSemestre = 0,  const int creditsTOTAL = 0, const int creditsCS = 0,
                    const int creditsTM = 0, const int creditsTSH = 0, const int nbCreditEtranger = 0);
     */
-    //m->show();
+    m->show();
     return app.exec();
 }

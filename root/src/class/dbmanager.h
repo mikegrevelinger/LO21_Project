@@ -13,9 +13,13 @@
 #define q2c(string) string.toStdString()
 
 /**
- * @brief The DBManager class
+ * @brief DBManager : l'unique classe qui interroge la base de donnée
  *
- * modifieUV ne peut pas modifier le nom d'une UV.
+ * Cette classe permet d'obtenir une abstraction entre l'implémentation des données (comment c'est sauvergarder; pour nous tout en BDD avec SQLite mais cela aurait pu être dans des fichiers XML, ...)
+ * Ainsi, nous suivons le design pattern Bridge (http://en.wikipedia.org/wiki/Bridge_pattern).
+ *
+ * Cette classe effectue uniquement des requêtes, sans vérifier ce qu'il lui est envoyé et sans traiter les données.
+ *
  */
 
 class DBManager : public QObject
@@ -47,7 +51,7 @@ public:
     bool ajouteUV(const QString & nom, enumeration::CategorieUV cat, enumeration::Saison s, const int credits, const QString & d); ///< Renvoie true si ajout effectué, false sinon
     bool ajouteCategorieUV(const QString & nom, enumeration::CategorieUV cat, const int credits);///< Renvoie true si ajout effectué, false sinon. Est implementee meme si on ne l'utilise jamais.
     bool supprimeUV(QString nom); ///< Renvoie true si suprression effectuée, false sinon
-    bool modifieDescriptionUV(const QString & nom, const QString& d); ///< Renvoie true si modification effectuée, false sinon
+    bool modifieDescriptionUV(const QString & nom, const QString& d); ///< Renvoie true si modification effectuée, false sinon. Cette classe ne peut pas modifier le nom (comme "NF92") d'une UV
     int getCreditsUV(const QString & nom);///< Renvoie -1 en cas d'erreur, sinon bonne valeur
     enumeration::CategorieUV getCategorieUV(const QString & nom);
     QString getDescriptionUV(const QString & nom);///< Renvoie un QString vide en cas d'erreur, sinon bonne valeur

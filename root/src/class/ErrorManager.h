@@ -13,6 +13,16 @@
 #include "HandlerSingleton.h"
 #include <QDebug>
 
+/**
+ * @brief ErrorManager : la classe qui gère les erreurs
+ *
+ * Cette classe reçoit toutes les erreurs envoyer par les différentes classes que nous avons codés.
+ * Elle enregistre les erreurs dans un fichier log.txt sous le format : Error : NomDeLaCLasse : Texte de description de l'erreur : heure et date de l'erreu47
+ * Ainsi, il est beaucoup plus facile de résoudre les différents problèmes rencontrés.
+ * C'est une des premières classes crées.
+ *
+ */
+
 class ErrorManager : public QObject
 {
     Q_OBJECT

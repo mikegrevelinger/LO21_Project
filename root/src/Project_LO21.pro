@@ -13,14 +13,15 @@ SOURCES += main.cpp \
     gui/rechercheInstantaneUV.cpp \
     class/DossierManager.cpp \
     class/Cursus.cpp \
-    class/CursusFactory.cpp \
+    class/CursusFactory.cpp \ 
     class/VisitorCursus.cpp \
     gui/MainWindow.cpp \
     gui/menuIcon.cpp \
     gui/ClickableQLabel.cpp \
     gui/dialogAjouterUV.cpp \
     gui/dialogAjouterCursus.cpp \
-    gui/dialogAjouterDossier.cpp
+    gui/dialogAjouterDossier.cpp \
+    class/Prevision.cpp
 
 HEADERS += \
     enumeration/enumeration.h \
@@ -42,7 +43,8 @@ HEADERS += \
     gui/ClickableQLabel.h \
     gui/dialogAjouterUV.h \
     gui/dialogAjouterCursus.h \
-    gui/dialogAjouterDossier.h
+    gui/dialogAjouterDossier.h \
+    class/Prevision.h
 
 FORMS += \
     gui/mainwindow.ui \

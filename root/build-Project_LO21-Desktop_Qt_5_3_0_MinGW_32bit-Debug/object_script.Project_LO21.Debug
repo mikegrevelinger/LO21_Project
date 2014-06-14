@@ -18,6 +18,7 @@ INPUT(
 ./debug\dialogAjouterUV.o
 ./debug\dialogAjouterCursus.o
 ./debug\dialogAjouterDossier.o
+./debug\Prevision.o
 ./debug\moc_DBManager.o
 ./debug\moc_UVManager.o
 ./debug\moc_ErrorManager.o
@@ -26,6 +27,7 @@ INPUT(
 ./debug\moc_rechercheInstantaneUV.o
 ./debug\moc_DossierManager.o
 ./debug\moc_Cursus.o
+./debug\moc_CursusFactory.o
 ./debug\moc_MainWindow.o
 ./debug\moc_menuIcon.o
 ./debug\moc_ClickableQLabel.o
