@@ -63,12 +63,16 @@ void rechercheInstantaneUV::slotRechercherUV(QString p){
             }
         }
         table->resizeRowsToContents();
+        table->sortItems(1);
+        for (int i = 0; i < q.size(); ++i) {
+             q[i].clear();
+        }
         q.clear();
         message->clear();
     }
     else if(p.isEmpty()){
         qDebug() <<"Vide";
-        table->setRowCount(0);
+        table->setRowCount(0);//Supprime egalement de la mémoire les QTableWidgetItem. COOL !
         message->setText(QString("Vide"));
     }
     else if(p.size()>4){

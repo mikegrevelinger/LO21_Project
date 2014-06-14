@@ -1,5 +1,5 @@
-#ifndef CURSUS_H
-#define CURSUS_H
+#ifndef CURSUSMANAGER_H
+#define CURSUSMANAGER_H
 
 #include "HandlerSingleton.h"
 #include "ErrorManager.h"
@@ -10,11 +10,11 @@
 #include <QObject>
 
 
-class CursusManager {
+class CursusManager : public QObject {
+    Q_OBJECT
 private:
     /* Debut SINGLETON */
-    CursusManager(const CursusManager &){}
-    CursusManager () {}
+    CursusManager ();
     void operator= (const CursusManager &){}
     ~CursusManager () {}
     friend class HandlerSingleton<CursusManager>;
@@ -27,6 +27,10 @@ public:
     /* Fin SINGLETON */
     bool isTypeTC(const QString & n);
     bool isTypeBranche(const QString & n);
+    bool isObligatoire(const QString & cur, const QString & nomUV, enumeration::TypeCursus Tcur);
+signals:
+    //!pour l'envoi d'erreur
+    void sendError(QString e);
 };
 
 

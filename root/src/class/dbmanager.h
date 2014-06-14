@@ -60,7 +60,7 @@ public:
     bool ajouteETU(QString const & nom, QString const & prenom, enumeration::Civilite civ,
                    QString const & nationalite, QDate const dateDeNaissance, enumeration::Saison s, const int annee,
                    const int creditsEqui = 0, QString const cursus = NULL, const int numeroSemestre = 0,
-                   const int nbCreditEtranger = 0);
+                   const int nbCreditEtranger = 0, QString const & Fil = NULL);
     int getIdETU (QString const & nom, QString const & prenom = "", QDate const & date = QDate());
     bool ajouteInscription(int const & id, QString const & uv, enumeration::Note n, const int annee, enumeration::Saison s);
     ///< ajouteInscription : modifie les valeurs du dossier etudiant (les nbCredits) + ajoute une ligne à la table Inscription
@@ -87,13 +87,16 @@ public:
     int getNbCreditCSBranche(const QString cursus);
     int getNbCreditTMBranche(const QString cursus);
     int getNbCreditTSHBranche(const QString cursus);
-    int getNbCreditCursusBranche(const QString cursus);
+    int getNbCreditLibreBranche(const QString cursus);
+    int getNbSemestreBranche(const QString cursus);
     int getNbCreditPCB(const QString cursus);
     int getNbCreditPSF(const QString cursus);
     int getNbCreditCSTC(const QString cursus);
     int getNbCreditTMTC(const QString cursus);
     int getNbCreditTSHTC(const QString cursus);
-    int getNbCreditCursusTC(const QString cursus);
+    int getNbCreditLibreTC(const QString cursus);
+    int getNbSemestreTC (const QString cursus);
+    QStringList & getListeUV(const QString & cursus, enumeration::TypeCursus Tcur = enumeration::ErrorTypeCursus);
     /* Fin CURSUS */
 
     /* Debut choix */
