@@ -190,20 +190,15 @@ bool CursusBranche::remplireCursus(const QString & n){
         emit sendError(QString("CursusBranche : Erreur entre le type et le nom dans remplireCursus"));
         return false;
     }
-    CursusManager & cm = CursusManager::getInstance();
-
-    /**
+    DBManager & dbm = DBManager::getInstance();
     for (int i = 0; i < listUV.size(); ++i) {
-         if (cm.isFiliere(decorated->listeUV[i][0])){
+         if (dbm.isUVFiliere(decorated->getNom(),decorated->listUV[i][0])){
              decorated->listUV[i].append(QString("Filiere"));
          }
-         if (cm.isPCB(decorated->listeUV[i][0])){
+         if (dbm.isPCB(decorated->getNom(),decorated->listUV[i][0])){
              decorated->listUV[i].append(QString("PCB"));
          }
     }
-    */
-
-    DBManager & dbm = DBManager::getInstance();
     nbCreditCS = dbm.getNbCreditCSTC(nom);
     nbCreditTM = dbm.getNbCreditTMTC(nom);
     nbCreditTSH = dbm.getNbCreditTSHTC(nom);

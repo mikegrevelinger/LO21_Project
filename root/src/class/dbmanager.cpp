@@ -694,6 +694,29 @@ bool DBManager::ajouteBranche(const QString & nom, const QString & descri, const
     return true;
 }
 
+bool DBManager::isPCB(const QString &cursus, const QString & uv)
+{
+    bool res;
+    if (!openDB(db)) //impossible d'ouvrir la BDD
+    {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour isPCB"));
+        return false;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT PCB FROM BranchePourUv WHERE BranchePourUv.Nom =? AND BranchePourUv.Uv = ?");
+    query.addBindValue(cursus);
+    query.addBindValue(uv);
+    if(!query.exec())
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans isPCB"));
+        return true;
+    }
+    query.first();
+    res = query.value(0).toBool();
+    query.finish();
+    return res;
+}
+
 bool DBManager::ajouteTC (const QString & nom, const QString & descri, const int creditCS,
                const int creditTM, const int creditTSH, const int creditLibre, const int nbSemestre) {
     if (!openDB(db)) {
@@ -714,28 +737,6 @@ bool DBManager::ajouteTC (const QString & nom, const QString & descri, const int
     if(!query.exec()) //pb lors de l'execution
     {
         emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteTC"));
-        return false;
-    }
-    query.finish();
-    return true;
-}
-
-bool DBManager::ajouteFilliere (const QString & nom, const QString & descri, const int nbCredit, const QString &cursus){
-    if (!openDB(db)) {
-        emit sendError(QString("DBManager : la BDD n est pas ouverte pour ajouteFilliere"));
-        return false;
-    }
-    QSqlQuery query;
-    // la requete
-    query.prepare("INSERT INTO Filliere VALUES (?,?,?,?)");
-    //permet de remplacer le ? de query.prepare
-    query.addBindValue(nom);
-    query.addBindValue(descri);
-    query.addBindValue(nbCredit);
-    query.addBindValue(cursus);
-    if(!query.exec()) //pb lors de l'execution
-    {
-        emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteFilliere"));
         return false;
     }
     query.finish();
@@ -824,6 +825,103 @@ enumeration::TypeCursus DBManager::getTypeCursus(const QString & nom){
         return enumeration::TypeBrancheAvecUvObligatoire;
     }
     return enumeration::ErrorTypeCursus;
+}
+
+bool DBManager::isObligatoireTC(const QString & cursus, const QString & UV){
+    if (!openDB(db)) {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour isObligatoireTC"));
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("SELECT * FROM TcpourUV WHERE TcpourUV.NomCursus=? AND TcpourUV.UV=? AND TcpourUV.Obligatoire=1;");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(cursus);
+    query.addBindValue(UV);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans isObligatoireTC"));
+        return false;
+    }
+    QString res = query.value(0).toString();
+    query.finish();
+    if (!res.isEmpty()){
+        return true;
+    }
+    return false;
+}
+
+bool DBManager::isObligatoireBranche(const QString & cursus, const QString & UV){
+    if (!openDB(db)) {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour isObligatoireBranche"));
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("SELECT * FROM BranchePourUv WHERE BranchePourUv.Nom=? AND BranchePourUv.UV=? AND BranchePourUv.Obligatoire=1;");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(cursus);
+    query.addBindValue(UV);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans isObligatoireBranche"));
+        return false;
+    }
+    QString res = query.value(0).toString();
+    query.finish();
+    if (!res.isEmpty()){
+        return true;
+    }
+    return false;
+}
+
+bool DBManager::isObligatoireMineur(const QString & cursus, const QString & UV){
+    if (!openDB(db)) {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour isObligatoireMineur"));
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("SELECT * FROM MineurPourUv WHERE MineurPourUv.NomMineur=? AND MineurPourUv.UV=? AND MineurPourUv.Obligatoire=1;");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(cursus);
+    query.addBindValue(UV);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans isObligatoireMineur"));
+        return false;
+    }
+    QString res = query.value(0).toString();
+    query.finish();
+    if (!res.isEmpty()){
+        return true;
+    }
+    return false;
+}
+
+bool DBManager::isInList(const QString & cursus, const QString & UV, unsigned int i){
+    if (!openDB(db)) {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour isObligatoireMineur"));
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("SELECT * FROM MineurPourUv WHERE MineurPourUv.NomMineur=? AND MineurPourUv.UV =? AND MineurPourUv.ListeAppartenance=?");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(cursus);
+    query.addBindValue(UV);
+    query.addBindValue(i);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans isObligatoireMineur"));
+        return false;
+    }
+    QString res = query.value(0).toString();
+    query.finish();
+    if (!res.isEmpty()){
+        return true;
+    }
+    return false;
 }
 
 int DBManager::getNbCreditCSBranche(const QString cursus)
@@ -1291,3 +1389,125 @@ bool DBManager::AnnulationPrevision(const int id)
 }
 
 /* Fin pour Prevision */
+/* Debut Filiere */
+
+bool DBManager::ajouteFiliere (const QString & nom, const QString & descri, const int nbCredit, const QString &cursus){
+    if (!openDB(db)) {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour ajouteFiliere"));
+        return false;
+    }
+    QSqlQuery query;
+    // la requete
+    query.prepare("INSERT INTO Filiere VALUES (?,?,?,?)");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(nom);
+    query.addBindValue(descri);
+    query.addBindValue(nbCredit);
+    query.addBindValue(cursus);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteFiliere"));
+        return false;
+    }
+    query.finish();
+    return true;
+}
+
+QString DBManager::getNomCursusFiliere(const QString &nom)
+{
+    QString res = QString("");
+    if (!openDB(db)) //impossible d'ouvrir la BDD
+    {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour getNomCursusFiliere"));
+        return res;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT Cursus FROM Filiere WHERE Filiere.Nom =?");
+    query.addBindValue(nom);
+    if(!query.exec())
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getNomCursusFiliere"));
+        return res;
+    }
+    query.first();
+    res = query.value(0).toString();
+    query.finish();
+    return res;
+}
+
+
+QString DBManager::getDescriptionFiliere(const QString & nom){
+    QString res = QString("");
+    if (!openDB(db)) //impossible d'ouvrir la BDD
+    {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour getDescriptionFiliere"));
+        return res;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT description FROM Filiere WHERE Filiere.Nom =?");
+    query.addBindValue(nom);
+    if(!query.exec())
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans getDescriptionFiliere"));
+        return res;
+    }
+    query.first();
+    res = query.value(0).toString();
+    query.finish();
+    return res;
+}
+
+bool DBManager::isFiliere(const QString &nom)
+{
+    if (!openDB(db)) //impossible d'ouvrir la BDD
+    {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour isFiliere"));
+        return false;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT Nom FROM Filiere WHERE Filiere.Nom =?");
+    query.addBindValue(nom);
+    if(!query.exec())
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans isFiliere"));
+        return false;
+    }
+    query.first();
+    QString res;
+    res = query.value(0).toString();
+    if(!res.isEmpty())
+    {
+        return true; // Si la filiere existe bien dans la bdd on renvoit true.
+    }
+    query.finish();
+    return false;
+}
+
+bool DBManager::isUVFiliere(const QString &nom, const QString &UV)
+{
+    if (!openDB(db)) //impossible d'ouvrir la BDD
+    {
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour isUVFiliere"));
+        return false;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT Nom FROM Filiere WHERE FilierePourUv.NomFiliere =? and FilierePourUv.Uv=?");
+    query.addBindValue(nom);
+    query.addBindValue(UV);
+    if(!query.exec())
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans isUVFiliere"));
+        return false;
+    }
+    query.first();
+    QString res;
+    res = query.value(0).toString();
+    if(!res.isEmpty())
+    {
+        return true; // Si l'uv est bien une UV de cette filiere, on renvoit true.
+    }
+    query.finish();
+    return false;
+}
+
+/* Fin Filiere */

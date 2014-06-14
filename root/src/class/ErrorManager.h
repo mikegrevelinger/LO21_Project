@@ -1,5 +1,5 @@
-#ifndef ERRORDB_H
-#define ERRORDB_H
+#ifndef ERRORMANAGER_H
+#define ERRORMANAGER_H
 
 #include <QString>
 #include <QObject>
@@ -37,4 +37,4 @@ public slots:
     void mailBoxError(QString e);
 };
 
-#endif // ERRORDB_H
+#endif // ERRORMANAGER_H

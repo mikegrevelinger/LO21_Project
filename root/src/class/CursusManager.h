@@ -36,4 +36,4 @@ signals:
 
 
 
-#endif // CURSUS_H
+#endif // CURSUSMANAGER_H

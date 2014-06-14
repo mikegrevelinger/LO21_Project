@@ -11,6 +11,10 @@
  * @brief The DBManager class
  *
  * DossierManager verefie que chaque entree d'uv dans la table inscription fait bien partie du cursus en cours de l'étudiant.
+ *
+ * A savoir sur SQlite :
+ *  - SQLite does not have a separate Boolean storage class. Instead, Boolean values are stored as integers 0 (false) and 1 (true).
+ *  -
  */
 
 class DossierManager : public QObject

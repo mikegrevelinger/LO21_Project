@@ -1988,10 +1988,12 @@ debug/moc_DossierManager.cpp: ../src/class/ErrorManager.h \
 		../src/class/DossierManager.h
 	C:\Qt\5.3\mingw482_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -IC:/Qt/5.3/mingw482_32/mkspecs/win32-g++ -IC:/Users/Baptiste/Documents/GitHub/LO21_Project/root/src -IC:/Qt/5.3/mingw482_32/include -IC:/Qt/5.3/mingw482_32/include/QtWidgets -IC:/Qt/5.3/mingw482_32/include/QtSql -IC:/Qt/5.3/mingw482_32/include/QtGui -IC:/Qt/5.3/mingw482_32/include/QtCore -I. ..\src\class\DossierManager.h -o debug\moc_DossierManager.cpp
 
-debug/moc_Cursus.cpp: C:/Qt/5.3/mingw482_32/include/QtCore/QObject \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qobject.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qobjectdefs.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qnamespace.h \
+debug/moc_Cursus.cpp: ../src/class/CursusManager.h \
+		../src/class/HandlerSingleton.h \
+		../src/class/ErrorManager.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QString \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qstring.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qchar.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qglobal.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qconfig.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qfeatures.h \
@@ -2020,13 +2022,15 @@ debug/moc_Cursus.cpp: C:/Qt/5.3/mingw482_32/include/QtCore/QObject \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qglobalstatic.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qmutex.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qnumeric.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qobjectdefs_impl.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qstring.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qchar.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qbytearray.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qrefcount.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qnamespace.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qarraydata.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QObject \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qobject.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qobjectdefs_impl.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qlist.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qalgorithms.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qiterator.h \
@@ -2037,20 +2041,6 @@ debug/moc_Cursus.cpp: C:/Qt/5.3/mingw482_32/include/QtCore/QObject \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qcontainerfwd.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qisenum.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qobject_impl.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/QString \
-		C:/Qt/5.3/mingw482_32/include/QtCore/QVector \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qvector.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qpoint.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/QStringList \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qstringlist.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qdatastream.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qiodevice.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qpair.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qregexp.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qstringmatcher.h \
-		../src/class/CursusManager.h \
-		../src/class/HandlerSingleton.h \
-		../src/class/ErrorManager.h \
 		C:/Qt/5.3/mingw482_32/include/QtWidgets/QTextEdit \
 		C:/Qt/5.3/mingw482_32/include/QtWidgets/qtextedit.h \
 		C:/Qt/5.3/mingw482_32/include/QtWidgets/qabstractscrollarea.h \
@@ -2062,10 +2052,18 @@ debug/moc_Cursus.cpp: C:/Qt/5.3/mingw482_32/include/QtCore/QObject \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qrect.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qsize.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qpoint.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qpalette.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qcolor.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qrgb.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qstringlist.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qdatastream.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qiodevice.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qpair.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qregexp.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qstringmatcher.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qbrush.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qvector.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qmatrix.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qpolygon.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qregion.h \
@@ -2137,6 +2135,7 @@ debug/moc_Cursus.cpp: C:/Qt/5.3/mingw482_32/include/QtCore/QObject \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qfileinfo.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qdiriterator.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qfileselector.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QStringList \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qfilesystemwatcher.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qlockfile.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qloggingcategory.h \
@@ -2254,6 +2253,7 @@ debug/moc_Cursus.cpp: C:/Qt/5.3/mingw482_32/include/QtCore/QObject \
 		C:/Qt/5.3/mingw482_32/include/QtSql/qsqlrelationaltablemodel.h \
 		C:/Qt/5.3/mingw482_32/include/QtSql/qsqltablemodel.h \
 		C:/Qt/5.3/mingw482_32/include/QtSql/qtsqlversion.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QVector \
 		C:/Qt/5.3/mingw482_32/include/QtCore/QDate \
 		C:/Qt/5.3/mingw482_32/include/QtCore/QList \
 		../src/class/VisitorCursus.h \
@@ -5642,10 +5642,12 @@ debug/DossierManager.o: ../src/class/DossierManager.cpp ../src/class/DossierMana
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\DossierManager.o ..\src\class\DossierManager.cpp
 
 debug/Cursus.o: ../src/class/Cursus.cpp ../src/class/Cursus.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/QObject \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qobject.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qobjectdefs.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qnamespace.h \
+		../src/class/CursusManager.h \
+		../src/class/HandlerSingleton.h \
+		../src/class/ErrorManager.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QString \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qstring.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qchar.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qglobal.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qconfig.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qfeatures.h \
@@ -5674,13 +5676,15 @@ debug/Cursus.o: ../src/class/Cursus.cpp ../src/class/Cursus.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qglobalstatic.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qmutex.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qnumeric.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qobjectdefs_impl.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qstring.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qchar.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qbytearray.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qrefcount.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qnamespace.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qarraydata.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QObject \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qobject.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qobjectdefs_impl.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qlist.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qalgorithms.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qiterator.h \
@@ -5691,20 +5695,6 @@ debug/Cursus.o: ../src/class/Cursus.cpp ../src/class/Cursus.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qcontainerfwd.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qisenum.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qobject_impl.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/QString \
-		C:/Qt/5.3/mingw482_32/include/QtCore/QVector \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qvector.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qpoint.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/QStringList \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qstringlist.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qdatastream.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qiodevice.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qpair.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qregexp.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qstringmatcher.h \
-		../src/class/CursusManager.h \
-		../src/class/HandlerSingleton.h \
-		../src/class/ErrorManager.h \
 		C:/Qt/5.3/mingw482_32/include/QtWidgets/QTextEdit \
 		C:/Qt/5.3/mingw482_32/include/QtWidgets/qtextedit.h \
 		C:/Qt/5.3/mingw482_32/include/QtWidgets/qabstractscrollarea.h \
@@ -5716,10 +5706,18 @@ debug/Cursus.o: ../src/class/Cursus.cpp ../src/class/Cursus.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qrect.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qsize.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qpoint.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qpalette.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qcolor.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qrgb.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qstringlist.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qdatastream.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qiodevice.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qpair.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qregexp.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qstringmatcher.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qbrush.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qvector.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qmatrix.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qpolygon.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qregion.h \
@@ -5791,6 +5789,7 @@ debug/Cursus.o: ../src/class/Cursus.cpp ../src/class/Cursus.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qfileinfo.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qdiriterator.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qfileselector.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QStringList \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qfilesystemwatcher.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qlockfile.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qloggingcategory.h \
@@ -5908,6 +5907,7 @@ debug/Cursus.o: ../src/class/Cursus.cpp ../src/class/Cursus.h \
 		C:/Qt/5.3/mingw482_32/include/QtSql/qsqlrelationaltablemodel.h \
 		C:/Qt/5.3/mingw482_32/include/QtSql/qsqltablemodel.h \
 		C:/Qt/5.3/mingw482_32/include/QtSql/qtsqlversion.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QVector \
 		C:/Qt/5.3/mingw482_32/include/QtCore/QDate \
 		C:/Qt/5.3/mingw482_32/include/QtCore/QList \
 		../src/class/VisitorCursus.h
@@ -5915,10 +5915,12 @@ debug/Cursus.o: ../src/class/Cursus.cpp ../src/class/Cursus.h \
 
 debug/CursusFactory.o: ../src/class/CursusFactory.cpp ../src/class/CursusFactory.h \
 		../src/class/Cursus.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/QObject \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qobject.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qobjectdefs.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qnamespace.h \
+		../src/class/CursusManager.h \
+		../src/class/HandlerSingleton.h \
+		../src/class/ErrorManager.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QString \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qstring.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qchar.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qglobal.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qconfig.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qfeatures.h \
@@ -5947,13 +5949,15 @@ debug/CursusFactory.o: ../src/class/CursusFactory.cpp ../src/class/CursusFactory
 		C:/Qt/5.3/mingw482_32/include/QtCore/qglobalstatic.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qmutex.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qnumeric.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qobjectdefs_impl.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qstring.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qchar.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qbytearray.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qrefcount.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qnamespace.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qarraydata.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QObject \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qobject.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qobjectdefs_impl.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qlist.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qalgorithms.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qiterator.h \
@@ -5964,20 +5968,6 @@ debug/CursusFactory.o: ../src/class/CursusFactory.cpp ../src/class/CursusFactory
 		C:/Qt/5.3/mingw482_32/include/QtCore/qcontainerfwd.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qisenum.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qobject_impl.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/QString \
-		C:/Qt/5.3/mingw482_32/include/QtCore/QVector \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qvector.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qpoint.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/QStringList \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qstringlist.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qdatastream.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qiodevice.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qpair.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qregexp.h \
-		C:/Qt/5.3/mingw482_32/include/QtCore/qstringmatcher.h \
-		../src/class/CursusManager.h \
-		../src/class/HandlerSingleton.h \
-		../src/class/ErrorManager.h \
 		C:/Qt/5.3/mingw482_32/include/QtWidgets/QTextEdit \
 		C:/Qt/5.3/mingw482_32/include/QtWidgets/qtextedit.h \
 		C:/Qt/5.3/mingw482_32/include/QtWidgets/qabstractscrollarea.h \
@@ -5989,10 +5979,18 @@ debug/CursusFactory.o: ../src/class/CursusFactory.cpp ../src/class/CursusFactory
 		C:/Qt/5.3/mingw482_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qrect.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qsize.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qpoint.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qpalette.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qcolor.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qrgb.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qstringlist.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qdatastream.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qiodevice.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qpair.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qregexp.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qstringmatcher.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qbrush.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/qvector.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qmatrix.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qpolygon.h \
 		C:/Qt/5.3/mingw482_32/include/QtGui/qregion.h \
@@ -6064,6 +6062,7 @@ debug/CursusFactory.o: ../src/class/CursusFactory.cpp ../src/class/CursusFactory
 		C:/Qt/5.3/mingw482_32/include/QtCore/qfileinfo.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qdiriterator.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qfileselector.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QStringList \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qfilesystemwatcher.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qlockfile.h \
 		C:/Qt/5.3/mingw482_32/include/QtCore/qloggingcategory.h \
@@ -6181,6 +6180,7 @@ debug/CursusFactory.o: ../src/class/CursusFactory.cpp ../src/class/CursusFactory
 		C:/Qt/5.3/mingw482_32/include/QtSql/qsqlrelationaltablemodel.h \
 		C:/Qt/5.3/mingw482_32/include/QtSql/qsqltablemodel.h \
 		C:/Qt/5.3/mingw482_32/include/QtSql/qtsqlversion.h \
+		C:/Qt/5.3/mingw482_32/include/QtCore/QVector \
 		C:/Qt/5.3/mingw482_32/include/QtCore/QDate \
 		C:/Qt/5.3/mingw482_32/include/QtCore/QList \
 		../src/class/VisitorCursus.h

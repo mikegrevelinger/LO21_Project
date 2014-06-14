@@ -48,9 +48,9 @@ bool CursusManager::isObligatoire(const QString & cur, const QString & nomUV, en
     } else if (Tcur == enumeration::TypeBranche || Tcur == enumeration::TypeTc){
         return false;
     } else if (Tcur == enumeration::TypeTcAvecUvObligatoire){
-        return dbm.obligatoireTC(cur,nomUV);
+        return dbm.isObligatoireTC(cur,nomUV);
     } else if (Tcur == enumeration::TypeBrancheAvecUvObligatoire) {
-        return dbm.obligatoireBranche(cur,nomUV);
+        return dbm.isObligatoireBranche(cur,nomUV);
     }
     emit sendError(QString("CursusManager : Arrive à un endroit inapproprié dans isObligatoire"));
     return false;

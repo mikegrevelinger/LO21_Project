@@ -76,14 +76,15 @@ public:
     bool ajouteBranche(const QString & nom, const QString & descri, const int creditCS,
                        const int creditTM, const int creditTSH, const int creditLibre, const int creditPCB,
                        const int creditPSF, const int nbSemestre);
+    bool isPCB(const QString &cursus, const QString &uv);
     bool ajouteTC (const QString & nom, const QString & descri, const int creditCS,
                    const int creditTM, const int creditTSH, const int creditLibre, const int nbSemestre);
-    bool ajouteFilliere (const QString & nom, const QString & descri, const int nbCredit, const QString &cursus);
     bool ajouteMineur (const QString & nom, const QString & descri, const int nbListe);
     enumeration::TypeCursus getTypeCursus(const QString & nom); ///<Le cursus doit avoir au moins une UV enregistré pour que cette fonction retourne un type correct
-    bool obligatoireTC(const QString cursus, const QString UV); ///< Renvoie true si l'uv est obligatoire(Pour un cursus TC), false sinon
-    bool obligatoireBranche(const QString cursus, const QString UV); ///< Renvoie true si l'uv est obligatoire(Pour un cursus Branche), false sinon
-    bool obligatoireMineur(const QString cursus, const QString UV); ///< Renvoie true si l'uv est obligatoire pour un Mineur donné, false sinon
+    bool isObligatoireTC(const QString & cursus, const QString & UV); ///< Renvoie true si l'uv est obligatoire(Pour un cursus TC), false sinon
+    bool isObligatoireBranche(const QString & cursus, const QString & UV); ///< Renvoie true si l'uv est obligatoire(Pour un cursus Branche), false sinon
+    bool isObligatoireMineur(const QString & cursus, const QString & UV); ///< Renvoie true si l'uv est obligatoire pour un Mineur donné, false sinon
+    bool isInList(const QString & cursus, const QString & UV, unsigned int i); ///< Pour savoir si une UV apartient à une Liste donnée
     int getNbCreditCSBranche(const QString cursus);
     int getNbCreditTMBranche(const QString cursus);
     int getNbCreditTSHBranche(const QString cursus);
@@ -109,6 +110,14 @@ public:
     bool inscriptionUValide(const int id,const QString UV,const int annee,const QString semestre); ///< Permet d'inscrire les UVS selectionnées et validées par l'étudiant lors de la prévision
     bool AnnulationPrevision(const int id);
     /* Fin pour Prevision */
+
+    /*Debut pour filiere */
+    bool ajouteFiliere (const QString & nom, const QString & descri, const int nbCredit, const QString &cursus);
+    QString getNomCursusFiliere(const QString &nom);
+    QString getDescriptionFiliere(const QString & nom);
+    bool isFiliere(const QString &nom);
+    bool isUVFiliere(const QString &nom, const QString &UV);
+    /* Fin pour Filiere */
 
 signals:
     //!pour l'envoi d'erreur

@@ -28,6 +28,7 @@ protected:
     unsigned int nbSemestre;
     unsigned int nbCreditsTotal;
     enumeration::TypeCursus t;
+    friend class CursusBranche;
 public:
     Cursus();
     virtual ~Cursus();
