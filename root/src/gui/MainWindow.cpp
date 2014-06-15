@@ -5,16 +5,28 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
     ui->statusBar->showMessage("Baptiste NOGARET - Mike GREVELINGER");
-    ui->LayoutBody->addWidget(new rechercheInstantaneUV(this));
+    rUV = new rechercheInstantaneUV(this);
+    ui->LayoutBody->addWidget(rUV);
+    qDebug() << ui->LayoutBody->indexOf(rUV);
     ui->groupBoxLayout->addWidget(new menuIcon(this,this));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete rUV;
+    delete rDossier;
 }
 
-void MainWindow::afficheRechercheInstantane(){
-    qDebug("LOL");
+void MainWindow::afficheRechercheInstantaneUV(){
+    delete ui->LayoutBody->takeAt(0);
+    rUV = new rechercheInstantaneUV(this);
+    ui->LayoutBody->addWidget(rUV);
+}
+
+void MainWindow::afficheRechercheInstantaneDossier(){
+    delete ui->LayoutBody->takeAt(0);
+    rDossier = new rechercheInstantaneDossier(this);
+    ui->LayoutBody->addWidget(rDossier);
 }
 

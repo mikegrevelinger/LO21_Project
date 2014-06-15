@@ -14,7 +14,6 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGroupBox>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QStatusBar>
@@ -33,7 +32,6 @@ public:
     QGroupBox *groupBox;
     QWidget *verticalLayoutWidget_2;
     QVBoxLayout *LayoutBody;
-    QHBoxLayout *menuBody;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -66,11 +64,6 @@ public:
         LayoutBody = new QVBoxLayout(verticalLayoutWidget_2);
         LayoutBody->setObjectName(QStringLiteral("LayoutBody"));
         LayoutBody->setContentsMargins(0, 0, 0, 0);
-        menuBody = new QHBoxLayout();
-        menuBody->setObjectName(QStringLiteral("menuBody"));
-
-        LayoutBody->addLayout(menuBody);
-
         MainWindow->setCentralWidget(centralwidget);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));

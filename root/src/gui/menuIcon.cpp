@@ -37,7 +37,11 @@ menuIcon::menuIcon(MainWindow * c, QWidget *parent) : QWidget(parent) {
     l->addWidget(cursusLabel,1,2,1,1,Qt::AlignCenter);
     l->addWidget(previsionLabel,1,3,1,1,Qt::AlignCenter);
     setLayout(l);
-    QObject::connect(uvLabel,SIGNAL(clicked()),c,SLOT(afficheRechercheInstantane()));
+    QObject::connect(uvLabel,SIGNAL(clicked()),c,SLOT(afficheRechercheInstantaneUV()));
+    QObject::connect(uv,SIGNAL(clicked()),c,SLOT(afficheRechercheInstantaneUV()));
+
+    QObject::connect(dossierLabel,SIGNAL(clicked()),c,SLOT(afficheRechercheInstantaneDossier()));
+    QObject::connect(dossier,SIGNAL(clicked()),c,SLOT(afficheRechercheInstantaneDossier()));
     /*
      * à uv ou uvlabel --> connecter afficheRechercheInstantaneUV
      * à cursus ou cursuslabel --> connecter afficheRechercheInstantaneCursus

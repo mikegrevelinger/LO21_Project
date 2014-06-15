@@ -1,11 +1,11 @@
-#include "rechercheInstantaneUV.h"
+#include "rechercheInstantaneCursus.h"
 
-rechercheInstantaneUV::rechercheInstantaneUV(QWidget * parent) :
-    QWidget(parent),regexRechercheUV("^[a-zA-Z0-9]{1,4}")
+rechercheInstantaneCursus::rechercheInstantaneCursus(QWidget * parent) :
+    QWidget(parent),regexRechercheCursus("^[a-zA-Z]{1,20}")
 {
     l = new QLineEdit(this);
     layout = new QGridLayout(this);
-    messageDouble = new QString("Double cliquer sur la ligne pour modifier l'UV");
+    messageDouble = new QString("Double cliquer sur la ligne pour modifier le Cursus");
     label = new QLabel(this);
     label->setText(*messageDouble);
     message = new QLabel(this);
@@ -18,10 +18,10 @@ rechercheInstantaneUV::rechercheInstantaneUV(QWidget * parent) :
     search->setPixmap(*searchPixmap);
     search->setFixedSize(QSize(32,32));
 
-    ajoutUVPixmap = new QPixmap(QString("%1iconAjout.png").arg(CurrentDir));
-    ajoutUV = new ClickableQLabel(this);
-    ajoutUV->setPixmap(*ajoutUVPixmap);
-    ajoutUV->setFixedSize(QSize(32,32));
+    ajoutPixmap = new QPixmap(QString("%1iconAjout.png").arg(CurrentDir));
+    ajout = new ClickableQLabel(this);
+    ajout->setPixmap(*ajoutPixmap);
+    ajout->setFixedSize(QSize(32,32));
 
     table = new QTableWidget(this);
     table->setColumnCount(4);
@@ -30,8 +30,7 @@ rechercheInstantaneUV::rechercheInstantaneUV(QWidget * parent) :
     headerText<<"Nom"<<"Categorie"<<"Credits"<<"Description";//titre des colonnes
     table->setHorizontalHeaderLabels(headerText);
     header = new QHeaderView(Qt::Horizontal, table);
-    //header->setSectionResizeMode(QHeaderView::Stretch); SI on veut toutes les colonnes de taille égale + prennent toutes la place possible
-    header->setStretchLastSection(true);//Dernier colonne prendra la place qu'il reste
+    header->setSectionResizeMode(QHeaderView::Stretch);
     table->setHorizontalHeader(header);
     table->verticalHeader()->setVisible(false);//pas de titre pour les lignes
     table->setEditTriggers(QAbstractItemView::NoEditTriggers); //Pour interdire la modification des cellules
@@ -41,28 +40,26 @@ rechercheInstantaneUV::rechercheInstantaneUV(QWidget * parent) :
     table->setStyleSheet("QTableView {selection-background-color: red;}");
     table->setGeometry(QApplication::desktop()->screenGeometry());
 
-    //table->setItem(0,0,new QTableWidgetItem("Nom"));
-
     layout->addWidget(search,0,0,3,1);
     layout->addWidget(l,0,1);
-    layout->addWidget(ajoutUV,0,2,3,1);
+    layout->addWidget(ajout,0,2,3,1);
     layout->addWidget(label,1,1);
     layout->addWidget(message,2,1);
     layout->addWidget(table,3,0,1,3);
     setLayout(layout);
 
-    QObject::connect(l, SIGNAL(textChanged(QString)), this, SLOT(slotRechercherUV(QString)));
-    QObject::connect(table, SIGNAL(cellDoubleClicked(int , int)), this, SLOT(ouvrirDialogModifieUV(int , int)));
-    QObject::connect(ajoutUV, SIGNAL(clicked()), this, SLOT(ouvrirDialogAjouterUV()));
+    QObject::connect(l, SIGNAL(textChanged(QString)), this, SLOT(slotRechercherCursus(QString)));
+    QObject::connect(table, SIGNAL(cellDoubleClicked(int , int)), this, SLOT(ouvrirDialogModifieCursus(int , int)));
+    QObject::connect(ajout, SIGNAL(clicked()), this, SLOT(ouvrirDialogAjouterCursus()));
 }
 
-rechercheInstantaneUV::~rechercheInstantaneUV(){
+rechercheInstantaneCursus::~rechercheInstantaneCursus(){
     label->setText("");
     delete messageDouble;
     delete searchPixmap;
     delete search;
-    delete ajoutUVPixmap;
-    delete ajoutUV;
+    delete ajoutPixmap;
+    delete ajout;
     table->setRowCount(0);
     delete table;
     delete l;
@@ -73,10 +70,10 @@ rechercheInstantaneUV::~rechercheInstantaneUV(){
     delete layout;
 }
 
-void rechercheInstantaneUV::slotRechercherUV(QString p){
-    if ((!p.isNull()) && regexRechercheUV.exactMatch(p)){
+void rechercheInstantaneCursus::slotRechercherCursus(QString p){
+    if ((!p.isNull()) && regexRechercheCursus.exactMatch(p)){
         DBManager & dbm = DBManager::getInstance();
-        QList<QStringList > q = dbm.rechercheUV(p);
+        QList<QStringList > q = dbm.rechercheCursus(p);
         table->setRowCount(q.size());
         for(int i = 0 ;i<q.size();i++){
             for(int j = 0;j<q[i].size();j++){
@@ -96,10 +93,10 @@ void rechercheInstantaneUV::slotRechercherUV(QString p){
         table->setRowCount(0);//Supprime egalement de la mémoire les QTableWidgetItem. COOL !
         message->setText(QString("Vide"));
     }
-    else if(p.size()>4){
+    else if(p.size()>20){
         qDebug() <<"Trop long";
         table->setRowCount(0);
-        message->setText(QString("Trop long. Il faut entrer au maximum 4 caractères."));
+        message->setText(QString("Trop long. Il faut entrer au maximum 20 caractères."));
     }
     else {
         qDebug() <<"Erreur dans la saisie";
@@ -109,13 +106,7 @@ void rechercheInstantaneUV::slotRechercherUV(QString p){
 }
 
 
-void rechercheInstantaneUV::ouvrirDialogModifieUV(int nRow, int nCol)
-{
-    dialogModifieUV * dUV = new dialogModifieUV(table->item(nRow,0)->text());
-    dUV->exec();
-}
-
-void rechercheInstantaneUV::ouvrirDialogAjouterUV() {
-    dialogAjouterUV * dUV = new dialogAjouterUV;
-    dUV->exec();
+void rechercheInstantaneCursus::ouvrirDialogAjouterCursus() {
+    dialogAjouterCursus * d = new dialogAjouterCursus;
+    d->exec();
 }

@@ -19,10 +19,18 @@ SOURCES += main.cpp \
     gui/menuIcon.cpp \
     gui/ClickableQLabel.cpp \
     gui/dialogAjouterUV.cpp \
-    gui/dialogAjouterCursus.cpp \
     gui/dialogAjouterDossier.cpp \
     class/Prevision.cpp \
-    gui/rechercheInstantaneDossiercpp.cpp
+    gui/rechercheInstantaneDossiercpp.cpp \
+    gui/dialogModifieUV.cpp \
+    gui/rechercheInstantaneCursus.cpp \
+    gui/dialogAjouterCursusTC.cpp \
+    dialogAjouterCursus.cpp \
+    gui/dialogAjouterCursus.cpp \
+    dialogAjouterCursusBranche.cpp \
+    gui/dialogAjouterCursusBranche.cpp \
+    gui/dialogAjouterFiliere.cpp \
+    gui/dialogAjouterMineur.cpp
 
 HEADERS += \
     class/HandlerSingleton.h \
@@ -41,14 +49,29 @@ HEADERS += \
     gui/menuIcon.h \
     gui/ClickableQLabel.h \
     gui/dialogAjouterUV.h \
-    gui/dialogAjouterCursus.h \
     gui/dialogAjouterDossier.h \
     class/Prevision.h \
     gui/rechercheInstantaneDossier.h \
-    enumeration/enumeration.h
+    enumeration/enumeration.h \
+    gui/dialogModifieUV.h \
+    gui/rechercheInstantaneCursus.h \
+    gui/dialogAjouterCursusTC.h \
+    dialogAjouterCursus.h \
+    gui/dialogAjouterCursus.h \
+    dialogAjouterCursusBranche.h \
+    gui/dialogAjouterCursusBranche.h \
+    gui/dialogAjouterFiliere.h \
+    gui/dialogAjouterMineur.h
 
 FORMS += \
     gui/mainwindow.ui \
     gui/dialogAjouterUV.ui \
+    gui/dialogAjouterDossier.ui \
+    gui/dialogModifieUV.ui \
+    gui/dialogAjouterCursusTC.ui \
+    dialogAjouterCursus.ui \
     gui/dialogAjouterCursus.ui \
-    gui/dialogAjouterDossier.ui
+    dialogAjouterCursusBranche.ui \
+    gui/dialogAjouterCursusBranche.ui \
+    gui/dialogAjouterFiliere.ui \
+    gui/dialogAjouterMineur.ui

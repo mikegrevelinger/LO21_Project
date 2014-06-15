@@ -89,11 +89,7 @@
        <height>351</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="LayoutBody">
-      <item>
-       <layout class="QHBoxLayout" name="menuBody"/>
-      </item>
-     </layout>
+     <layout class="QVBoxLayout" name="LayoutBody"/>
     </widget>
    </widget>
   </widget>

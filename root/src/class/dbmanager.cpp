@@ -355,7 +355,7 @@ bool DBManager::isEnseigne(const QString& UV,enumeration::Saison semestre){
    if(!query.exec()) //pb lors de l'execution
    {
        emit sendError(QString("DBManager : Erreur execution de la requete dans enseigne"));
-       return 0;
+       return false;
    }
    query.first();
    ress=query.value(0).toString();
@@ -363,13 +363,43 @@ bool DBManager::isEnseigne(const QString& UV,enumeration::Saison semestre){
    res=enumeration::StringToSaison(ress);
    if(res==semestre || res==enumeration::Tout)
    {
-   return true;
+        return true;
    }
    else
    {
        return false;
    }
    query.finish();
+   return false;
+}
+
+bool DBManager::modifieUV(const QString & nom, const QString& d,enumeration::Saison semestreEnseigne,enumeration::CategorieUV cat,const int credits){
+    if (!openDB(db)) {
+        return false;
+    }
+    QSqlQuery query;
+    query.prepare("UPDATE uvs SET description = ?, SemestreEnseigne=? WHERE NOM = ?");
+    //permet de remplacer le ? de query.prepare
+    query.addBindValue(d);
+    query.addBindValue(enumeration::SaisonToString(semestreEnseigne));
+    query.addBindValue(nom);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans modifieUV(uvs)"));
+        return false;
+    }
+    query.finish();
+    query.prepare("UPDATE CategorieUv SET Categorie=?, Credit=? WHERE uv=?");
+    query.addBindValue(enumeration::CategorieUVToString(cat));
+    query.addBindValue(credits);
+    query.addBindValue(nom);
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans modifieUV(Categorie)"));
+        return false;
+    }
+    query.finish();
+    return true;
 }
 
 /* Fin UV */
@@ -386,7 +416,7 @@ bool DBManager::ajouteETU(const QString &nom, const QString &prenom, enumeration
     QSqlQuery query;
     // la requete
     query.prepare("INSERT INTO dossier (NomEtu,PrenomEtu,Civilite,Nationalite,DateDeNaissance,SemestreCourant, \
-                  anneeCourante,nbCreditEquivalence,CursusCourant,numeroSemestre,\
+                  anneeCourante,nbCreditEquivalence,CursusCourant,numeroSemestreCourant,\
                   nbCreditEtranger,Filiere) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
     //permet de remplacer le ? de query.prepare
     query.addBindValue(nom);
@@ -1438,6 +1468,50 @@ bool DBManager::NewUvVEUT(const QString UV, const int id) {
         if(!query.exec()) //pb lors de l'execution
         {
             emit sendError(QString("DBManager : Erreur execution de la requete dans NewUvVEUT(insert)"));
+            return false;
+        }
+        return true;
+        query.finish();
+   }
+   return false;
+}
+
+bool DBManager::NewUvNEUTRE(const QString UV, const int id) {
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return false;
+   }
+   QSqlQuery query;
+   query.prepare("SELECT Choix FROM Choix where Choix.UV=? and Choix.IDossier=?");
+   query.addBindValue(UV); //permet de remplacer le ? de query.prepare par UV
+   query.addBindValue(id); //permet de remplacer le ? de query.prepare par ID du dossier etu
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans NewUvNEUTRE"));
+       return false;
+   }
+   query.first();
+   QString res=query.value(0).toString();
+   qDebug()<<res;
+   query.finish();
+   if(!res.isEmpty() && res!="NEUTRE") {
+       query.prepare("UPDATE Choix SET Choix='NEUTRE' where Choix.UV=? and Choix.IDossier=?"); // la requete pour modifier le choix d'un étudiant
+       query.addBindValue(UV); //permet de remplacer le ? de query.prepare par UV
+       query.addBindValue(id); //permet de remplacer le ? de query.prepare par ID du dossier etu
+           if(!query.exec()) //pb lors de l'execution
+           {
+               emit sendError(QString("DBManager : Erreur execution de la requete dans NewUvNEUTRE(update)"));
+               return false;
+           }
+       return true;
+       query.finish();
+   } else if(res!="VEUT") {
+        query.prepare("INSERT INTO Choix(Cursus,Uv,Choix,IDossier) VALUES (?,?,'NEUTRE',?)"); // la requete pour ajouter le choix d'un étudiant
+        query.addBindValue(UV); //permet de remplacer le ? de query.prepare par UV
+        query.addBindValue(id); //permet de remplacer le ? de query.prepare par ID du dossier etu
+        if(!query.exec()) //pb lors de l'execution
+        {
+            emit sendError(QString("DBManager : Erreur execution de la requete dans NewUvNEUTRE(insert)"));
             return false;
         }
         return true;

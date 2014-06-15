@@ -5,29 +5,29 @@ rechercheInstantaneDossier::rechercheInstantaneDossier(QWidget * parent) :
 {
     l = new QLineEdit(this);
     layout = new QGridLayout(this);
+    messageDouble = new QString("Double cliquer sur la ligne pour modifier le dossier");
     label = new QLabel(this);
-    label->setText("Double cliquer sur la ligne pour modifier le Dossier");
+    label->setText(*messageDouble);
     message = new QLabel(this);
 
     QString CurrentDir = QDir::currentPath();
     CurrentDir.replace("build-Project_LO21-Desktop_Qt_5_3_0_MinGW_32bit-Debug","resources/");
-    qDebug() << CurrentDir;
 
     searchPixmap = new QPixmap(QString("%1iconSearch.png").arg(CurrentDir));
     search = new QLabel(this);
     search->setPixmap(*searchPixmap);
     search->setFixedSize(QSize(32,32));
 
-    ajoutUVPixmap = new QPixmap(QString("%1iconAjout.png").arg(CurrentDir));
-    ajoutUV = new ClickableQLabel(this);
-    ajoutUV->setPixmap(*ajoutUVPixmap);
-    ajoutUV->setFixedSize(QSize(32,32));
+    ajoutPixmap = new QPixmap(QString("%1iconAjout.png").arg(CurrentDir));
+    ajout = new ClickableQLabel(this);
+    ajout->setPixmap(*ajoutPixmap);
+    ajout->setFixedSize(QSize(32,32));
 
     table = new QTableWidget(this);
-    table->setColumnCount(6);
+    table->setColumnCount(4);
     table->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     table->setMinimumSize(550,150);
-    headerText<<"ID"<<"Nom étudiant"<<"Prenom étudiant"<<"Civilite"<<"Nationalite"<<"Date de Naissance";
+    headerText<<"Nom"<<"Categorie"<<"Credits"<<"Description";//titre des colonnes
     table->setHorizontalHeaderLabels(headerText);
     header = new QHeaderView(Qt::Horizontal, table);
     header->setSectionResizeMode(QHeaderView::Stretch);
@@ -37,24 +37,38 @@ rechercheInstantaneDossier::rechercheInstantaneDossier(QWidget * parent) :
     table->setSelectionBehavior(QAbstractItemView::SelectRows);//Utilisateur selectionne des lignes
     table->setSelectionMode(QAbstractItemView::SingleSelection);//utilisateur selectionne une unique ligne à la fois
     table->setShowGrid(false);
-    table->setStyleSheet("QTableView {selection-background-color: blue;}");
+    table->setStyleSheet("QTableView {selection-background-color: red;}");
     table->setGeometry(QApplication::desktop()->screenGeometry());
-
-    //table->setItem(0,0,new QTableWidgetItem("Nom"));
 
     layout->addWidget(search,0,0,3,1);
     layout->addWidget(l,0,1);
-    layout->addWidget(ajoutUV,0,2,3,1);
+    layout->addWidget(ajout,0,2,3,1);
     layout->addWidget(label,1,1);
     layout->addWidget(message,2,1);
     layout->addWidget(table,3,0,1,3);
     setLayout(layout);
 
     QObject::connect(l, SIGNAL(textChanged(QString)), this, SLOT(slotRechercherDossier(QString)));
-    QObject::connect(table, SIGNAL(cellDoubleClicked(int , int)), this, SLOT(cellSelected(int , int)));
-    QObject::connect(ajoutUV, SIGNAL(clicked()), this, SLOT(ouvrirDialogAjouterDossier()));
+    QObject::connect(table, SIGNAL(cellDoubleClicked(int , int)), this, SLOT(ouvrirDialogModifieDossier(int , int)));
+    //QObject::connect(ajout, SIGNAL(clicked()), this, SLOT(ouvrirDialogAjouterDossier()));
 }
 
+rechercheInstantaneDossier::~rechercheInstantaneDossier(){
+    label->setText("");
+    delete messageDouble;
+    delete searchPixmap;
+    delete search;
+    delete ajoutPixmap;
+    delete ajout;
+    table->setRowCount(0);
+    delete table;
+    delete l;
+    delete label;
+    delete table;
+    delete header;
+    delete message;
+    delete layout;
+}
 
 void rechercheInstantaneDossier::slotRechercherDossier(QString p){
     if ((!p.isNull()) && regexRechercheDossier.exactMatch(p)){
@@ -91,13 +105,14 @@ void rechercheInstantaneDossier::slotRechercherDossier(QString p){
     }
 }
 
-
-void rechercheInstantaneDossier::cellSelected(int nRow, int nCol)
+/*
+void rechercheInstantaneDossier::ouvrirDialogModifieDossier(int nRow, int nCol)
 {
-    QMessageBox::information(this, "","Cell at row "+QString::number(nRow)+" column "+QString::number(nCol)+" was double clicked.Text :"+table->item(nRow,0)->text()+" !");
+    dialogModifieDossier * d = new dialogModifieDossier(table->item(nRow,0)->text());
+    d->exec();
 }
-
+*/
 void rechercheInstantaneDossier::ouvrirDialogAjouterDossier() {
-    dialogAjouterDossier * dUV = new dialogAjouterDossier;
-    dUV->exec();
+    dialogAjouterDossier * d = new dialogAjouterDossier;
+    d->exec();
 }

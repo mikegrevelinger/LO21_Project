@@ -38,13 +38,16 @@ private:
     QStringList headerText;
     QPixmap * searchPixmap;
     QLabel * search;
-    QPixmap * ajoutUVPixmap;
-    ClickableQLabel * ajoutUV;
+    QPixmap * ajoutPixmap;
+    ClickableQLabel * ajout;
+    QString * messageDouble;
 public:
     rechercheInstantaneDossier(QWidget *parent = 0);
+    ~rechercheInstantaneDossier();
+signals:
 public slots:
     void slotRechercherDossier(QString p);
-    void cellSelected(int nRow, int nCol);
+    //void ouvrirDialogModifieDossier(int nRow, int nCol);
     void ouvrirDialogAjouterDossier();
 };
 

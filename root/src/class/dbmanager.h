@@ -57,6 +57,7 @@ public:
     QString getDescriptionUV(const QString & nom);///< Renvoie un QString vide en cas d'erreur, sinon bonne valeur
     enumeration::Saison getSaisonUV(const QString & uv);
     bool isEnseigne(const QString& UV,enumeration::Saison semestre);
+    bool modifieUV(const QString & nom, const QString& d,enumeration::Saison semestreEnseigne,enumeration::CategorieUV cat,const int credits);
     /* Fin UV */
 
     /* Debut ETUDIANT */
@@ -112,6 +113,7 @@ public:
     /* Debut choix */
     bool NewUvREJ(const QString UV,const int id); ///<Permet de modifier/Ajouter le choix d'une UV à REJ
     bool NewUvVEUT(const QString UV, const int id); ///< Permet de modifier/Ajouter le choix d'une UV à VEUT
+    bool NewUvNEUTRE(const QString UV, const int id);
     enumeration::Choix getChoix(const QString & nom, const int &id);///< Renvoit le choix pour une UV donnée d'un étudiant
     /* Fin choix */
 

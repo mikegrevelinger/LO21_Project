@@ -22,6 +22,7 @@
 #include "./class/UVManager.h"
 #include "./class/DBManager.h"
 #include "ClickableQLabel.h"
+#include "dialogModifieUV.h"
 #include "MainWindow.h"
 
 class rechercheInstantaneUV : public QWidget
@@ -40,11 +41,14 @@ private:
     QLabel * search;
     QPixmap * ajoutUVPixmap;
     ClickableQLabel * ajoutUV;
+    QString * messageDouble;
 public:
     rechercheInstantaneUV(QWidget *parent = 0);
+    ~rechercheInstantaneUV();
+signals:
 public slots:
     void slotRechercherUV(QString p);
-    void cellSelected(int nRow, int nCol);
+    void ouvrirDialogModifieUV(int nRow, int nCol);
     void ouvrirDialogAjouterUV();
 };
 

@@ -21,5 +21,11 @@ dialogAjouterUV::~dialogAjouterUV()
 }
 
 void dialogAjouterUV::ajoutEtudiant(){
-
+    DBManager & dbm = DBManager::getInstance();
+    qDebug() <<ui->textEditDescription->toPlainText();
+    qDebug() <<ui->lineEditNom->text();
+    qDebug() <<ui->comboBoxSemestre->currentText();
+    qDebug() <<ui->comboBoxCat->currentText();
+    qDebug() <<ui->choixCredit->value();
+    dbm.ajouteUV(ui->lineEditNom->text(),enumeration::StringToCategorieUV(ui->comboBoxCat->currentText()),enumeration::StringToSaison(ui->comboBoxSemestre->currentText()),ui->choixCredit->value(),ui->textEditDescription->toPlainText());
 }

@@ -20,11 +20,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 private:
     Ui::MainWindow *ui;
+    class rechercheInstantaneUV * rUV;
+    class rechercheInstantaneDossier * rDossier;
 public:
     MainWindow (QWidget *parent = 0);
     ~MainWindow ();
 public slots:
-    void afficheRechercheInstantane();
+    void afficheRechercheInstantaneUV();
+    void afficheRechercheInstantaneDossier();
 };
 
 #endif // MAINWINDOW_H
