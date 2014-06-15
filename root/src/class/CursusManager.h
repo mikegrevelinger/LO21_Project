@@ -25,9 +25,9 @@ public:
     static CursusManager & getInstance();
     static void libererInstance();
     /* Fin SINGLETON */
-    bool isTypeTC(const QString & n);
-    bool isTypeBranche(const QString & n);
-    bool isObligatoire(const QString & cur, const QString & nomUV, enumeration::TypeCursus Tcur);
+    bool isTypeTC(const QString & n);///< Renvoie true si le cursus est de Type TC, false sinon
+    bool isTypeBranche(const QString & n);///< Renvoie true si le cursus est de Type Branche, false sinon
+    bool isObligatoire(const QString & cur, const QString & nomUV, enumeration::TypeCursus Tcur);///< Renvoie true si l'uv d'un Cursus donné est obligatoire, false sinon
 signals:
     //!pour l'envoi d'erreur
     void sendError(QString e);

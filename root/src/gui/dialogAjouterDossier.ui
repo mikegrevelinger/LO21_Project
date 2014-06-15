@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>500</height>
+    <height>550</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>450</y>
+     <x>140</x>
+     <y>500</y>
      <width>200</width>
      <height>30</height>
     </rect>
@@ -44,7 +44,7 @@
      <x>20</x>
      <y>10</y>
      <width>461</width>
-     <height>431</height>
+     <height>471</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -70,7 +70,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="lineNomEtu">
         <property name="maximumSize">
          <size>
           <width>100</width>
@@ -96,7 +96,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_2">
+       <widget class="QLineEdit" name="linePrenomEtu">
         <property name="maximumSize">
          <size>
           <width>100</width>
@@ -126,7 +126,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="civi">
         <property name="maximumSize">
          <size>
           <width>100</width>
@@ -152,7 +152,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox_2"/>
+       <widget class="QLineEdit" name="lineNatioEtu">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -189,7 +196,13 @@
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>110</height>
+        <height>125</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>450</height>
        </size>
       </property>
       <property name="title">
@@ -201,7 +214,7 @@
          <x>10</x>
          <y>20</y>
          <width>441</width>
-         <height>81</height>
+         <height>99</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -221,7 +234,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox">
+           <widget class="QSpinBox" name="spinAnneeEtu">
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
@@ -244,7 +257,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox_3"/>
+           <widget class="QComboBox" name="seme"/>
           </item>
          </layout>
         </item>
@@ -261,7 +274,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox_4"/>
+           <widget class="QComboBox" name="cursu"/>
           </item>
           <item>
            <widget class="QLabel" name="label_10">
@@ -277,14 +290,35 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_2">
+           <widget class="QSpinBox" name="spinSeme">
             <property name="alignment">
              <set>Qt::AlignCenter</set>
+            </property>
+            <property name="minimum">
+             <number>1</number>
             </property>
             <property name="maximum">
              <number>10</number>
             </property>
            </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="guynkl">
+              <property name="text">
+               <string>Filière (future ou suivie)</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="filiereEtu"/>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
@@ -329,7 +363,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_3">
+           <widget class="QSpinBox" name="creditEquiTotal">
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
@@ -355,7 +389,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_5">
+           <widget class="QSpinBox" name="creditEquiCS">
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
@@ -364,6 +398,9 @@
             </property>
             <property name="maximum">
              <number>100</number>
+            </property>
+            <property name="value">
+             <number>0</number>
             </property>
            </widget>
           </item>
@@ -382,7 +419,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_6">
+           <widget class="QSpinBox" name="creditEquiTM">
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
@@ -391,6 +428,9 @@
             </property>
             <property name="maximum">
              <number>100</number>
+            </property>
+            <property name="value">
+             <number>0</number>
             </property>
            </widget>
           </item>
@@ -408,12 +448,18 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_4">
+           <widget class="QSpinBox" name="creditEquiTSH">
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
+            <property name="minimum">
+             <number>0</number>
+            </property>
             <property name="maximum">
-             <number>10</number>
+             <number>100</number>
+            </property>
+            <property name="value">
+             <number>0</number>
             </property>
            </widget>
           </item>
@@ -460,7 +506,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_7">
+           <widget class="QSpinBox" name="creditEtranTotal">
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
@@ -486,7 +532,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_8">
+           <widget class="QSpinBox" name="creditEtranCS">
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
@@ -495,6 +541,9 @@
             </property>
             <property name="maximum">
              <number>100</number>
+            </property>
+            <property name="value">
+             <number>0</number>
             </property>
            </widget>
           </item>
@@ -513,7 +562,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_9">
+           <widget class="QSpinBox" name="creditEtranTM">
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
@@ -522,6 +571,9 @@
             </property>
             <property name="maximum">
              <number>100</number>
+            </property>
+            <property name="value">
+             <number>0</number>
             </property>
            </widget>
           </item>
@@ -539,12 +591,18 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_10">
+           <widget class="QSpinBox" name="creditEtranTSH">
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
+            <property name="minimum">
+             <number>0</number>
+            </property>
             <property name="maximum">
-             <number>10</number>
+             <number>100</number>
+            </property>
+            <property name="value">
+             <number>0</number>
             </property>
            </widget>
           </item>

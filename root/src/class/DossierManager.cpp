@@ -26,6 +26,7 @@ DossierManager::DossierManager():dbm(DBManager::getInstance()) {
 DossierManager::~DossierManager(){
 }
 
+/*
 bool DossierManager::ajouteDossier(QString const & nom, QString const & prenom, enumeration::Civilite civ,
                QString const & nationalite, QDate const dateDeNaissance, enumeration::Saison s, const int annee,
                const int creditsEqui, QString const cursus, const int numeroSemestre,
@@ -37,3 +38,4 @@ bool DossierManager::ajouteDossier(QString const & nom, QString const & prenom, 
         return dbm.ajouteETU(nom,prenom,civ,nationalite,dateDeNaissance,s,annee,creditsEqui,cursus,numeroSemestre,nbCreditEtranger);
     }
 }
+*/

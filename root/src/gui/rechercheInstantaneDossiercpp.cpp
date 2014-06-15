@@ -5,18 +5,9 @@ rechercheInstantaneDossier::rechercheInstantaneDossier(QWidget * parent) :
 {
     l = new QLineEdit(this);
     layout = new QGridLayout(this);
-    messageDouble = new QString("Double cliquer sur la ligne pour modifier le dossier");
-    label = new QLabel(this);
-    label->setText(*messageDouble);
-    message = new QLabel(this);
 
     QString CurrentDir = QDir::currentPath();
     CurrentDir.replace("build-Project_LO21-Desktop_Qt_5_3_0_MinGW_32bit-Debug","resources/");
-
-    searchPixmap = new QPixmap(QString("%1iconSearch.png").arg(CurrentDir));
-    search = new QLabel(this);
-    search->setPixmap(*searchPixmap);
-    search->setFixedSize(QSize(32,32));
 
     ajoutPixmap = new QPixmap(QString("%1iconAjout.png").arg(CurrentDir));
     ajout = new ClickableQLabel(this);
@@ -40,33 +31,24 @@ rechercheInstantaneDossier::rechercheInstantaneDossier(QWidget * parent) :
     table->setStyleSheet("QTableView {selection-background-color: red;}");
     table->setGeometry(QApplication::desktop()->screenGeometry());
 
-    layout->addWidget(search,0,0,3,1);
-    layout->addWidget(l,0,1);
-    layout->addWidget(ajout,0,2,3,1);
-    layout->addWidget(label,1,1);
-    layout->addWidget(message,2,1);
-    layout->addWidget(table,3,0,1,3);
+    layout->addWidget(l,0,0);
+    layout->addWidget(ajout,0,1);
+    layout->addWidget(table,3,0,1,2);
     setLayout(layout);
 
     QObject::connect(l, SIGNAL(textChanged(QString)), this, SLOT(slotRechercherDossier(QString)));
-    QObject::connect(table, SIGNAL(cellDoubleClicked(int , int)), this, SLOT(ouvrirDialogModifieDossier(int , int)));
-    //QObject::connect(ajout, SIGNAL(clicked()), this, SLOT(ouvrirDialogAjouterDossier()));
+    //QObject::connect(table, SIGNAL(cellDoubleClicked(int , int)), this, SLOT(ouvrirDialogModifieDossier(int , int)));
+    QObject::connect(ajout, SIGNAL(clicked()), this, SLOT(ouvrirDialogAjouterDossier()));
 }
 
 rechercheInstantaneDossier::~rechercheInstantaneDossier(){
-    label->setText("");
-    delete messageDouble;
-    delete searchPixmap;
-    delete search;
     delete ajoutPixmap;
     delete ajout;
     table->setRowCount(0);
     delete table;
     delete l;
-    delete label;
     delete table;
     delete header;
-    delete message;
     delete layout;
 }
 
@@ -86,22 +68,18 @@ void rechercheInstantaneDossier::slotRechercherDossier(QString p){
              q[i].clear();
         }
         q.clear();
-        message->clear();
     }
     else if(p.isEmpty()){
         qDebug() <<"Vide";
-        table->setRowCount(0);//Supprime egalement de la mémoire les QTableWidgetItem. COOL !
-        message->setText(QString("Vide"));
+        table->setRowCount(0);
     }
     else if(p.size()>20){
         qDebug() <<"Trop long";
         table->setRowCount(0);
-        message->setText(QString("Trop long. Il faut entrer au maximum 20 caractères."));
     }
     else {
         qDebug() <<"Erreur dans la saisie";
         table->setRowCount(0);
-        message->setText(QString("Erreur dans la saisie."));
     }
 }
 
@@ -112,6 +90,7 @@ void rechercheInstantaneDossier::ouvrirDialogModifieDossier(int nRow, int nCol)
     d->exec();
 }
 */
+
 void rechercheInstantaneDossier::ouvrirDialogAjouterDossier() {
     dialogAjouterDossier * d = new dialogAjouterDossier;
     d->exec();

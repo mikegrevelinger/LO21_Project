@@ -77,7 +77,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="nomBr">
         <property name="maximumSize">
          <size>
           <width>300</width>
@@ -107,7 +107,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QTextEdit" name="textEdit">
+       <widget class="QTextEdit" name="descriBr">
         <property name="maximumSize">
          <size>
           <width>300</width>
@@ -143,7 +143,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="choixCredit">
+       <widget class="QSpinBox" name="dureeBr">
         <property name="maximumSize">
          <size>
           <width>190</width>
@@ -179,7 +179,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox">
+       <widget class="QSpinBox" name="csBR">
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
@@ -209,7 +209,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_2">
+       <widget class="QSpinBox" name="tmBR">
         <property name="maximumSize">
          <size>
           <width>200</width>
@@ -245,7 +245,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_3">
+       <widget class="QSpinBox" name="tshBR">
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
@@ -275,7 +275,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_4">
+       <widget class="QSpinBox" name="libreBR">
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
@@ -292,7 +292,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
-       <widget class="QLabel" name="label_10">
+       <widget class="QLabel" name="azsdf">
         <property name="maximumSize">
          <size>
           <width>190</width>
@@ -311,7 +311,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="choixCredit_2">
+       <widget class="QSpinBox" name="pcbBR">
         <property name="maximumSize">
          <size>
           <width>190</width>
@@ -334,7 +334,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_10">
       <item>
-       <widget class="QLabel" name="label_11">
+       <widget class="QLabel" name="afes">
         <property name="maximumSize">
          <size>
           <width>190</width>
@@ -353,7 +353,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="choixCredit_3">
+       <widget class="QSpinBox" name="filBR">
         <property name="maximumSize">
          <size>
           <width>190</width>

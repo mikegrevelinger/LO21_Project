@@ -2,6 +2,7 @@
 #define DIALOGAJOUTERCURSUSTC_H
 
 #include <QDialog>
+#include "./class/DBManager.h"
 
 namespace Ui {
     class dialogAjouterCursusTC;
@@ -15,6 +16,8 @@ public:
     ~dialogAjouterCursusTC();
 private:
     Ui::dialogAjouterCursusTC *ui;
+public slots:
+    void ajoutTC();
 };
 
 #endif // DIALOGAJOUTERCURSUSTC_H

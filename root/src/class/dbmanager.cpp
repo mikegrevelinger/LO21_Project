@@ -402,42 +402,127 @@ bool DBManager::modifieUV(const QString & nom, const QString& d,enumeration::Sai
     return true;
 }
 
+QStringList & DBManager::rechercheNomUV(){
+
+    QStringList *res = new QStringList;
+
+    if (!openDB(db)) //impossible d'ouvrir
+
+    {
+
+        return *res;
+
+    }
+
+    QSqlQuery query;
+
+    query.prepare("SELECT Nom FROM Uvs"); // la requete
+
+    if(!query.exec()) //pb lors de l'execution
+
+    {
+
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheNomUV"));
+
+        return *res;
+
+    }
+
+    while (query.next())//parcourir toutes les lignes
+
+    {
+
+            res->append(query.value(0).toString());
+
+            qDebug()<<res;
+
+    }
+
+    query.finish();
+
+    return *res;
+
+}
+
 /* Fin UV */
 /* Debut ETU */
 
 bool DBManager::ajouteETU(const QString &nom, const QString &prenom, enumeration::Civilite civ,
+
                           const QString &nationalite, QDate const dateDeNaissance, enumeration::Saison s,
-                          const int annee, const int creditsEqui, const QString cursus, const int numeroSemestre,
-                          const int nbCreditEtranger, const QString & Fil){
+
+                          const int annee, const int creditsEqui,const int creditsCSEqui,const int creditsTMEqui,const int creditsTSHEqui,const QString cursus, const int numeroSemestre,
+
+                          const int nbCreditEtranger,const int nbCreditCSEtranger,const int nbCreditTMEtranger,const int nbCreditTSHEtranger, const QString & Fil){
+
     if (!openDB(db)) {
+
         emit sendError(QString("DBManager : la BDD n est pas ouverte pour ajouteETU"));
+
         return false;
+
     }
+
     QSqlQuery query;
+
     // la requete
+
     query.prepare("INSERT INTO dossier (NomEtu,PrenomEtu,Civilite,Nationalite,DateDeNaissance,SemestreCourant, \
-                  anneeCourante,nbCreditEquivalence,CursusCourant,numeroSemestreCourant,\
-                  nbCreditEtranger,Filiere) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+                  anneeCourante,nbCreditEquivalence,nbCreditCsEqui,nbCreditTmEqui,nbCreditTshEqui,CursusCourant,numeroSemestreCourant,\
+                  nbCreditEtranger,nbCreditCsEtranger,nbCreditTmEtranger,nbCreditTshEtranger,Filiere) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+
     //permet de remplacer le ? de query.prepare
+
     query.addBindValue(nom);
+
     query.addBindValue(prenom);
+
     query.addBindValue(enumeration::CiviliteToString(civ));
+
     query.addBindValue(nationalite);
+
     query.addBindValue(dateDeNaissance);
+
     query.addBindValue(enumeration::SaisonToString(s));
+
     query.addBindValue(annee);
+
     query.addBindValue(creditsEqui);
+
+    query.addBindValue(creditsCSEqui);
+
+    query.addBindValue(creditsTMEqui);
+
+    query.addBindValue(creditsTSHEqui);
+
     query.addBindValue(cursus);
+
     query.addBindValue(numeroSemestre);
+
     query.addBindValue(nbCreditEtranger);
+
+    query.addBindValue(nbCreditCSEtranger);
+
+    query.addBindValue(nbCreditTMEtranger);
+
+    query.addBindValue(nbCreditTSHEtranger);
+
     query.addBindValue(Fil);
+
     if(!query.exec()) //pb lors de l'execution
+
     {
+
         emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteETU"));
+
         return false;
+
     }
+
     query.finish();
+
     return true;
+
 }
 
 QList<QStringList > & DBManager::rechercheETU(const QString nom, const QString prenom){
@@ -793,6 +878,7 @@ bool DBManager::isUVInscrit(const QString& UV, const int& id)
         return false;
     }
     query.finish();
+    return false;
 }
 int DBManager::getSemestreActuelETU(const int id) {
    if (!openDB(db)) //impossible d'ouvrir
@@ -827,7 +913,7 @@ bool DBManager::ajouteBranche(const QString & nom, const QString & descri, const
     }
     QSqlQuery query;
     // la requete
-    query.prepare("INSERT INTO dossier VALUES (?,?,?,?,?,?,?,?,?)");
+    query.prepare("INSERT INTO Branche(Nom,Description,NbCreditCS,NbCreditTM,NbCreditTSH,NbCreditLibre,NbCreditPCB,NbCreditPSF,NbSemestre) VALUES (?,?,?,?,?,?,?,?,?)");
     //permet de remplacer le ? de query.prepare
     query.addBindValue(nom);
     query.addBindValue(descri);
@@ -878,7 +964,7 @@ bool DBManager::ajouteTC (const QString & nom, const QString & descri, const int
     }
     QSqlQuery query;
     // la requete
-    query.prepare("INSERT INTO dossier VALUES (?,?,?,?,?,?,?)");
+    query.prepare("INSERT INTO TC(Nom,Description,NbCreditCS,NbCreditTM,NbCreditTSH,NbCreditLibre,NbSemestre) VALUES (?,?,?,?,?,?,?)");
     //permet de remplacer le ? de query.prepare
     query.addBindValue(nom);
     query.addBindValue(descri);
@@ -1378,6 +1464,281 @@ QStringList & DBManager::getListeUV(const QString & cursus, enumeration::TypeCur
     return *res;
 }
 
+QList<QStringList > & DBManager::rechercheCursusBranche(const QString nom){
+    QList<QStringList > *res = new QList<QStringList >;
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        return *res;
+    }
+    QSqlQuery query;
+
+    query.prepare("SELECT Nom,Description FROM Branche WHERE Branche.Nom LIKE ?;");
+    query.addBindValue(QString("\%%1\%").arg(nom));
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheCursusBranche"));
+        return *res;
+    }
+    int nb_col = queryNbColonne(query); // pour savoir le nombre de colonne
+    while (query.next())//parcourir toutes les lignes
+    {
+        QStringList vect;
+        for (int i = 0; i< nb_col;i++){
+            qDebug() <<query.value(i).toString();
+            vect.append(query.value(i).toString());
+        }
+        vect.append(QString("Branche"));
+        res->append(vect);
+    }
+    query.finish();
+    return *res;
+}
+
+QList<QStringList > & DBManager::rechercheCursusTC(const QString nom){
+    QList<QStringList > *res = new QList<QStringList >;
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        return *res;
+    }
+    QSqlQuery query;
+
+    query.prepare("SELECT Nom,Description FROM TC WHERE TC.Nom LIKE ?;");
+    query.addBindValue(QString("\%%1\%").arg(nom));
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheCursusTC"));
+        return *res;
+    }
+    int nb_col = queryNbColonne(query); // pour savoir le nombre de colonne
+    while (query.next())//parcourir toutes les lignes
+    {
+        QStringList vect;
+        for (int i = 0; i< nb_col;i++){
+            qDebug() <<query.value(i).toString();
+            vect.append(query.value(i).toString());
+        }
+        vect.append(QString("TC/HUTECH"));
+        res->append(vect);
+    }
+    query.finish();
+    return *res;
+}
+
+QList<QStringList > & DBManager::rechercheCursusMineur(const QString nom){
+    QList<QStringList > *res = new QList<QStringList >;
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        return *res;
+    }
+    QSqlQuery query;
+
+    query.prepare("SELECT Nom,Description FROM Mineur WHERE Mineur.Nom LIKE ?;");
+    query.addBindValue(QString("\%%1\%").arg(nom));
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheCursusMineur"));
+        return *res;
+    }
+    int nb_col = queryNbColonne(query); // pour savoir le nombre de colonne
+    while (query.next())//parcourir toutes les lignes
+    {
+        QStringList vect;
+        for (int i = 0; i< nb_col;i++){
+            qDebug() <<query.value(i).toString();
+            vect.append(query.value(i).toString());
+        }
+        vect.append(QString("Mineur"));
+        res->append(vect);
+    }
+    query.finish();
+    return *res;
+}
+
+QList<QStringList > & DBManager::rechercheCursusFiliere(const QString nom){
+    QList<QStringList > *res = new QList<QStringList >;
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        return *res;
+    }
+    QSqlQuery query;
+
+    query.prepare("SELECT Nom,Description FROM Filiere WHERE Filiere.Nom LIKE ?;");
+    query.addBindValue(QString("\%%1\%").arg(nom));
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheCursusFiliere"));
+        return *res;
+    }
+    int nb_col = queryNbColonne(query); // pour savoir le nombre de colonne
+    while (query.next())//parcourir toutes les lignes
+    {
+        QStringList vect;
+        for (int i = 0; i< nb_col;i++){
+            qDebug() <<query.value(i).toString();
+            vect.append(query.value(i).toString());
+        }
+        res->append(vect);
+        vect.append(QString("Filiere"));
+    }
+    query.finish();
+    return *res;
+}
+
+QList<QStringList > & DBManager::rechercheCursus(const QString nom){
+    DBManager & dbm = DBManager::getInstance();
+    QList<QStringList > *res = new QList<QStringList >;
+     *res=dbm.rechercheCursusMineur(nom);
+     *res=*res+dbm.rechercheCursusFiliere(nom);
+     *res=*res+dbm.rechercheCursusBranche(nom);
+     *res=*res+dbm.rechercheCursusTC(nom);
+    return *res;
+
+}
+
+QStringList & DBManager::rechercheNomCursus(){
+    QStringList *res = new QStringList;
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        return *res;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT Nom FROM Branche"); // la requete
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheNomCursus(Branche)"));
+        return *res;
+    }
+    qDebug()<<queryNbLigne(query);
+    while (query.next())//parcourir toutes les lignes
+    {
+            res->append(query.value(0).toString());
+            qDebug()<<res;
+    }
+    query.finish();
+    query.prepare("SELECT Nom FROM TC"); // la requete
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheNomCursus(TC)"));
+        return *res;
+    }
+    while (query.next())//parcourir toutes les lignes
+    {
+            res->append(query.value(0).toString());
+            qDebug()<<res;
+    }
+    query.finish();
+    return *res;
+}
+
+QStringList & DBManager::rechercheNomCursusFiliere(){
+    QStringList *res = new QStringList;
+    if (!openDB(db)) //impossible d'ouvrir
+    {
+        return *res;
+    }
+    QSqlQuery query;
+    query.prepare("SELECT Nom FROM Filiere"); // la requete
+    if(!query.exec()) //pb lors de l'execution
+    {
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheNomCursusFiliere"));
+        return *res;
+    }
+    qDebug()<<queryNbLigne(query);
+    while (query.next())//parcourir toutes les lignes
+    {
+            res->append(query.value(0).toString());
+            qDebug()<<res;
+    }
+    query.finish();
+    return *res;
+}
+
+QStringList & DBManager::rechercheNomCursusBranche(){
+
+    QStringList *res = new QStringList;
+
+    if (!openDB(db)) //impossible d'ouvrir
+
+    {
+
+        return *res;
+
+    }
+
+    QSqlQuery query;
+
+    query.prepare("SELECT Nom FROM Branche"); // la requete
+
+    if(!query.exec()) //pb lors de l'execution
+
+    {
+
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheNomCursus(Branche)"));
+
+        return *res;
+
+    }
+
+    while (query.next())//parcourir toutes les lignes
+
+    {
+
+            res->append(query.value(0).toString());
+
+            qDebug()<<res;
+
+    }
+
+    query.finish();
+
+    return *res;
+
+}
+
+
+QStringList & DBManager::rechercheNomCursusTC(){
+
+    QStringList *res = new QStringList;
+
+    if (!openDB(db)) //impossible d'ouvrir
+
+    {
+
+        return *res;
+
+    }
+
+    QSqlQuery query;
+
+    query.prepare("SELECT Nom FROM TC"); // la requete
+
+    if(!query.exec()) //pb lors de l'execution
+
+    {
+
+        emit sendError(QString("DBManager : Erreur execution de la requete dans rechercheNomCursus(TC)"));
+
+        return *res;
+
+    }
+
+    while (query.next())//parcourir toutes les lignes
+
+    {
+
+            res->append(query.value(0).toString());
+
+            qDebug()<<res;
+
+    }
+
+    query.finish();
+
+
+    return *res;
+
+}
+
 /* Fin Cursus */
 /* Debut Choix */
 
@@ -1594,18 +1955,17 @@ bool DBManager::AnnulationPrevision(const int id)
 /* Fin pour Prevision */
 /* Debut Filiere */
 
-bool DBManager::ajouteFiliere (const QString & nom, const QString & descri, const int nbCredit, const QString &cursus){
+bool DBManager::ajouteFiliere (const QString & nom, const QString & descri, const QString &cursus){
     if (!openDB(db)) {
         emit sendError(QString("DBManager : la BDD n est pas ouverte pour ajouteFiliere"));
         return false;
     }
     QSqlQuery query;
     // la requete
-    query.prepare("INSERT INTO Filiere VALUES (?,?,?,?)");
+    query.prepare("INSERT INTO Filiere(Nom,Description,Cursus) VALUES (?,?,?)");
     //permet de remplacer le ? de query.prepare
     query.addBindValue(nom);
     query.addBindValue(descri);
-    query.addBindValue(nbCredit);
     query.addBindValue(cursus);
     if(!query.exec()) //pb lors de l'execution
     {
@@ -1711,6 +2071,123 @@ bool DBManager::isUVFiliere(const QString &nom, const QString &UV)
     }
     query.finish();
     return false;
+}
+
+bool DBManager::ajouteTCPourUV(const QString& nomUV,const QString& nomCursus,const bool Obligatoire)
+
+{
+
+    if (!openDB(db)) //impossible d'ouvrir la BDD
+
+    {
+
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour ajouteTCPOurUV"));
+
+        return false;
+
+    }
+
+    QSqlQuery query;
+
+    query.prepare("INSERT INTO TCPourUv(NomCursus,Uv,Obligatoire) VALUES(?,?,?)");
+
+    query.addBindValue(nomCursus);
+
+    query.addBindValue(nomUV);
+
+    query.addBindValue(Obligatoire);
+
+    if(!query.exec())
+
+    {
+
+        emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteTCPourUV"));
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+
+bool DBManager::ajouteFilierePourUV(const QString& nomUV,const QString& nomCursus,const bool Obligatoire)
+
+{
+
+    if (!openDB(db)) //impossible d'ouvrir la BDD
+
+    {
+
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour ajouteFilierePOurUV"));
+
+        return false;
+
+    }
+
+    QSqlQuery query;
+
+    query.prepare("INSERT INTO FilierePourUv(NomFilliere,Uv,Obligatoire) VALUES(?,?,?)");
+
+    query.addBindValue(nomCursus);
+
+    query.addBindValue(nomUV);
+
+    query.addBindValue(Obligatoire);
+
+    if(!query.exec())
+
+    {
+
+        emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteFilierePourUV"));
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+bool DBManager::ajouteBranchePourUV(const QString& nomUV,const QString& nomCursus,const bool Obligatoire,const bool PCB)
+
+{
+
+    if (!openDB(db)) //impossible d'ouvrir la BDD
+
+    {
+
+        emit sendError(QString("DBManager : la BDD n est pas ouverte pour isUVFiliere"));
+
+        return false;
+
+    }
+
+    QSqlQuery query;
+
+    query.prepare("INSERT INTO BranchePourUv(Nom,Uv,Obligatoire,PCB) VALUES(?,?,?,?)");
+
+    query.addBindValue(nomCursus);
+
+    query.addBindValue(nomUV);
+
+    query.addBindValue(Obligatoire);
+
+    query.addBindValue(PCB);
+
+    if(!query.exec())
+
+    {
+
+        emit sendError(QString("DBManager : Erreur execution de la requete dans ajouteBranchePourUV"));
+
+        return false;
+
+    }
+
+    return true;
+
 }
 
 /* Fin Filiere */

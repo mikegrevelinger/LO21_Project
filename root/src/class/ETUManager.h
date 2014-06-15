@@ -26,14 +26,14 @@ private:
     static HandlerSingleton<ETUManager> handler;
     /* Fin SINGLETON */
     DBManager & dbm;
-    bool isExistETU(const QString& name)const;
+    bool isExistETU(const QString& name)const; ///< Renvoie true si l'étudiant existe déjà, false sinon
 public:
     /* Debut SINGLETON */
     static ETUManager& getInstance();
     static void libererInstance();
     /* Fin SINGLETON */
     void ajouterETU(const QString& nom,const QString& prenom, enumeration::Civilite civ, QString& nationalite, QDate date);
-    void supprimerETU(const QString& nom); // on supprime selon le nom
+    void supprimerETU(const QString& nom); ///< on supprime selon le nom
     void modifierETU(const QString& nom,const QString& prenom, enumeration::Civilite civ, QString& nationalite, QDate date);
 signals:
     void sendError(QString e);

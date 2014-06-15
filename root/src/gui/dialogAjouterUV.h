@@ -19,7 +19,7 @@ public:
     explicit dialogAjouterUV(QWidget *parent = 0);
     ~dialogAjouterUV();
 public slots:
-    void ajoutEtudiant();
+    void ajoutUV();
 };
 
 #endif // DIALOGAJOUTERUV_H

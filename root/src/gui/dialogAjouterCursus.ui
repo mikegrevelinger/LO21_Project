@@ -55,14 +55,17 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QRadioButton" name="radioButton">
+     <widget class="QRadioButton" name="checkBranche">
       <property name="text">
        <string>Branche</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
     <item row="2" column="0">
-     <widget class="QRadioButton" name="radioButton_3">
+     <widget class="QRadioButton" name="checkFiliere">
       <property name="text">
        <string>Filière</string>
       </property>
@@ -79,7 +82,7 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QRadioButton" name="radioButton_2">
+     <widget class="QRadioButton" name="checkTC">
       <property name="text">
        <string>TC / Hutech</string>
       </property>
@@ -106,7 +109,7 @@
      </widget>
     </item>
     <item row="3" column="0">
-     <widget class="QRadioButton" name="radioButton_4">
+     <widget class="QRadioButton" name="checkMineur">
       <property name="text">
        <string>Mineur</string>
       </property>

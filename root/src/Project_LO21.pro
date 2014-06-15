@@ -25,12 +25,11 @@ SOURCES += main.cpp \
     gui/dialogModifieUV.cpp \
     gui/rechercheInstantaneCursus.cpp \
     gui/dialogAjouterCursusTC.cpp \
-    dialogAjouterCursus.cpp \
     gui/dialogAjouterCursus.cpp \
-    dialogAjouterCursusBranche.cpp \
     gui/dialogAjouterCursusBranche.cpp \
     gui/dialogAjouterFiliere.cpp \
-    gui/dialogAjouterMineur.cpp
+    gui/dialogAjouterMineur.cpp \
+    gui/dialogAjouterUVTC.cpp
 
 HEADERS += \
     class/HandlerSingleton.h \
@@ -56,12 +55,11 @@ HEADERS += \
     gui/dialogModifieUV.h \
     gui/rechercheInstantaneCursus.h \
     gui/dialogAjouterCursusTC.h \
-    dialogAjouterCursus.h \
     gui/dialogAjouterCursus.h \
-    dialogAjouterCursusBranche.h \
     gui/dialogAjouterCursusBranche.h \
     gui/dialogAjouterFiliere.h \
-    gui/dialogAjouterMineur.h
+    gui/dialogAjouterMineur.h \
+    gui/dialogAjouterUVTC.h
 
 FORMS += \
     gui/mainwindow.ui \
@@ -69,9 +67,8 @@ FORMS += \
     gui/dialogAjouterDossier.ui \
     gui/dialogModifieUV.ui \
     gui/dialogAjouterCursusTC.ui \
-    dialogAjouterCursus.ui \
     gui/dialogAjouterCursus.ui \
-    dialogAjouterCursusBranche.ui \
     gui/dialogAjouterCursusBranche.ui \
     gui/dialogAjouterFiliere.ui \
-    gui/dialogAjouterMineur.ui
+    gui/dialogAjouterMineur.ui \
+    gui/dialogAjouterUVTC.ui

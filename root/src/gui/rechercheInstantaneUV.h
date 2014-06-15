@@ -32,16 +32,11 @@ private:
     QRegExp regexRechercheUV;
     QLineEdit * l;
     QGridLayout * layout;
-    QLabel * label;
     QTableWidget * table;
     QHeaderView * header;
-    QLabel * message;
     QStringList headerText;
-    QPixmap * searchPixmap;
-    QLabel * search;
     QPixmap * ajoutUVPixmap;
     ClickableQLabel * ajoutUV;
-    QString * messageDouble;
 public:
     rechercheInstantaneUV(QWidget *parent = 0);
     ~rechercheInstantaneUV();

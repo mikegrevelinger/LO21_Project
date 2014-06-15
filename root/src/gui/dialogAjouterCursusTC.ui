@@ -61,7 +61,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="nomTC">
         <property name="maximumSize">
          <size>
           <width>300</width>
@@ -91,7 +91,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QTextEdit" name="textEdit">
+       <widget class="QTextEdit" name="descriTC">
         <property name="maximumSize">
          <size>
           <width>300</width>
@@ -127,7 +127,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="choixCredit">
+       <widget class="QSpinBox" name="dureeTC">
         <property name="maximumSize">
          <size>
           <width>190</width>
@@ -163,7 +163,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox">
+       <widget class="QSpinBox" name="csTC">
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
@@ -193,7 +193,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_2">
+       <widget class="QSpinBox" name="tmTC">
         <property name="maximumSize">
          <size>
           <width>200</width>
@@ -229,7 +229,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_3">
+       <widget class="QSpinBox" name="tshTC">
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
@@ -259,7 +259,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_4">
+       <widget class="QSpinBox" name="libreTC">
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>

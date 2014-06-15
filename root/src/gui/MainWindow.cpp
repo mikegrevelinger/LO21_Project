@@ -16,6 +16,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete rUV;
     delete rDossier;
+    delete rCursus;
 }
 
 void MainWindow::afficheRechercheInstantaneUV(){
@@ -28,5 +29,11 @@ void MainWindow::afficheRechercheInstantaneDossier(){
     delete ui->LayoutBody->takeAt(0);
     rDossier = new rechercheInstantaneDossier(this);
     ui->LayoutBody->addWidget(rDossier);
+}
+
+void MainWindow::afficheRechercheInstantaneCursus(){
+    delete ui->LayoutBody->takeAt(0);
+    rCursus = new rechercheInstantaneCursus(this);
+    ui->LayoutBody->addWidget(rCursus);
 }
 

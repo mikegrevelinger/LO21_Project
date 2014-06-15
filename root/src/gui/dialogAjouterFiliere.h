@@ -2,6 +2,7 @@
 #define DIALOGAJOUTERFILIERE_H
 
 #include <QDialog>
+#include "./class/DBManager.h"
 
 namespace Ui {
 class dialogAjouterFiliere;
@@ -17,6 +18,8 @@ public:
 
 private:
     Ui::dialogAjouterFiliere *ui;
+public slots:
+    void ajouteFiliere();
 };
 
 #endif // DIALOGAJOUTERFILIERE_H

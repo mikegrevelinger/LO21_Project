@@ -42,6 +42,9 @@ menuIcon::menuIcon(MainWindow * c, QWidget *parent) : QWidget(parent) {
 
     QObject::connect(dossierLabel,SIGNAL(clicked()),c,SLOT(afficheRechercheInstantaneDossier()));
     QObject::connect(dossier,SIGNAL(clicked()),c,SLOT(afficheRechercheInstantaneDossier()));
+
+    QObject::connect(cursusLabel,SIGNAL(clicked()),c,SLOT(afficheRechercheInstantaneCursus()));
+    QObject::connect(cursus,SIGNAL(clicked()),c,SLOT(afficheRechercheInstantaneCursus()));
     /*
      * à uv ou uvlabel --> connecter afficheRechercheInstantaneUV
      * à cursus ou cursuslabel --> connecter afficheRechercheInstantaneCursus

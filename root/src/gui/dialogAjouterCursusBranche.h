@@ -2,6 +2,7 @@
 #define DIALOGAJOUTERCURSUSBRANCHE_H
 
 #include <QDialog>
+#include "./class/DBManager.h"
 
 namespace Ui {
 class dialogAjouterCursusBranche;
@@ -14,9 +15,10 @@ class dialogAjouterCursusBranche : public QDialog
 public:
     explicit dialogAjouterCursusBranche(QWidget *parent = 0);
     ~dialogAjouterCursusBranche();
-
 private:
     Ui::dialogAjouterCursusBranche *ui;
+public slots:
+    void ajoutBranche();
 };
 
 #endif // DIALOGAJOUTERCURSUSBRANCHE_H

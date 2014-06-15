@@ -58,15 +58,16 @@ public:
     enumeration::Saison getSaisonUV(const QString & uv);
     bool isEnseigne(const QString& UV,enumeration::Saison semestre);
     bool modifieUV(const QString & nom, const QString& d,enumeration::Saison semestreEnseigne,enumeration::CategorieUV cat,const int credits);
+    QStringList & rechercheNomUV();
     /* Fin UV */
 
     /* Debut ETUDIANT */
     QList<QStringList > & rechercheETU(const QString & s);
     QList<QStringList > & rechercheETU(const QString nom, const QString prenom);
-    bool ajouteETU(QString const & nom, QString const & prenom, enumeration::Civilite civ,
-                   QString const & nationalite, QDate const dateDeNaissance, enumeration::Saison s, const int annee,
-                   const int creditsEqui = 0, QString const cursus = NULL, const int numeroSemestre = 0,
-                   const int nbCreditEtranger = 0, QString const & Fil = NULL);
+    bool ajouteETU(const QString &nom, const QString &prenom, enumeration::Civilite civ,
+                              const QString &nationalite, QDate const dateDeNaissance, enumeration::Saison s,
+                              const int annee, const int creditsEqui = 0,const int creditsCSEqui =0,const int creditsTMEqui =0,const int creditsTSHEqui =0,const QString cursus ="", const int numeroSemestre=0,
+                              const int nbCreditEtranger=0,const int nbCreditCSEtranger=0,const int nbCreditTMEtranger=0,const int nbCreditTSHEtranger=0, const QString & Fil="");
     int getIdETU (QString const & nom, QString const & prenom = "", QDate const & date = QDate());
     bool ajouteInscription(int const & id, QString const & uv, enumeration::Note n, const int annee, enumeration::Saison s);
     ///< ajouteInscription : modifie les valeurs du dossier etudiant (les nbCredits) + ajoute une ligne à la table Inscription
@@ -107,7 +108,16 @@ public:
     int getNbCreditTSHTC(const QString cursus);
     int getNbCreditLibreTC(const QString cursus);
     int getNbSemestreTC (const QString cursus);
-    QStringList & getListeUV(const QString & cursus, enumeration::TypeCursus Tcur = enumeration::ErrorTypeCursus);
+    QStringList & getListeUV(const QString & cursus, enumeration::TypeCursus Tcur = enumeration::ErrorTypeCursus);  
+    QList<QStringList > & rechercheCursusBranche(const QString nom);
+    QList<QStringList > & rechercheCursus(const QString nom);
+    QList<QStringList > & rechercheCursusTC(const QString nom);
+    QList<QStringList > & rechercheCursusMineur(const QString nom);
+    QList<QStringList > & rechercheCursusFiliere(const QString nom);
+    QStringList & rechercheNomCursus();
+    QStringList & rechercheNomCursusFiliere();
+    QStringList & rechercheNomCursusBranche();
+    QStringList & rechercheNomCursusTC();
     /* Fin CURSUS */
 
     /* Debut choix */
@@ -123,12 +133,16 @@ public:
     /* Fin pour Prevision */
 
     /*Debut pour filiere */
-    bool ajouteFiliere (const QString & nom, const QString & descri, const int nbCredit, const QString &cursus);
+    bool ajouteFiliere (const QString & nom, const QString & descri,const QString &cursus);
     QString getNomCursusFiliere(const QString &nom);
     QString getDescriptionFiliere(const QString & nom);
     bool isFiliere(const QString &nom);
     bool isUVFiliere(const QString &nom, const QString &UV);
     /* Fin pour Filiere */
+
+    bool ajouteTCPourUV(const QString& nomUV,const QString& nomCursus,const bool Obligatoire);
+    bool ajouteFilierePourUV(const QString& nomUV,const QString& nomCursus,const bool Obligatoire);
+    bool ajouteBranchePourUV(const QString& nomUV,const QString& nomCursus,const bool Obligatoire,const bool PCB);
 
 signals:
     //!pour l'envoi d'erreur

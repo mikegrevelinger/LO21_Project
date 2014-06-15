@@ -12,7 +12,7 @@ dialogAjouterUV::dialogAjouterUV(QWidget *parent) :
     for (int i = enumeration::Automne; i != enumeration::ErrorSaison;i++){
         ui->comboBoxSemestre->addItem(enumeration::SaisonToString(static_cast<enumeration::Saison>(i)));
     }
-    QObject::connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(ajoutEtudiant()));
+    QObject::connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(ajoutUV()));
 }
 
 dialogAjouterUV::~dialogAjouterUV()
@@ -20,7 +20,7 @@ dialogAjouterUV::~dialogAjouterUV()
     delete ui;
 }
 
-void dialogAjouterUV::ajoutEtudiant(){
+void dialogAjouterUV::ajoutUV(){
     DBManager & dbm = DBManager::getInstance();
     qDebug() <<ui->textEditDescription->toPlainText();
     qDebug() <<ui->lineEditNom->text();

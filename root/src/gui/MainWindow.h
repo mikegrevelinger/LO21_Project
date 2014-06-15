@@ -7,6 +7,7 @@
 #include "./class/HandlerSingleton.h"
 #include "dialogAjouterCursus.h"
 #include "dialogAjouterDossier.h"
+#include "rechercheInstantaneCursus.h"
 #include "dialogAjouterUV.h"
 
 #include <QMainWindow>
@@ -22,12 +23,14 @@ private:
     Ui::MainWindow *ui;
     class rechercheInstantaneUV * rUV;
     class rechercheInstantaneDossier * rDossier;
+    class rechercheInstantaneCursus * rCursus;
 public:
     MainWindow (QWidget *parent = 0);
     ~MainWindow ();
 public slots:
     void afficheRechercheInstantaneUV();
     void afficheRechercheInstantaneDossier();
+    void afficheRechercheInstantaneCursus();
 };
 
 #endif // MAINWINDOW_H

@@ -31,16 +31,11 @@ private:
     QRegExp regexRechercheDossier;
     QLineEdit * l;
     QGridLayout * layout;
-    QLabel * label;
     QTableWidget * table;
     QHeaderView * header;
-    QLabel * message;
     QStringList headerText;
-    QPixmap * searchPixmap;
-    QLabel * search;
     QPixmap * ajoutPixmap;
     ClickableQLabel * ajout;
-    QString * messageDouble;
 public:
     rechercheInstantaneDossier(QWidget *parent = 0);
     ~rechercheInstantaneDossier();
