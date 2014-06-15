@@ -11,7 +11,7 @@
 
 
 /**
- * @brief The Cursus class
+ * @brief Cursus : classe pour faciliter la prévision
  *
  * Cette classe cursus est un attribut de Prevision et n'est utilisé que par cette class (construite par CursusFactory).
  * Elle facilite le travail de prevision (on n'aurait pu faire sans cette classe Cursus).

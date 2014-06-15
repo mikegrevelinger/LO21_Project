@@ -562,7 +562,7 @@ unsigned int DBManager::getCreditsEqui(const int id){
     if (!openDB(db)) //impossible d'ouvrir la BDD
     {
         emit sendError(QString("DBManager : la BDD n est pas ouverte pour getCreditsEqui"));
-        return -1; // -1 pour dire qu'il y a une erreur.
+        return 0; // -1 pour dire qu'il y a une erreur.
     }
     QSqlQuery query;
     query.prepare("SELECT nbCreditEquivalence FROM Dossier WHERE dossier.id =? ");
@@ -570,7 +570,7 @@ unsigned int DBManager::getCreditsEqui(const int id){
     if(!query.exec())
     {
         emit sendError(QString("DBManager : Erreur execution de la requete dans getCreditsEqui"));
-        return -1;
+        return 0;
     }
     query.first();
     unsigned int res = query.value(0).toInt();
@@ -582,7 +582,7 @@ unsigned int DBManager::getCreditsTotalEtu(const int id){
     if (!openDB(db)) //impossible d'ouvrir la BDD
     {
         emit sendError(QString("DBManager : la BDD n est pas ouverte pour getCreditsTotal"));
-        return -1; // -1 pour dire qu'il y a une erreur.
+        return 0; // -1 pour dire qu'il y a une erreur.
     }
     QSqlQuery query;
     query.prepare("SELECT SUM(credit) AS Somme from inscription, uvs, categorieUv WHERE inscription.IDetu = ? AND inscription.NomUv = uvs.Nom AND uvs.nom = CategorieUv.Uv AND (inscription.Note = 'A' OR inscription.Note = 'B' OR inscription.Note = 'C' OR inscription.Note = 'D' OR inscription.Note = 'E');");
@@ -590,7 +590,7 @@ unsigned int DBManager::getCreditsTotalEtu(const int id){
     if(!query.exec())
     {
         emit sendError(QString("DBManager : Erreur execution de la requete dans getCreditsTotal"));
-        return -1;
+        return 0;
     }
     query.first();
     unsigned int res = query.value(0).toInt();
@@ -603,7 +603,7 @@ unsigned int DBManager::getCreditsCategorie(const int id,enumeration::CategorieU
     if (!openDB(db)) //impossible d'ouvrir la BDD
     {
         emit sendError(QString("DBManager : la BDD n est pas ouverte pour getCreditsTotal"));
-        return -1; // -1 pour dire qu'il y a une erreur.
+        return 0; // -1 pour dire qu'il y a une erreur.
     }
     QSqlQuery query;
     query.prepare("SELECT SUM(credit) AS Somme from inscription, uvs, categorieUv WHERE inscription.IDetu = ? AND inscription.NomUv = uvs.Nom AND uvs.nom = CategorieUv.Uv AND CategorieUv.Categorie= ? AND (inscription.Note = 'A' OR inscription.Note = 'B' OR inscription.Note = 'C' OR inscription.Note = 'D' OR inscription.Note = 'E');");
@@ -612,7 +612,7 @@ unsigned int DBManager::getCreditsCategorie(const int id,enumeration::CategorieU
     if(!query.exec())
     {
         emit sendError(QString("DBManager : Erreur execution de la requete dans getCreditsTotal"));
-        return -1;
+        return 0;
     }
     query.first();
     unsigned int res = query.value(0).toInt();
@@ -763,6 +763,26 @@ bool DBManager::isUVInscrit(const QString& UV, const int& id)
         return false;
     }
     query.finish();
+}
+int DBManager::getSemestreActuelETU(const int id) {
+   if (!openDB(db)) //impossible d'ouvrir
+   {
+       return 0;
+   }
+   QSqlQuery query;
+   query.prepare("select NumeroSemestreCourant FROM Dossier where Dossier.ID=?"); // la requete pour avoir le numero du semestre Actuel
+   query.addBindValue(id); //permet de remplacer le ? de query.prepare par l'id de l'étudiants
+   if(!query.exec()) //pb lors de l'execution
+   {
+       emit sendError(QString("DBManager : Erreur execution de la requete dans getSemestreActuelETU"));
+       return 0;
+   }
+   query.first();
+   int res;
+   res=query.value(0).toInt();
+   query.finish();
+   return res;
+
 }
 
 /* Fin ETU */

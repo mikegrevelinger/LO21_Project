@@ -1,19 +1,37 @@
-
-#include "./class/DBManager.h"
-#include "./gui/popMessage.h"
-#include "./class/CursusFactory.h"
 #include "./class/Cursus.h"
-#include "./class/UVManager.h"
-#include "./class/ETUManager.h"
-#include "./gui/rechercheInstantaneUV.h"
-#include "./gui/MainWindow.h"
+#include "./class/CursusFactory.h"
 #include "./class/CursusManager.h"
+#include "./class/DBManager.h"
+#include "./class/DossierManager.h"
+#include "./class/ErrorManager.h"
+#include "./class/ETUManager.h"
+#include "./class/HandlerSingleton.h"
+#include "./class/Prevision.h"
+#include "./class/UVManager.h"
 #include "./class/VisitorCursus.h"
+#include "./gui/popMessage.h"
+
+#include "./enumeration/enumeration.h"
+
+#include "./gui/MainWindow.h"
+#include "./gui/popMessage.h"
 
 #include <QApplication>
-#include <iostream>
 
-#include <QPushButton>
+
+/*! \mainpage LO21 - UT'Profiler
+ *
+ * \section intro_sec Introduction
+ *
+ * Ce logiciel à été modélisé et réaliser par GREVELINGER Mike et NOGARET Baptiste dans le cadre de l'UV LO21 : Programmation et conception orientees objet.
+ * Ce projet a été codé en C++, l'interface graphique utilisant Qt.
+ *
+ * \section install_sec Installation
+ *
+ * \subsection step1 Step 1: Opening the box
+ *
+ * etc...
+ */
 
 
 int main(int countArg, char **listArg)

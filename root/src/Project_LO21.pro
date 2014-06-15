@@ -25,8 +25,6 @@ SOURCES += main.cpp \
     gui/rechercheInstantaneDossiercpp.cpp
 
 HEADERS += \
-    enumeration/enumeration.h \
-    enumeration/enumiterator.h \
     class/HandlerSingleton.h \
     class/DBManager.h \
     class/UVManager.h \
@@ -46,7 +44,8 @@ HEADERS += \
     gui/dialogAjouterCursus.h \
     gui/dialogAjouterDossier.h \
     class/Prevision.h \
-    gui/rechercheInstantaneDossier.h
+    gui/rechercheInstantaneDossier.h \
+    enumeration/enumeration.h
 
 FORMS += \
     gui/mainwindow.ui \

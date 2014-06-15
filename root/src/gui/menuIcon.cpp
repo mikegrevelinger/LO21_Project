@@ -2,10 +2,16 @@
 
 menuIcon::menuIcon(MainWindow * c, QWidget *parent) : QWidget(parent) {
     l = new QGridLayout;
-    uvPixmap = new QPixmap(QString("iconUV.png"));
-    dossierPixmap = new QPixmap(QString("iconDossier.png"));
-    cursusPixmap = new QPixmap(QString("iconCursus.png"));
-    previsionPixmap = new QPixmap(QString("iconPrevision.png"));
+
+    QString CurrentDir = QDir::currentPath();
+    CurrentDir.replace("build-Project_LO21-Desktop_Qt_5_3_0_MinGW_32bit-Debug","resources/");
+    qDebug() << CurrentDir;
+
+    uvPixmap = new QPixmap(QString("%1iconUV.png").arg(CurrentDir));
+    dossierPixmap = new QPixmap(QString("%1iconDossier.png").arg(CurrentDir));
+    cursusPixmap = new QPixmap(QString("%1iconCursus.png").arg(CurrentDir));
+    previsionPixmap = new QPixmap(QString("%1iconPrevision.png").arg(CurrentDir));
+
     uvLabel = new ClickableQLabel(QString("UV"),this);
     cursusLabel = new ClickableQLabel(QString("Cursus"),this);
     dossierLabel = new ClickableQLabel(QString("Dossier"),this);

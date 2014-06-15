@@ -14,12 +14,12 @@
 #include <QDebug>
 
 /**
- * @brief ErrorManager : la classe qui gère les erreurs
+ * @brief ErrorManager : la classe de traitement des erreurs
  *
- * Cette classe reçoit toutes les erreurs envoyer par les différentes classes que nous avons codés.
- * Elle enregistre les erreurs dans un fichier log.txt sous le format : Error : NomDeLaCLasse : Texte de description de l'erreur : heure et date de l'erreu47
+ * Nous avons également une classe ErrorManager qui reçoit toutes les erreurs envoyer par les différentes classes que nous avons codées.
+ * Cette classe enregistre les erreurs dans un fichier log.txt sous le format : Error : NomDeLaCLasse : Texte de description de l'erreur : heure et date de l'erreur.
  * Ainsi, il est beaucoup plus facile de résoudre les différents problèmes rencontrés.
- * C'est une des premières classes crées.
+ * Cette classe est instanciable une unique fois (design pattern Singleton) car elles doit être accessible de manière connue et que le fichier log.txt ne gère pas les accès concurrents.
  *
  */
 

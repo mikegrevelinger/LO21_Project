@@ -6,6 +6,15 @@
 #include "ErrorManager.h"
 #include "DBManager.h"
 
+/**
+ * @brief CursusFactory : design pattern Factory pour crée un Cursus
+ *
+ * Il faut faire appel à un makeCursus qui permet de créer le Cursus correspondant à :
+ *  - l'étudiant en donnant son id
+ *  - au nom du cursus
+ *
+ */
+
 class CursusFactory : public QObject {
 private:
     Q_OBJECT

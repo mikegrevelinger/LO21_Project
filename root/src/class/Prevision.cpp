@@ -1,12 +1,12 @@
 #include "Prevision.h"
 
-/*
+
 PrevisionTC::PrevisionTC(const int idEtu, const QString& nom) {
     CursusFactory c;
     Cursus * cur = c.makeCursus(idEtu);
     cur->remplireCursus(nom);
 }
-
+/*
 QList<QString>  PrevisionTC::NewList(Cursus& cur, const int &id){
    QList<QString> *res = new QList<QString>;
    QList<QString> *temp = new QList<QString>;
@@ -46,7 +46,7 @@ QList<QString>  PrevisionTC::NewList(Cursus& cur, const int &id){
    return *res;
 }
 
-
+/*
 void PrevisionTC::prevision(Cursus& cur,const int id){
 
    QList<QString> UV;
@@ -57,7 +57,7 @@ void PrevisionTC::prevision(Cursus& cur,const int id){
    int i,j;
    i=0;
    QString NomCursus=cur.getNom();
-   int NbCreditActuelTot=dbm.getCreditsTotalEtu(NomCursus); // A voir pour récuperer le nombre de Credit actuel validé.
+   int NbCreditActuelTot=dbm.getCreditsTotalEtu(id); // A voir pour récuperer le nombre de Credit actuel validé.
    enumeration::Saison semestreActuel;
    semestreActuel=dbm.getSemestreActuel(id); //Pour avoir le semestre actuel ( Primptemps/Automne)
    int semestreActuelETU;
@@ -81,14 +81,14 @@ void PrevisionTC::prevision(Cursus& cur,const int id){
        semestre=enumeration::Automne;
        annee++;
    }
-
-   while(i<UV.size() && NbCreditCursus=DBManager::getCreditCursus(cursus)>NbCreditActuelTot)
+   int NbCreditCursus=cur.getNbCreditsTotal();
+   while(i<UV.size() && NbCreditCursus>NbCreditActuelTot)
    {
        if(semestreActuelETU<6) // On part du principe que la personne peut faire 2 semestre en plus, à partir de là, elle sera renvoyée//
        {
            if(NombreUVSemestre<7 && NombreCreditCeSemestre<31) // Pour faire l'alternance des semestres; Cependant, il pourra avoir plus de 31 ce semestre.
            {
-               if( PrevisionTC::benefique(UV[i],nbCreditCS,nbCreditTM,nbCreditTSH) && dbm.isEnseigne(UV,semestre)) // Si l'uv améliore notre profil et qu'elle est enseignee ce semestre
+               if( PrevisionTC::benefique(UV[i],nbCreditCS,nbCreditTM,nbCreditTSH,cur) && dbm.isEnseigne(UV[i],semestre)) // Si l'uv améliore notre profil et qu'elle est enseignee ce semestre
                {
                    UValide.push_back(UV[i]); // Rajout de l'uv à la liste des uvs pseudo valide
                    enumeration::CategorieUV categorie;
@@ -114,7 +114,7 @@ void PrevisionTC::prevision(Cursus& cur,const int id){
            }
            else
            { // faire new Liste
-               if(true)//validation==0) // C'est à dire s'il est d'accord ? On recommence tout, Uv en rejetee
+               if (true)//valide(UValide)) // Cela va lui afficher la liste des uvs selectionnées par prévision et lui demander s'il est d'accord
                {// il faut qu'il valide tout ses uvs, c'est à dire, il ne rejette pas d'uv proposé
    //////////////////////////////// validation ////////////////////////////
                    for(j=0;j<NombreUVSemestre;j++)
@@ -134,7 +134,7 @@ void PrevisionTC::prevision(Cursus& cur,const int id){
                    NombreUVSemestre=0; // On remet le compteur UV et Credit à 0 car new semestre
                    NombreCreditCeSemestre=0;
                    semestreActuelETU++;
-                   if( PrevisionTC::benefique(UV[i],nbCreditCS,nbCreditTM,nbCreditTSH) && dbm.isEnseigne(UV,semestre))
+                   if( PrevisionTC::benefique(UV[i],nbCreditCS,nbCreditTM,nbCreditTSH,cur) && dbm.isEnseigne(UV[i],semestre))
                    {
                        UValide.push_back(UV[i]); // Rajout de l'uv à la liste des uvs pseudo valide
                        enumeration::CategorieUV categorie;
@@ -169,7 +169,6 @@ void PrevisionTC::prevision(Cursus& cur,const int id){
        i++; // On incrémente le nombre d'uv parcourue dans la liste d'uv
    }
 }
-
 
 
 /*
@@ -305,8 +304,7 @@ void PrevisionTC::prevision(const QString cursus,const int id){
 }
 */
 /*
-bool PrevisionTC::isObligatoireUv(QStringList &ListUV)
-{
+bool PrevisionTC::isObligatoireUv(QStringList &ListUV) {
     foreach (const QString &str,ListUV) {
         if(str.contains("Obligatoire"))
         {
@@ -314,19 +312,17 @@ bool PrevisionTC::isObligatoireUv(QStringList &ListUV)
         }
     }
         return false;
-
 }
 
-bool PrevisionTC::benefique(const QString &UV,const int &nbCreditCSActuel,const int &nbCreditTMActuel,const int &nbCreditTSHActuel,const QString &cursus)
+bool PrevisionTC::benefique(const QString &UV, const int &nbCreditCSActuel, const int &nbCreditTMActuel, const int &nbCreditTSHActuel, Cursus &cur)
 {
+    DBManager & dbm = DBManager::getInstance();
    enumeration::CategorieUV categorie;
-    // enumeration::CategorieUV getCategorieUV(const QString & nom);
-   categorie=DBManager::getCategorieUV(UV);
-   int creditCS, creditTSH, creditTM;
+   categorie=dbm.getCategorieUV(UV);
    if(categorie==enumeration::CS)
    {
-       if(nbCreditCSActuel<creditCS=cursus::getCreditCS(cursus)) //// c'est le que ça va plus
-       {
+       VisitorNbCreditCS nbCS;
+       if(nbCreditCSActuel<cur.accept(nbCS)){
            return true;
        }
        else
@@ -336,7 +332,8 @@ bool PrevisionTC::benefique(const QString &UV,const int &nbCreditCSActuel,const 
    }
    if(categorie==enumeration::TM)
    {
-       if(nbCreditTMActuel<creditTM=cursus::getCreditTM(cursus))
+       VisitorNbCreditCS nbTM;
+       if(nbCreditTMActuel<cur.accept(nbTM))
        {
            return true;
        }
@@ -347,7 +344,8 @@ bool PrevisionTC::benefique(const QString &UV,const int &nbCreditCSActuel,const 
    }
    if(categorie==enumeration::TSH)
    {
-       if(nbCreditTSHActuel<creditTSH=cursus::getCreditTSH(cursus))
+       VisitorNbCreditCS nbTSH;
+       if(nbCreditTSHActuel<cur.accept(nbTSH))
        {
            return true;
        }

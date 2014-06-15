@@ -8,12 +8,17 @@ rechercheInstantaneUV::rechercheInstantaneUV(QWidget * parent) :
     label = new QLabel(this);
     label->setText("Double cliquer sur la ligne pour modifier l'UV");
     message = new QLabel(this);
-    searchPixmap = new QPixmap(QString("iconSearch.png"));
+
+    QString CurrentDir = QDir::currentPath();
+    CurrentDir.replace("build-Project_LO21-Desktop_Qt_5_3_0_MinGW_32bit-Debug","resources/");
+    qDebug() << CurrentDir;
+
+    searchPixmap = new QPixmap(QString("%1iconSearch.png").arg(CurrentDir));
     search = new QLabel(this);
     search->setPixmap(*searchPixmap);
     search->setFixedSize(QSize(32,32));
 
-    ajoutUVPixmap = new QPixmap(QString("iconAjout.png"));
+    ajoutUVPixmap = new QPixmap(QString("%1iconAjout.png").arg(CurrentDir));
     ajoutUV = new ClickableQLabel(this);
     ajoutUV->setPixmap(*ajoutUVPixmap);
     ajoutUV->setFixedSize(QSize(32,32));

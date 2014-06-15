@@ -20,8 +20,4 @@ Organisation:
 
 **************************************************
 
-In SQLite any column, with the exception of an INTEGER PRIMARY KEY column, may be used to store any type of value. For instance, a column declared as INTEGER may contain an integer value in one row and a text value in the next. This is due to SQLite associating the type of a value with the value itself rather than with the column it is stored in. A consequence of this is that the type returned by QSqlField::type() only indicates the field's recommended type. No assumption of the actual type should be made from this and the type of the individual values should be checked.
-
-From : https://qt-project.org/doc/qt-4.7/sql-driver.html#id-9b44f273-b5f2-43ed-8d86-7e17637b4a20
-
-**************************************************
+Vous pouvez retrouvez les fichiers doxygen dans le dossier doc. Il inclut également le .pdf d'explication de notre architecture.

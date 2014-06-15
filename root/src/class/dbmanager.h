@@ -78,6 +78,7 @@ public:
     enumeration::Saison getSemestreActuel(const int id);
     int getAnneeActuelETU(const int id);
     bool isUVInscrit(const QString& UV, const int& id);
+    int getSemestreActuelETU(const int id);
     /* Fin ETUDIANT */
 
     /*Debut CURSUS */
